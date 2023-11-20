@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    @font-face {
+      font-family: 'NanumSquareNeo-Variable';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    #header {
+      display: inline-block;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    body {
+      font-family: "NanumSquareNeo-Variable";
+    }
+
+    #contents {
+      padding: 10px;
+    }
+
+    #btn_home {
+      float: left;
+      background-color: rgba(255, 255, 255, 0);
+      border: 0rem;
+    }
+
+    btn_home:hover {
+      cursor: pointer;
+    }
+
+    #menuTop #menuList {
+      float: right;
+      list-style-type: none;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    li {
+      float: left;
+      display: inline;
+      padding-left: 3em;
+    }
+
+    a {
+      padding: 1em;
+      transition: background-color 0.5s ease;
+    }
+
+    a:link {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    a:hover {
+      background-color: #222;
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div id="header">
+      <header>
+        <button type="button" id="btn_home" onclick="location.href='./index.html'">
+          <img src="./res/ic_logo_title.png" width="350em">
+        </button>
+
+        <nav id="menuTop">
+          <ul id="menuList">
+            <li><a href="#">AWARDS</a></li>
+            <li><a href="./members.html">MEMBERS</a></li>
+            <li><a href="#">NEWS</a></li>
+            <li><a href="#">RESEARCH</a></li>
+            <li><a href="#">PUBLICATION</a></li>
+            <li><a href="#">CONTACT</a></li>
+          </ul>
+        </nav>
+
+      </header>
+
+    </div>
+
+    <hr>
+
+  </div>
+</body>
+
+</html>

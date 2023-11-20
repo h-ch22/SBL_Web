@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo-Variable';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #header {
+            display: inline-block;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        body {
+            font-family: "NanumSquareNeo-Variable";
+        }
+
+        #contents {
+            padding: 10px;
+        }
+
+        #btn_home {
+            background-color: rgba(255, 255, 255, 0);
+            border: 0rem;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            padding-top: 2em;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .mobile_btn {
+            position: absolute;
+            left: 15px;
+        }
+
+        input[id="hamburger"] {
+            display: none;
+        }
+
+        input[id="hamburger"]+label {
+            display: block;
+            width: 30px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[id="hamburger"]+label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            border-radius: 30px;
+            background: #000;
+            transition: all 0.35s;
+        }
+
+        input[id="hamburger"]+label span:nth-child(1) {
+            top: 0;
+        }
+
+        input[id="hamburger"]+label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[id="hamburger"]+label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="hamburger"]:checked+label {
+            z-index: 99;
+        }
+
+        input[id="hamburger"]:checked+label span {
+            background: black;
+        }
+
+        input[id="hamburger"]:checked+label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        input[id="hamburger"]:checked+label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="hamburger"]:checked+label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+
+        div[class="sidebar"] {
+            width: 100%;
+            height: 100%;
+            background: white;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            z-index: 98;
+            transition: all 0.35s;
+        }
+
+        input[id="hamburger"]:checked+label+div {
+            left: 0;
+        }
+
+        .nav_mobile {
+            position: absolute;
+            top: 12em;
+            width: 100%;
+        }
+
+        .sidebar .nav_mobile li {
+            color: black;
+            position: relative;
+            float: left;
+            width: 100%;
+            list-style-type: none;
+            font-size: 20px;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            padding: 0;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar li a {
+            display: block;
+            font-weight: bold;
+            line-height: 40px;
+            margin: 0px;
+            padding: 0;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s;
+        }
+
+        .sidebar li a:hover,
+        .sidebar ul li:hover a {
+
+            text-decoration: none;
+            color: #eee;
+            padding: 0;
+            margin: 0;
+            border: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="header">
+            <header>
+                <div class="mobile_btn" style="padding: 2em;">
+                    <input type="checkbox" id="hamburger" />
+                    <label for="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                    <div class="sidebar">
+                        <h2 style="text-align: center; position: relative; top: 4em;"><a href="./index.html">
+                                <img src="./res/ic_logo_title.png" width="400em">
+                            </a>
+                        </h2>
+                        <hr style="position: relative; top:8em; border: solid 1px black;">
+                        <ul class="nav_mobile">
+                            <li><a href="#">AWARDS</a></li>
+                            <li><a href="./members.html">MEMBERS</a></li>
+                            <li><a href="#">NEWS</a></li>
+                            <li><a href="#">RESEARCH</a></li>
+                            <li><a href="#">PUBLICATION</a></li>
+                            <li><a href="#">CONTACT</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </header>
+
+        </div>
+
+        <div style="padding-top: 5em; text-align: center;">
+            <button type="button" id="btn_home" onclick="location.href='./index.html'" >
+                <img src="./res/ic_logo_title.png" width="90%">
+            </button>
+        </div>
+
+
+    </div>
+
+    <hr>
+
+</body>
+
+</html>
