@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@material/web": "^1.0.1"
+    "@material/web": "^1.0.1",
+    "firebase": "^10.6.0"
   }
 }

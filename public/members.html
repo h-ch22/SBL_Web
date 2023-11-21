@@ -1,81 +1,152 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SBL - Smart Biophotonics Lab.</title>
 
-    <link rel="apple-touch-icon" sizes="57x57" href="../res/fav/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="../res/fav/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="../res/fav/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="../res/fav/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="../res/fav/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="../res/fav/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="../res/fav/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="../res/fav/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="../res/fav/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="../res/fav/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../res/fav/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="../res/fav/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../res/fav/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="../res/fav/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Members - SBL</title>
 
-    <script defer src="/__/firebase/10.6.0/firebase-app-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/10.6.0/firebase-performance-compat.js"></script>
-    <script type="module" src="./packages.js"></script>
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-    <script src="onStart.js"></script>
-    
-    <style>
-        #contents{
-            padding: 1em;
-        }
-    </style>
+  <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
 
-  </head>
-  <body>
-    <div id="headerContainer"></div>
+  <script type="module" src="./packages.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+  <script type="module" src="./helper/MembersHelper.js"></script>
 
-    <div id="contents">
-        <h1>Members</h1>
+  <style>
+    @font-face {
+      font-family: 'NanumSquareNeo-Variable';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @media only screen and (max-width: 1411px){
+      #img_profile{
+        float: none;
+        width: 15em;
+        margin-right: 2em;
+      }
+    }
+
+    body {
+      font-family: 'NanumSquareNeo-Variable';
+    }
+
+    #contents {
+      padding: 1em;
+      line-height: 5em;
+    }
+
+    #img_profile{
+      float: left;
+      width: 15em;
+      margin-right: 2em;
+    }
+
+    #div_professor{
+      clear: both;
+    }
+
+    #div_student{
+      clear: both;
+    }
+
+    #div_alumni{
+      clear: both;
+    }
+
+    #li_member{
+      width: 100%;
+      line-height: 3em;
+      list-style-type: none;
+    }
+
+    #txt_email, #txt_dept, #txt_tel, #txt_site{
+      font-weight: normal;
+      color: #595959;
+    }
+
+  </style>
+
+</head>
+
+<body">
+  <div id="headerContainer"></div>
+
+  <div id="contents">
+    <h1>Members</h1>
+
+    <div id="div_professor">
+      <h2>Professor</h2>
+
+      <hr>
     </div>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const headerContainer = document.getElementById('headerContainer');
-    
-        function loadHeader() {
-          if (window.innerWidth <= 1411) {
-            fetch('header_mobile.html')
-              .then(response => response.text())
-              .then(data => {
-                headerContainer.innerHTML = data;
-              });
-          } else {
-            fetch('header.html')
-              .then(response => response.text())
-              .then(data => {
-                headerContainer.innerHTML = data;
-              });
-          }
+    <div id="div_student">
+      <h2>Students</h2>
+
+      <hr>
+    </div>
+ 
+    <div id="div_alumni">
+      <h2>Alumni</h2>
+
+      <hr>
+    </div>
+
+  </div>
+
+  <div id="footer"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const headerContainer = document.getElementById('headerContainer');
+
+      function loadHeader() {
+        if (window.innerWidth <= 1411) {
+          fetch('header_mobile.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        } else {
+          fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
         }
-    
-        loadHeader();
-    
-        window.addEventListener('resize', loadHeader);
-      });
-    </script>
+
+        fetch('./footer.html')
+          .then(response => response.text())
+          .then(data => {
+            footer.innerHTML = data;
+          })
+      }
+
+      loadHeader();
+
+      window.addEventListener('resize', loadHeader);
+    });
+  </script>
 
   </body>
+
 </html>

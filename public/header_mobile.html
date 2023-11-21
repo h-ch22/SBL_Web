@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" defer src="./helper/UserManagement.js"></script>
 
     <style>
         @font-face {
@@ -131,13 +132,13 @@
             left: 0;
         }
 
-        .nav_mobile {
+        #menuList {
             position: absolute;
             top: 12em;
             width: 100%;
         }
 
-        .sidebar .nav_mobile li {
+        .sidebar #menuList li {
             color: black;
             position: relative;
             float: left;
@@ -197,7 +198,7 @@
                             </a>
                         </h2>
                         <hr style="position: relative; top:8em; border: solid 1px black;">
-                        <ul class="nav_mobile">
+                        <ul id="menuList">
                             <li><a href="#">AWARDS</a></li>
                             <li><a href="./members.html">MEMBERS</a></li>
                             <li><a href="#">NEWS</a></li>
