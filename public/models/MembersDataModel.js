@@ -1,5 +1,6 @@
 class MembersDataModel{
-    constructor(email, tel, site, cat, dept, name, profile){
+    constructor(degree, email, tel, site, cat, dept, name, profile){
+        this.degree = degree;
         this.email = email;
         this.tel = tel;
         this.site = site;

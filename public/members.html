@@ -28,6 +28,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
   <script type="module" src="./helper/MembersHelper.js"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
 
   <style>
     @font-face {
@@ -37,13 +38,14 @@
       font-style: normal;
     }
 
-    @media only screen and (max-width: 1411px){
-      #img_profile{
-        float: none;
+    @media only screen and (max-width: 1411px) {
+      #img_profile {
+        float: none !important;
         width: 15em;
         margin-right: 2em;
       }
     }
+
 
     body {
       font-family: 'NanumSquareNeo-Variable';
@@ -54,35 +56,53 @@
       line-height: 5em;
     }
 
-    #img_profile{
+    #img_profile {
       float: left;
       width: 15em;
       margin-right: 2em;
     }
 
-    #div_professor{
+    #div_professor {
       clear: both;
     }
 
-    #div_student{
+    #div_student {
       clear: both;
     }
 
-    #div_alumni{
+    #div_alumni {
       clear: both;
     }
 
-    #li_member{
+    #li_member {
       width: 100%;
       line-height: 3em;
       list-style-type: none;
     }
 
-    #txt_email, #txt_dept, #txt_tel, #txt_site{
+    #txt_degree {
+      background-color: orange;
+      color: white;
+      border-radius: 1em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      display: inline-block;
+      margin-left: 1em;
+    }
+
+    #txt_name {
+      display: inline-block;
+      /* Display txt_name as inline-block to be next to txt_degree */
+    }
+
+
+    #txt_email,
+    #txt_dept,
+    #txt_tel,
+    #txt_site {
       font-weight: normal;
       color: #595959;
     }
-
   </style>
 
 </head>
@@ -104,7 +124,7 @@
 
       <hr>
     </div>
- 
+
     <div id="div_alumni">
       <h2>Alumni</h2>
 

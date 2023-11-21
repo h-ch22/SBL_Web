@@ -34,9 +34,11 @@ function getSignInStatus(){
             currentUser = user.uid;
             a.innerText = "SIGN OUT";
         } else{
-            currentUser = "";
+            currentUser = null;
             a.innerText = "SIGN IN";
         }
+
+        alert(user == null ? "Signed Out" : "Signed In");
 
         li.appendChild(a);
         menuList.appendChild(li);
