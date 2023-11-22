@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SBL - Smart Biophotonics Lab.</title>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="module" src="./packages.js"></script>
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+
+  <style>
+    @font-face {
+      font-family: 'NanumSquareNeo-Variable';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'NanumSquareNeo-Variable';
+      color: #000021;
+      background-color: #e6e6ef;
+    }
+
+    @keyframes fadein{
+      from{
+        opacity: 0;
+      } to{
+        opacity: 1;
+      }
+    }
+
+    #txt_introduction{
+        line-height: 3em;
+        font-size: 1em;
+        animation: fadein 2s;
+    }
+
+    #img_introduction{
+        width: 40em;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="contents">
+    <h1>Contact</h1>
+    <hr style="margin-bottom: 10px; margin-top: 10px;">
+
+    <h2 style="animation: fadein 1s; margin-top: 10px; margin-bottom: 10px;">Welcome to SBL</h2>
+    
+    <div id="div_btns" style="display: inline-block;">
+        <button class="button-18" id="btn_phone" role="button">+82-10-0000-0000 &#128203</button>
+        <button class="button-18" id="btn_email" role="button">tsgo@jbnu.ac.kr &#128203</button>
+    </div>
+
+    <div id="div_text">
+        
+    </div>
+
+  </div>
+
+  <div id="footer"></div>
+
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const headerContainer = document.getElementById('header');
+
+    function loadHeader() {
+      if (window.innerWidth <= 1202) {
+        fetch('./header_mobile.html')
+          .then(response => response.text())
+          .then(data => {
+            headerContainer.innerHTML = data;
+          });
+      } else {
+        fetch('./header.html')
+          .then(response => response.text())
+          .then(data => {
+            headerContainer.innerHTML = data;
+          });
+      }
+
+      fetch('./footer.html')
+        .then(response => response.text())
+        .then(data => {
+          footer.innerHTML = data;
+        })
+
+    }
+
+    loadHeader();
+
+    window.addEventListener('resize', loadHeader);
+  });
+
+</script>
+
+<script type="module" src="./helper/ContactHelper.js"></script>
+
+</html>

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getAuth, onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "***REMOVED***",
@@ -15,48 +15,59 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 var currentUser = null;
 
-
-function getSignInStatus(){
-    const menuList = document.querySelector("#menuList");
-    const btn_signInOut = document.querySelector("#menuList #btn_signInOut");
+function getSignInStatus() {
+    const btn_signInOut = document.getElementById("btn_signInOut");
+    const btn_signIn = document.getElementById("btn_signIn");
+    const modal = document.querySelector('.modal');
 
     onAuthStateChanged(auth, (user) => {
-        if(btn_signInOut){
-            btn_signInOut.remove();
-        }
-
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.id = "btn_signInOut";
-        a.href = "#";
-
-        if (user){
+        if (user) {
             currentUser = user.uid;
-            a.innerText = "SIGN OUT";
-        } else{
-            currentUser = null;
-            a.innerText = "SIGN IN";
+            btn_signInOut.innerText = "SIGN OUT";
+
+            btn_signInOut.addEventListener('click', function () {
+                signOut(auth).then(() => {
+                    currentUser = null;
+
+                    btn_signInOut.innerText = "SIGN IN";
+
+                }).catch((error) => {
+                    alert(`Unable to sign out. error code: ${error.message} (${error.code})`);
+                });
+            });
+        } else {
+            btn_signInOut.innerText = "SIGN IN";
+
+            btn_signInOut.addEventListener('click', function () {
+                modal.style.display = "flex";
+            });
         }
 
-        alert(user == null ? "Signed Out" : "Signed In");
+        btn_signIn.addEventListener('click', function () {
+            const email = document.getElementById("field_email").value;
+            const password = document.getElementById("field_password").value;
 
-        li.appendChild(a);
-        menuList.appendChild(li);
+            if (email == "" || password == "") {
+                alert('Please fill in all fields.');
+            } else {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        currentUser = user.uid;
+                        
+                        modal.style.display = "none";
+                    
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+
+                        alert(`The sign-in could not be processed : ${errorMessage} (${errorCode})`);
+                    });
+
+            }
+        });
     })
-}
-
-function signIn(email, password){
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-        currentUser = user.uid;
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(errorCode + errorMessage);
-    });
 }
 
 getSignInStatus();
