@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/css/font-awesome.css">
+
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
@@ -28,7 +32,7 @@
   <script type="module" src="./helper/MembersHelper.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
-  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+
 
   <style>
     @font-face {
@@ -79,10 +83,16 @@
       animation: fadein 0.5s;
     }
 
-    @keyframes fadein{
-      from{
+    #btn_edit{
+      margin-right: 5px;
+    }
+
+    @keyframes fadein {
+      from {
         opacity: 0;
-      } to{
+      }
+
+      to {
         opacity: 1;
       }
     }
@@ -120,7 +130,7 @@
       background-color: #e6e6ef;
     }
 
-    form {
+    .radioForm {
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
@@ -130,21 +140,20 @@
       display: flex;
       cursor: pointer;
       font-weight: 500;
-      position: relative;
       overflow: hidden;
       margin-bottom: 0.375em;
     }
 
-    label input {
+    label .radioBtn {
       position: absolute;
       left: -9999px;
     }
 
-    label input:checked+#txt_radio {
+    label .radioBtn:checked+#txt_radio {
       background-color: #d6d6e5;
     }
 
-    label input:checked+#txt_radio:before {
+    label .radioBtn:checked+#txt_radio:before {
       box-shadow: inset 0 0 0 0.4375em #00005c;
     }
 
@@ -186,6 +195,40 @@
       padding: 20px;
     }
 
+    .modal {
+      position: absolute;
+      display: none;
+      justify-content: center;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal_body {
+      position: absolute;
+      top: 50%;
+
+
+      width: 400px;
+      height: 850px;
+
+      padding-top: 30px;
+      padding-bottom: 30px;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      text-align: center;
+
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+      transform: translateY(-50%);
+      overflow-y: auto;
+    }
   </style>
 
 </head>
@@ -194,20 +237,92 @@
   <div id="headerContainer"></div>
 
   <div id="contents">
+    <div class="modal">
+      <div class="modal_body">
+
+        <div>
+          <h2>Members</h2>
+
+          <button class="button-18" style="position: absolute; right: 8px; top: 8px; border-radius: 240px;"
+            type="button" id="btn_close">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+
+        <div class="signIn_container">
+          <form>
+
+            <div class="row">
+              <div class="input-group input-group-icon">
+                <input id="field_email" placeholder="E-Mail" />
+                <div class="input-icon"><i class="fa fa-envelope"></i></div>
+
+              </div>
+
+              <div class="input-group input-group-icon">
+                <input id="field_tel" type="tel" placeholder="Tel" />
+                <div class="input-icon"><i class="fa fa-phone"></i></div>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <input id="field_website" type="url" placeholder="WebSite" />
+                <div class="input-icon"><i class="fa fa-search"></i></div>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <select id="dropdown_cat">
+                  <option value="Student">Student</option>
+                  <option value="Alumni">Alumni</option>
+                  <option value="Professor">Professor</option>
+                </select>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <select id="dropdown_degree">
+                  <option value="BS">BS</option>
+                  <option value="MS">MS</option>
+                  <option value="Ph.D">Ph.D</option>
+                </select>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <input id="field_dept" type="text" placeholder="Department" />
+                <div class="input-icon"><i class="fa fa-bookmark"></i></div>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <input id="field_name" type="text" placeholder="Name" />
+                <div class="input-icon"><i class="fa fa-user"></i></div>
+              </div>
+
+              <textarea id="field_career" cols="40" rows="5" placeholder="Career"></textarea>
+
+              <label for="btn_selectFile">Profile Image</label>
+              <input type="file" accept="image/*" id="btn_selectFile">
+
+              <button style="margin-top: 10px;" role="button" type="button" class="button-18" id="btn_confirm">Confirm</button>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
     <h1>Members</h1>
 
     <div id="radioButtonContainer" style="margin-top: 10px;">
-      <form>
+      <form id="radioForm">
         <label>
-          <input type="radio" id="btn_professor" name="radio" checked  />
+          <input class="radioBtn" type="radio" id="btn_professor" name="radio" checked />
           <span id="txt_radio">PROESSOR</span>
         </label>
         <label>
-          <input type="radio" id="btn_students" name="radio"/>
+          <input class="radioBtn" type="radio" id="btn_students" name="radio" />
           <span id="txt_radio">STUDENTS</span>
         </label>
         <label>
-          <input type="radio" id="btn_alumni" name="radio"/>
+          <input class="radioBtn" type="radio" id="btn_alumni" name="radio" />
           <span id="txt_radio">ALUMNI</span>
         </label>
       </form>
@@ -218,7 +333,6 @@
     <div id="div_members">
 
     </div>
-
 
   </div>
 
@@ -256,6 +370,6 @@
     });
   </script>
 
-  </body>
+</body>
 
 </html>

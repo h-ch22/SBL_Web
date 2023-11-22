@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact - SBL</title>
+  <title>Gallery - SBL</title>
 
   <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
@@ -20,13 +20,19 @@
   <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/css/font-awesome.css">
+
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
   <script type="module" src="./packages.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <script type="module" src="./helper/MembersHelper.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+
 
   <style>
     @font-face {
@@ -36,91 +42,76 @@
       font-style: normal;
     }
 
+    @media only screen and (max-width: 1202px) {
+      #img_profile {
+        float: none !important;
+        clear: both !important;
+        width: 15em;
+        margin-right: 2em;
+      }
+    }
+
     body {
       font-family: 'NanumSquareNeo-Variable';
       color: #000021;
       background-color: #e6e6ef;
     }
 
-    @keyframes fadein{
-      from{
-        opacity: 0;
-      } to{
-        opacity: 1;
-      }
+    #contents {
+      padding: 1em;
     }
-
-    #txt_introduction{
-        line-height: 3em;
-        font-size: 1em;
-        animation: fadein 2s;
-    }
-
-    #img_introduction{
-        width: 100%;
-    }
-
   </style>
+
 </head>
 
 <body>
-  <div id="header"></div>
+  <div id="headerContainer"></div>
 
   <div id="contents">
-    <h1>Contact</h1>
-    <hr style="margin-bottom: 10px; margin-top: 10px;">
-
-    <h2 style="animation: fadein 1s; margin-top: 10px; margin-bottom: 10px;">Welcome to SBL</h2>
+    <h1>Gallery</h1>
     
-    <div id="div_btns" style="display: inline-block;">
-        <button class="button-18" id="btn_phone" role="button" style="margin-top: 10px; margin-bottom: 10px;">+82-10-0000-0000 &#128203</button>
-        <button class="button-18" id="btn_email" role="button" style="margin-top: 10px; margin-bottom: 10px;">tsgo@jbnu.ac.kr &#128203</button>
-    </div>
+    <hr style="margin-bottom: 10px;">
 
-    <div id="div_text">
-        
+    <div id="div_members">
+
     </div>
 
   </div>
 
   <div id="footer"></div>
 
-</body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const headerContainer = document.getElementById('headerContainer');
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const headerContainer = document.getElementById('header');
+      function loadHeader() {
+        if (window.innerWidth <= 1202) {
+          fetch('header_mobile.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        } else {
+          fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        }
 
-    function loadHeader() {
-      if (window.innerWidth <= 1202) {
-        fetch('./header_mobile.html')
+        fetch('./footer.html')
           .then(response => response.text())
           .then(data => {
-            headerContainer.innerHTML = data;
-          });
-      } else {
-        fetch('./header.html')
-          .then(response => response.text())
-          .then(data => {
-            headerContainer.innerHTML = data;
-          });
+            footer.innerHTML = data;
+          })
       }
 
-      fetch('./footer.html')
-        .then(response => response.text())
-        .then(data => {
-          footer.innerHTML = data;
-        })
+      loadHeader();
 
-    }
+      window.addEventListener('resize', loadHeader);
+    });
+  </script>
 
-    loadHeader();
-
-    window.addEventListener('resize', loadHeader);
-  });
-
-</script>
-
-<script type="module" src="./helper/ContactHelper.js"></script>
+</body>
 
 </html>

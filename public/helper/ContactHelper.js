@@ -43,7 +43,7 @@ async function getIntroduction() {
 
         const p = document.createElement("p");
         p.id = "txt_introduction";
-        p.innerText = text;
+        p.innerHTML = text;
 
         div_text.appendChild(p);
     }
@@ -56,12 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btn_phone.addEventListener('click', function(){
         navigator.clipboard.writeText("+82-10-0000-0000").then(() => {
             btn_phone.innerHTML = "+82-10-0000-0000 &#x2705";
+            btn_email.innerHTML = "tsgo@jbnu.ac.kr &#128203";
         });
     })
 
     btn_email.addEventListener('click', function(){
         navigator.clipboard.writeText("tsgo@jbnu.ac.kr").then(() => {
             btn_email.innerHTML = "tsgo@jbnu.ac.kr &#x2705";
+            btn_phone.innerHTML = "+82-10-0000-0000 &#128203";
         });
     })
 })

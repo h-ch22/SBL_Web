@@ -70,4 +70,12 @@ function getSignInStatus() {
     })
 }
 
+function getSignedIn(){
+    return auth.currentUser == null ? false : true;
+}
+
 getSignInStatus();
+
+export{
+    getSignedIn
+}
