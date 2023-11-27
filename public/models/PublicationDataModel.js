@@ -1,5 +1,6 @@
 class PublicationDataModel{
-    constructor(year, title, journal, url){
+    constructor(id, year, title, journal, url){
+        this.id = id;
         this.year = year;
         this.title = title;
         this.journal = journal

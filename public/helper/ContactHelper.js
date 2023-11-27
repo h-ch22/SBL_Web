@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn_email = document.getElementById("btn_email");
 
     btn_phone.addEventListener('click', function(){
-        navigator.clipboard.writeText("+82-10-0000-0000").then(() => {
-            btn_phone.innerHTML = "+82-10-0000-0000 &#x2705";
+        navigator.clipboard.writeText("+82-63-270-4064").then(() => {
+            btn_phone.innerHTML = "+82-63-270-4064 &#x2705";
             btn_email.innerHTML = "tsgo@jbnu.ac.kr &#128203";
         });
     })
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btn_email.addEventListener('click', function(){
         navigator.clipboard.writeText("tsgo@jbnu.ac.kr").then(() => {
             btn_email.innerHTML = "tsgo@jbnu.ac.kr &#x2705";
-            btn_phone.innerHTML = "+82-10-0000-0000 &#128203";
+            btn_phone.innerHTML = "+82-63-270-4064 &#128203";
         });
     })
 })

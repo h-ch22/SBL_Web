@@ -43,3 +43,26 @@
   background: rgba(0, 0, 0, .08);
   color: rgba(0, 0, 0, .3);
 }
+
+.addBtn{
+  background-color: rgb(255, 115, 115);
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.5s ease;
+  box-shadow: 1px 1px rgba(0,0,0,0.2);
+}
+
+.addBtn:hover{
+  background-color: rgb(255, 81, 81);
+}
+
+.addBtn:active{
+  background-color: rgb(179, 76, 76);
+}

@@ -83,7 +83,7 @@
       animation: fadein 0.5s;
     }
 
-    #btn_edit{
+    #btn_edit {
       margin-right: 5px;
     }
 
@@ -108,7 +108,8 @@
     }
 
     #txt_name {
-      display: inline-block;
+      display: flex;
+      justify-content: space-between;
     }
 
     #txt_email,
@@ -229,6 +230,37 @@
       transform: translateY(-50%);
       overflow-y: auto;
     }
+
+    #header_title {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #btn_edit {
+      background-color: transparent;
+      border: 0;
+      font-size: 20px;
+      margin-right: 10px;
+    }
+
+    #btn_delete {
+      background-color: transparent;
+      border: 0;
+      font-size: 20px;
+    }
+
+    #btn_edit:hover {
+      background-color: #000021;
+      color: white;
+      transition: background 0.5s;
+    }
+
+    #btn_delete:hover {
+      background-color: #000021;
+      color: white;
+      transition: background 0.5s;
+
+    }
   </style>
 
 </head>
@@ -240,12 +272,11 @@
     <div class="modal">
       <div class="modal_body">
 
-        <div>
+        <div style="display: flex; justify-content: space-between;">
           <h2>Members</h2>
 
-          <button class="button-18" style="position: absolute; right: 8px; top: 8px; border-radius: 240px;"
-            type="button" id="btn_close">
-            <i class="fa fa-close"></i>
+          <button class="addBtn" type="button" id="btn_close">
+            &#x2715
           </button>
         </div>
 
@@ -300,7 +331,8 @@
               <label for="btn_selectFile">Profile Image</label>
               <input type="file" accept="image/*" id="btn_selectFile">
 
-              <button style="margin-top: 10px;" role="button" type="button" class="button-18" id="btn_confirm">Confirm</button>
+              <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+                id="btn_confirm">Confirm</button>
 
             </div>
           </form>
@@ -309,7 +341,10 @@
       </div>
     </div>
 
-    <h1>Members</h1>
+    <div id="header_title">
+      <h1>Members</h1>
+
+    </div>
 
     <div id="radioButtonContainer" style="margin-top: 10px;">
       <form id="radioForm">

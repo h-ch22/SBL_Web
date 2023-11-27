@@ -3,8 +3,11 @@ import { getFirestore, doc, updateDoc, addDoc, getDocs, collection } from "https
 import { MembersType } from "../models/MembersTypeModel.js";
 import { DegreeType } from "../models/DegreeTypeModel.js";
 import { MembersDataModel } from "../models/MembersDataModel.js";
-import { getSignedIn } from "./UserManagement.js";
 import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "***REMOVED***",
@@ -17,12 +20,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const members = [];
 
 var selectedType = MembersType.PROFESSOR;
 var file = null;
+var isEditMode = false;
+var currentHuman = null;
 
 async function getMembers() {
     const snapshot = await getDocs(collection(db, "Members"));
@@ -86,7 +92,6 @@ async function update(
                 profileURL = downloadURL; 
             })
         })
-
     }
 
     const docRef = doc(db, "Members", id);
@@ -110,8 +115,6 @@ async function update(
         "profile": profileURL,
         "career": career,
         "degree": degree
-    }).then(function(){
-        alert('updated');
     });
 
     return true;
@@ -155,10 +158,58 @@ async function add(
     return true;
 }
 
+async function checkAdminPermission() {
+    const div_header = document.querySelector("#header_title");
+    const pre_header_btn = document.querySelector("#header_title #btn_add");
+    const modal = document.querySelector('.modal');
+    const btn_add_old = document.getElementById("btn_add");
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            if (pre_header_btn) {
+                pre_header_btn.remove();
+            }
+
+            if(btn_add_old){
+                btn_add_old.remove();
+            }
+
+            const btn_add = document.createElement("button");
+
+            btn_add.role = "button";
+            btn_add.innerHTML = "&#x2B";
+            btn_add.id = "btn_add";
+            btn_add.className = "addBtn";
+
+            btn_add.addEventListener('click', function(){
+                modal.style.display = "flex";
+                isEditMode = false;
+            })
+            div_header.appendChild(btn_add);
+        } else {
+            if (pre_header_btn) {
+                pre_header_btn.remove();
+            }
+        }
+    })
+}
+
 async function show() {
     const div_members = document.querySelector("#div_members");
     const pre_members_ul = document.querySelector("#div_members ul");
     const modal = document.querySelector('.modal');
+    const btn_close = document.getElementById("btn_close");
+    const btn_confirm = document.getElementById("btn_confirm");
+
+    const field_email = document.getElementById("field_email");
+    const field_tel = document.getElementById("field_tel");
+    const field_website = document.getElementById("field_website");
+    const dropdown_cat = document.getElementById("dropdown_cat");
+    const dropdown_degree = document.getElementById("dropdown_degree");
+    const field_dept = document.getElementById("field_dept");
+    const field_name = document.getElementById("field_name");
+    const field_career = document.getElementById("field_career");
+    const btn_file = document.getElementById("btn_selectFile");
 
     if (pre_members_ul) {
         pre_members_ul.remove();
@@ -203,77 +254,56 @@ async function show() {
             li.appendChild(txt_dept);
             li.appendChild(txt_tel);
 
-            if (getSignedIn()) {
+            if (auth.currentUser != null) {
                 const btn_edit = document.createElement("button");
-                const btn_close = document.getElementById("btn_close");
-                const btn_confirm = document.getElementById("btn_confirm");
+                btn_edit.innerHTML = "&#128393";
+                btn_edit.id = "btn_edit";
+                btn_edit.innerHTML = "&#128393";
+                btn_edit.addEventListener('click', function(){
+                    currentHuman = member;
+                    isEditMode = true;
+                    modal.style.display = "flex";
 
-                const field_email = document.getElementById("field_email");
-                const field_tel = document.getElementById("field_tel");
-                const field_website = document.getElementById("field_website");
-                const dropdown_cat = document.getElementById("dropdown_cat");
-                const dropdown_degree = document.getElementById("dropdown_degree");
-                const field_dept = document.getElementById("field_dept");
-                const field_name = document.getElementById("field_name");
-                const field_career = document.getElementById("field_career");
-                const btn_file = document.getElementById("btn_selectFile");
+                    field_email.value = member.email;
+                    field_tel.value = member.tel;
+                    field_website.value = member.site;
+                    
+                    switch(member.cat){
+                        case MembersType.PROFESSOR:
+                            dropdown_cat.value = "Professor";
+                            break;
+    
+                        case MembersType.STUDENT:
+                            dropdown_cat.value = "Student";
+                            break;
+    
+                        case MembersType.ALUMNI:
+                            dropdown_cat.value = "Alumni";
+                            break;
+                    }
+    
+                    switch(member.deg){
+                        case DegreeType.BS:
+                            dropdown_degree.value = "BS";
+                            break;
+    
+                        case DegreeType.MS:
+                            dropdown_degree.value = "MS";
+                            break;
+    
+                        case DegreeType.PhD:
+                            dropdown_degree.value = "Ph.D";
+                            break;
+                    }
+    
+                    field_dept.value = member.dept;
+                    field_name.value = member.name;
+                    field_career.value = member.career == null ? "" : member.career;
+                });
 
                 btn_file.addEventListener('change', function(evt){
                     file = evt.target.files[0];
                 })
-
-                field_email.value = member.email;
-                field_tel.value = member.tel;
-                field_website.value = member.site;
-                
-                switch(member.cat){
-                    case MembersType.PROFESSOR:
-                        dropdown_cat.value = "Professor";
-                        break;
-
-                    case MembersType.STUDENT:
-                        dropdown_cat.value = "Student";
-                        break;
-
-                    case MembersType.ALUMNI:
-                        dropdown_cat.value = "Alumni";
-                        break;
-                }
-
-                switch(member.deg){
-                    case DegreeType.BS:
-                        dropdown_degree.value = "BS";
-                        break;
-
-                    case DegreeType.MS:
-                        dropdown_degree.value = "MS";
-                        break;
-
-                    case DegreeType.PhD:
-                        dropdown_degree.value = "Ph.D";
-                        break;
-                }
-
-                field_dept.value = member.dept;
-                field_name.value = member.name;
-                field_career.value = member.career == null ? "" : member.career;
-
-                btn_edit.role = "button";
-                btn_edit.innerHTML = "EDIT";
-                btn_edit.className = "button-18";
-                btn_edit.id = "btn_edit";
-
-                btn_edit.addEventListener('click', function () {
-                    modal.style.display = "flex";
-                });
-
-                btn_close.addEventListener('click', function(){
-                    modal.style.display = "none";
-                });
-
-                btn_confirm.addEventListener('click', function(){
-                    update(member.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                });
 
                 li.appendChild(btn_edit);
             }
@@ -286,6 +316,24 @@ async function show() {
                 btn_web.onclick = visitPage.bind(null, member.site);
                 li.appendChild(btn_web);
             }
+
+            btn_close.addEventListener('click', function(){
+                modal.style.display = "none";
+            });
+
+            btn_confirm.addEventListener('click', function(){
+                if(isEditMode){
+                    update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                    isEditMode = false;
+                    currentHuman = null;
+                    alert('Modified successfully.');
+                    modal.style.display = none;
+                } else{
+                    add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                    alert('Uploaded successfully.');
+                    modal.style.display = none;
+                }
+            });
 
             ul.appendChild(li);
 
@@ -317,5 +365,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 })
-
+checkAdminPermission();
 getMembers();

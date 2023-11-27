@@ -77,5 +77,5 @@ function getSignedIn(){
 getSignInStatus();
 
 export{
-    getSignedIn
+    app
 }
