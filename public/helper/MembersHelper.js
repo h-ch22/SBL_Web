@@ -190,6 +190,8 @@ async function add(
             })
         });
     } else {
+        alert('Uploaded successfully.')
+
         return true;
     }
 }

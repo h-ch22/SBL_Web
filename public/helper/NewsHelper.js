@@ -6,7 +6,7 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
-import { GalleryDataModel } from "../models/GalleryDataModel.js";
+import { NewsDataModel } from "../models/NewsDataModel.js";
 
 const firebaseConfig = {
     apiKey: "***REMOVED***",
@@ -38,7 +38,7 @@ async function upload(title, contents){
         "date": `${today.getFullYear()}.${("00" + ((today.getMonth() + 1).toString())).slice(-2)}.${("00" + ((today.getDay()).toString())).slice(-2)} ${("00" + ((today.getHours()).toString())).slice(-2)}:${("00" + ((today.getMinutes()).toString())).slice(-2)}`
     };
 
-    const docRef = await addDoc(collection(db, "Gallery"), data).catch((error) => {
+    const docRef = await addDoc(collection(db, "News"), data).catch((error) => {
         console.log(error);
         alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
 
@@ -46,12 +46,12 @@ async function upload(title, contents){
     });
 
     if(file != null){
-        const storageRef = ref(storage, `gallery/${docRef.id}/0.png`);
+        const storageRef = ref(storage, `News/${docRef.id}/0.png`);
         await uploadBytes(storageRef, file).then((snapshot) => {
             file = null;
 
-            getDownloadURL(ref(storage, `gallery/${docRef.id}/0.png`)).then(async (url) => {
-                await updateDoc(doc(db, 'Gallery', docRef.id), {"image": url}).then(function(){
+            getDownloadURL(ref(storage, `News/${docRef.id}/0.png`)).then(async (url) => {
+                await updateDoc(doc(db, 'News', docRef.id), {"image": url}).then(function(){
                     alert('Uploaded successfully');
                     return true;
                 }).catch((error) => {
@@ -85,7 +85,7 @@ async function modify(id, title, contents){
         "contents": contents
     };
 
-    await updateDoc(doc(db, "Gallery", id), data).catch((error) => {
+    await updateDoc(doc(db, "News", id), data).catch((error) => {
         alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
 
         console.log(error);
@@ -96,12 +96,12 @@ async function modify(id, title, contents){
     currentPost = null;
 
     if(file != null){
-        const storageRef = ref(storage, `gallery/${id}/0.png`);
+        const storageRef = ref(storage, `News/${id}/0.png`);
         await uploadBytes(storageRef, file).then((snapshot) => {
             file = null;
 
-            getDownloadURL(ref(storage, `gallery/${id}/0.png`)).then(async (url) => {
-                await updateDoc(doc(db, 'Gallery', id), {"image": url}).then(function(){
+            getDownloadURL(ref(storage, `News/${id}/0.png`)).then(async (url) => {
+                await updateDoc(doc(db, 'News', id), {"image": url}).then(function(){
                     alert('Modified successfully.')
                     return true;
                 }).catch((error) => {
@@ -131,9 +131,9 @@ async function modify(id, title, contents){
 
 async function remove(id){
     if (currentPost.url != null) {
-        const imgRef = ref(storage, `gallery/${id}/0.png`);
+        const imgRef = ref(storage, `News/${id}/0.png`);
         await deleteObject(imgRef).then(async () => {
-            await deleteDoc(doc(db, "Gallery", id)).then(() => {
+            await deleteDoc(doc(db, "News", id)).then(() => {
                 alert('Deleted successfully.')
                 currentPost = null;
 
@@ -152,7 +152,7 @@ async function remove(id){
             return false;
         })
     } else {
-        await deleteDoc(doc(db, "Gallery", id)).then(() => {
+        await deleteDoc(doc(db, "News", id)).then(() => {
             alert('Deleted successfully.')
             currentPost = null;
 
@@ -169,7 +169,7 @@ async function remove(id){
 
 async function get(){
     datas = [];
-    const q = query(collection(db, "Gallery"), orderBy("date", "desc"));
+    const q = query(collection(db, "News"), orderBy("date", "desc"));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -179,7 +179,7 @@ async function get(){
         const date = doc.get("date");
 
         datas.push(
-            new GalleryDataModel(doc.id, title, contents, url, date)
+            new NewsDataModel(doc.id, title, contents, url, date)
         );
     })
 

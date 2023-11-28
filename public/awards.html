@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact - SBL</title>
+  <title>Awards - SBL</title>
 
   <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
@@ -20,15 +20,19 @@
   <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/css/font-awesome.css">
+
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
   <script type="module" src="./packages.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/css/font-awesome.css">
+  <script type="module" src="./helper/AwardsHelper.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+
   <style>
     @font-face {
       font-family: 'NanumSquareNeo-Variable';
@@ -43,24 +47,13 @@
       background-color: #e6e6ef;
     }
 
-    @keyframes fadein {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
+    #contents {
+      padding: 1em;
     }
 
-    #txt_introduction {
-      line-height: 3em;
-      font-size: 1em;
-      animation: fadein 2s;
-    }
-
-    #img_introduction {
-      width: 70%;
+    #header_title {
+      display: flex;
+      justify-content: space-between;
     }
 
     .modal {
@@ -81,7 +74,7 @@
 
 
       width: 400px;
-      height: 600px;
+      height: 500px;
 
       padding-top: 30px;
       padding-bottom: 30px;
@@ -97,13 +90,6 @@
       transform: translateY(-50%);
     }
 
-    #btn_edit {
-      background-color: transparent;
-      border: 0;
-      font-size: 20px;
-      margin-top: 10px;
-    }
-
     label {
       display: flex;
       cursor: pointer;
@@ -111,21 +97,74 @@
       overflow: hidden;
       margin-bottom: 0.375em;
     }
+
+    #galleryContents {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 20px;
+    }
+
+    .post-container {
+      border: 1px solid #ddd;
+      background-color: white;
+      padding: 10px;
+      border-radius: 20px;
+      overflow: hidden;
+      height: auto;
+    }
+
+    .post-container img {
+      width: 15em;
+      height: auto;
+      border-bottom: 1px solid #ddd;
+      border-radius: 20px;
+    }
+
+    .post-container h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .post-container p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    #btn_edit {
+      background-color: transparent;
+      border: 0;
+      font-size: 20px;
+      margin-right: 10px;
+    }
+
+    #btn_delete {
+      background-color: transparent;
+      border: 0;
+      font-size: 20px;
+      color: rgb(255, 115, 115);
+      margin-right: 20px;
+    }
   </style>
+
 </head>
 
 <body>
-  <div id="header"></div>
+  <div id="headerContainer"></div>
 
   <div id="contents">
-    <h1>Contact</h1>
-    <hr style="margin-bottom: 10px; margin-top: 10px;">
+    <div id="header_title">
+      <h1>Awards</h1>
+
+    </div>
+    <hr style="margin-bottom: 10px;">
 
     <div class="modal">
       <div class="modal_body">
 
         <div style="display: flex; justify-content: space-between;">
-          <h2>Contact</h2>
+          <h2>Add new award</h2>
 
           <button class="addBtn" type="button" id="btn_close">
             &#x2715
@@ -136,20 +175,13 @@
           <form>
 
             <div class="row">
+              <div class="input-group input-group-icon">
+                <input id="field_title" placeholder="Title" />
+                <div class="input-icon"><i class="fa fa-file-text"></i></div>
+
+              </div>
 
               <textarea id="field_contents" placeholder="Contents" cols="40" rows="5"></textarea>
-
-              <div class="input-group input-group-icon">
-                <input id="field_email" type="email" placeholder="E-Mail" />
-                <div class="input-icon"><i class="fa fa-envelope"></i></div>
-
-              </div>
-
-              <div class="input-group input-group-icon">
-                <input id="field_tel" type="tel" placeholder="Tel" />
-                <div class="input-icon"><i class="fa fa-phone"></i></div>
-
-              </div>
 
               <label for="btn_selectFile">Image</label>
               <input type="file" accept="image/*" id="btn_selectFile">
@@ -172,59 +204,48 @@
       </div>
     </div>
 
-    <h2 style="animation: fadein 1s; margin-top: 10px; margin-bottom: 10px;">Welcome to SBL</h2>
+    <div id="div_gallery">
+      <div id="galleryContents">
 
-    <div id="div_btns" style="display: inline-block;">
-      <button class="button-18" id="btn_phone" role="button"
-        style="margin-top: 10px; margin-bottom: 10px;"></button>
-      <button class="button-18" id="btn_email" role="button"
-        style="margin-top: 10px; margin-bottom: 10px;"></button>
-    </div>
-
-    <div id="div_text">
-
+      </div>
     </div>
 
   </div>
 
   <div id="footer"></div>
 
-</body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const headerContainer = document.getElementById('headerContainer');
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const headerContainer = document.getElementById('header');
+      function loadHeader() {
+        if (window.innerWidth <= 1202) {
+          fetch('header_mobile.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        } else {
+          fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        }
 
-    function loadHeader() {
-      if (window.innerWidth <= 1202) {
-        fetch('./header_mobile.html')
+        fetch('./footer.html')
           .then(response => response.text())
           .then(data => {
-            headerContainer.innerHTML = data;
-          });
-      } else {
-        fetch('./header.html')
-          .then(response => response.text())
-          .then(data => {
-            headerContainer.innerHTML = data;
-          });
+            footer.innerHTML = data;
+          })
       }
 
-      fetch('./footer.html')
-        .then(response => response.text())
-        .then(data => {
-          footer.innerHTML = data;
-        })
+      loadHeader();
 
-    }
+      window.addEventListener('resize', loadHeader);
+    });
+  </script>
 
-    loadHeader();
-
-    window.addEventListener('resize', loadHeader);
-  });
-
-</script>
-
-<script type="module" src="./helper/ContactHelper.js"></script>
+</body>
 
 </html>

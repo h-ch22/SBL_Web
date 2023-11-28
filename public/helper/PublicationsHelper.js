@@ -165,8 +165,11 @@ async function get(type){
 }
 
 async function deletePaper(){
-    await deleteDoc(doc(db, "Publications", currentPaper.id));
-    alert("Deleted successfully");
+    await deleteDoc(doc(db, "Publications", currentPaper.id)).then(() => {
+        alert("Deleted successfully");
+    }).catch((error) => {
+        alert("An error occured while delete process.\nPlease try again later or contact to Administrator");
+    });
 }
 
 async function upload(year, contents, link, type) {
