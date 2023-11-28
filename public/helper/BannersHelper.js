@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore, doc, updateDoc, addDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { query, getFirestore, doc, updateDoc, addDoc, getDocs, collection, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { BannersDataModel } from "../models/BannersDataModel.js";
+import { NewsDataModel } from "../models/NewsDataModel.js";
 
 const firebaseConfig = {
     apiKey: "***REMOVED***",
@@ -16,6 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const banners = [];
+var news = [];
 
 async function getBanners(){
     const snapshot = await getDocs(collection(db, "Banners"));
@@ -32,6 +34,51 @@ async function getBanners(){
     });
 
     show();
+}
+
+async function getTopNews(){
+    news = [];
+    const q = query(collection(db, "News"), orderBy("date", "desc"), limit(5));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        const title = doc.get("title");
+        const contents = doc.get("contents");
+        const url = doc.get("image");
+        const date = doc.get("date");
+
+        news.push(
+            new NewsDataModel(doc.id, title, contents, url, date)
+        );
+    })
+
+    const news_div = document.getElementById("div_news");
+
+    news.forEach((item) => {
+        const newsItemDiv = document.createElement("div");
+        newsItemDiv.style.display = "inline-block";
+        newsItemDiv.style.width = "20%"; // Adjust width as needed
+
+        newsItemDiv.style.marginRight = "20px"; // Adjust margin as needed
+        newsItemDiv.id = "div_newsItem"
+
+        const newsTitle = document.createElement("h3");
+        newsTitle.textContent = item.title;
+
+        const newsDate = document.createElement("p");
+        newsDate.textContent = new Date(item.date).toLocaleDateString();
+
+        const newsImage = document.createElement("img");
+        newsImage.src = item.url;
+        newsImage.style.maxWidth = "100%"; // Adjust as needed
+        newsImage.style.height = "auto"; // Maintain aspect ratio
+
+        newsItemDiv.appendChild(newsImage);
+        newsItemDiv.appendChild(newsTitle);
+        newsItemDiv.appendChild(newsDate);
+
+        news_div.appendChild(newsItemDiv);
+    });
 }
 
 function show(){
@@ -70,3 +117,4 @@ function show(){
 }
 
 getBanners();
+getTopNews();

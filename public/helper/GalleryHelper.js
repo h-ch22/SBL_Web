@@ -218,6 +218,7 @@ async function show(){
         if(auth.currentUser != null){
             const btn_edit = document.createElement("button");
             btn_edit.id = "btn_edit";
+            btn_edit.style.minHeight = "60px";
             const ic_edit = document.createElement("i");
             ic_edit.className = "fa fa-edit";
             btn_edit.appendChild(ic_edit);

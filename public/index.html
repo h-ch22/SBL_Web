@@ -50,6 +50,25 @@
       height: 40%;
       max-height: 40%;
     }
+
+    #div_newsItem{
+      border: 1px solid #ddd;
+      background-color: white;
+      padding: 10px;
+      border-radius: 20px;
+      overflow: hidden;
+      height: auto;
+    }
+
+    #div_newsItem img {
+      border-bottom: 1px solid #ddd;
+      border-radius: 20px;
+    }
+
+    #div_news_title {
+      display: flex;
+      justify-content: space-between;
+    }
   </style>
 </head>
 
@@ -58,6 +77,13 @@
 
   <div id="contents">
     <div id="banners">
+
+    </div>
+    <div style="margin-top: 20px;" id="div_news_title">
+      <h2 >SBL TODAY</h2>
+      <button class="button-toggle" onClick="location.href='./news.html'">MORE</button>
+    </div>
+    <div id="div_news">
 
     </div>
     <button style="margin-top: 20px;" role="button" class="button-18" id="btn_signInOut"></button>

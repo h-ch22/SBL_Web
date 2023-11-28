@@ -324,6 +324,7 @@ async function show() {
             const btn_showCareer = document.createElement("button");
             btn_showCareer.innerText = "Show Career";
             btn_showCareer.className = "button-toggle";
+            btn_showCareer.style.marginRight = "10px";
             txt_career.style.display = 'none';
 
             if(member.career == "" || member.career == null){
