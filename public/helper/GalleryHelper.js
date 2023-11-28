@@ -26,6 +26,7 @@ const storage = getStorage(app);
 var datas = [];
 var isEditMode = false;
 var file = null;
+var currentPost = null;
 
 async function upload(title, contents){
     let today = new Date();
@@ -49,21 +50,114 @@ async function upload(title, contents){
 
             getDownloadURL(ref(storage, `gallery/${docRef.id}/0.png`)).then(async (url) => {
                 await updateDoc(doc(db, 'Gallery', docRef.id), {"image": url}).then(function(){
+                    alert('Uploaded successfully');
                     return true;
                 }).catch((error) => {
                     console.log(error);
+                    alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
+
                     return false;
                 })
             }).catch((error) => {
                 console.log(error);
+                alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
+
                 return false;
             })
         }).catch((error) => {
             console.log(error);
+            alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
+
             return false;
         });
     } else{
         return true;
+    }
+}
+
+async function modify(id, title, contents){
+    const data = {
+        "title": title,
+        "contents": contents
+    };
+
+    await updateDoc(doc(db, "Gallery", id), data).catch((error) => {
+        console.log(error);
+        return false;
+    });
+
+    isEditMode = false;
+    currentPost = null;
+
+    if(file != null){
+        const storageRef = ref(storage, `gallery/${id}/0.png`);
+        await uploadBytes(storageRef, file).then((snapshot) => {
+            file = null;
+
+            getDownloadURL(ref(storage, `gallery/${id}/0.png`)).then(async (url) => {
+                await updateDoc(doc(db, 'Gallery', id), {"image": url}).then(function(){
+                    alert('Modified successfully.')
+                    return true;
+                }).catch((error) => {
+                    console.log(error);
+                    alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
+                    return false;
+                })
+            }).catch((error) => {
+                console.log(error);
+                alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
+                return false;
+            })
+        }).catch((error) => {
+            console.log(error);
+            alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
+            return false;
+        });
+    } else{
+        alert('Modified successfully.')
+
+        return true;
+    }
+}
+
+async function remove(id){
+    if (currentPost.url != null) {
+        const imgRef = ref(storage, `gallery/${id}/0.png`);
+        await deleteObject(imgRef).then(async () => {
+            await deleteDoc(doc(db, "Gallery", id)).then(() => {
+                alert('Deleted successfully.')
+                currentPost = null;
+
+                return true;
+            }).catch((error) => {
+                console.log(error);
+                alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+                currentPost = null;
+
+                return false;
+            })
+        }).catch((error) => {
+            console.log(error);
+            alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+
+            return false;
+        })
+    } else {
+        await deleteDoc(doc(db, "Gallery", id)).then(() => {
+            alert('Deleted successfully.')
+            currentPost = null;
+
+            return true;
+        }).catch((error) => {
+            console.log(error);
+            alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+            currentPost = null;
+
+            return false;
+        })
     }
 }
 
@@ -89,6 +183,9 @@ async function get(){
 async function show(){
     const div_contents = document.getElementById("galleryContents");
     div_contents.innerHTML = "";
+    const modal = document.querySelector('.modal');
+    const field_title = document.getElementById("field_title");
+    const field_contents = document.getElementById("field_contents");
 
     datas.forEach((data) => {
         const postContainer = document.createElement("div");
@@ -109,7 +206,38 @@ async function show(){
 
         const date = document.createElement("p");
         date.innerText = data.date;
+        
         postContainer.appendChild(date);
+
+        if(auth.currentUser != null){
+            const btn_edit = document.createElement("button");
+            btn_edit.id = "btn_edit";
+            const ic_edit = document.createElement("i");
+            ic_edit.className = "fa fa-edit";
+            btn_edit.appendChild(ic_edit);
+            btn_edit.addEventListener('click', function(){
+                currentPost = data;
+                isEditMode = true;
+
+                field_title.value = currentPost.title;
+                field_contents.value = currentPost.contents;
+                modal.style.display = "flex";
+            })
+            postContainer.appendChild(btn_edit);
+
+            const btn_delete = document.createElement("button");
+            btn_delete.id = "btn_delete";
+            btn_delete.innerHTML = "&#x2715";
+
+            btn_delete.addEventListener('click', function(){
+                if(confirm(`Are you sure to delete ${data.title}?`)){
+                    currentPost = data;
+                    remove(data.id);
+
+                }
+            })
+            postContainer.appendChild(btn_delete);
+        }
 
         galleryContents.appendChild(postContainer);
     })
@@ -148,19 +276,17 @@ async function checkAdminPermission() {
                 const field_title = document.getElementById("field_title");
                 const field_contents = document.getElementById("field_contents");
 
-                if(field_title.value == "" || field_contents.value == ""){
+                if(field_title.value == "" || field_contents.value == "" ){
                     alert('Please write down all fields.');
+                } else if(file == null && !isEditMode){
+                    alert('Please select image');
                 } else{
                     progressView.style.display = "flex";
 
                     if(isEditMode){
+                        var result = modify(currentPost.id, field_title.value, field_contents.value);
                     } else{
                         var result = upload(field_title.value, field_contents.value);
-                        if(result){
-                            alert("Uploaded successfully.");
-                        } else{
-                            alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
-                        }
                     }
                     progressView.style.display = "none";
                 }

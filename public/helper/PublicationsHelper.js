@@ -112,16 +112,21 @@ async function get(type){
 
         if(paper.url != ""){
             const newTab = document.createElement("a");
-            newTab.innerHTML = "&#x1F5D7;";
+            const btn_open = document.createElement("i");
+            btn_open.className = "fa fa-external-link"
             newTab.href = paper.url;
             newTab.id = "btn_openURL";
+            newTab.appendChild(btn_open);
             div_content.appendChild(newTab);
         }
 
         if(auth.currentUser != null){
             const btn_edit = document.createElement("button");
-            btn_edit.innerHTML = "&#128393";
+            const ic_edit = document.createElement("i");
+            ic_edit.className = "fa fa-edit";
+
             btn_edit.id = "btn_edit";
+            btn_edit.appendChild(ic_edit);
             btn_edit.addEventListener('click', function(){
                 currentPaper = paper;
                 isEditMode = true;
@@ -192,9 +197,13 @@ async function upload(year, contents, link, type) {
         "type": docId
     };
 
-    await addDoc(collection(db, "Publications"), data);
+    await addDoc(collection(db, "Publications"), data).then(() => {
+        alert('Paper uploaded successfully.');
+    }).catch((error) => {
+        console.log(error);
+        alert('An error occured while upload process.\nPlease try again later, or contact to Administrator.');
+    });
 
-    alert('Paper uploaded successfully.');
 }
 
 async function modify(id, year, contents, link, type){
@@ -225,10 +234,16 @@ async function modify(id, year, contents, link, type){
         "type": docId
     };
 
-    await updateDoc(doc(db, "Publications", id), data);
+    await updateDoc(doc(db, "Publications", id), data).then(() => {
+        alert('Paper modified successfully.');
+
+    }).catch((error) => {
+        console.log(error)
+        alert('An error occured while modify process.\nPlease try again later, or contact to Administrator.');
+
+    });
 
     isEditMode = false;
-    alert('Paper modified successfully.');
 }
 
 async function checkAdminPermission() {

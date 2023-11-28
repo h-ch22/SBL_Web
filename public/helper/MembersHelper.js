@@ -101,17 +101,24 @@ async function update(
                     "career": career,
                     "degree": degree
                 }).then(function () {
+                    alert('Modified successfully.');
                     return true;
                 }).catch((error) => {
                     console.log(error);
+                    alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
                     return false;
                 })
             }).catch((error) => {
                 console.log(error);
+                alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
                 return false;
             });
         }).catch((error) => {
             console.log(error);
+            alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
             return false;
         });
     } else {
@@ -127,9 +134,12 @@ async function update(
             "career": career,
             "degree": degree
         }).then(function () {
+            alert('Modified successfully.');
             return true;
         }).catch((error) => {
             console.log(error);
+            alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
             return false;
         })
     }
@@ -152,6 +162,7 @@ async function add(
     };
 
     const docRef = await addDoc(collection(db, "Members"), uploadData).catch((error) => {
+        alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
         console.log(error);
         return false;
     });
@@ -163,13 +174,18 @@ async function add(
 
             getDownloadURL(ref(storage, `members/img/${docRef.id}.png`)).then(async (url) => {
                 await updateDoc(doc(db, 'Members', docRef.id), { "profile": url }).then(function () {
+                    alert('Uploaded successfully.')
                     return true;
                 }).catch((error) => {
                     console.log(error);
+                    alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
+
                     return false;
                 })
             }).catch((error) => {
                 console.log(error)
+                alert("An error occured while upload process.\nPlease try again later, or contact to Administrator");
+
                 return false
             })
         });
@@ -183,20 +199,29 @@ async function remove(id) {
         const profileRef = ref(storage, `members/img/${id}.png`);
         await deleteObject(profileRef).then(async () => {
             await deleteDoc(doc(db, "Members", id)).then(() => {
+                alert('Deleted successfully')
+
                 return true;
             }).catch((error) => {
                 console.log(error);
+                alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+
                 return false;
             })
         }).catch((error) => {
             console.log(error);
+            alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+
             return false;
         })
     } else {
         await deleteDoc(doc(db, "Members", id)).then(() => {
+            alert('Deleted successfully')
             return true;
         }).catch((error) => {
             console.log(error);
+            alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+
             return false;
         })
     }
@@ -243,11 +268,10 @@ async function checkAdminPermission() {
                     update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
                     isEditMode = false;
                     currentHuman = null;
-                    alert('Modified successfully.');
+                    
                     modal.style.display = "none";
                 } else {
                     add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                    alert('Uploaded successfully.');
                     modal.style.display = "none";
                 }
             });
@@ -348,9 +372,10 @@ async function show() {
 
             if (auth.currentUser != null) {
                 const btn_edit = document.createElement("button");
-                btn_edit.innerHTML = "&#128393";
                 btn_edit.id = "btn_edit";
-                btn_edit.innerHTML = "&#128393";
+                const ic_edit = document.createElement("i");
+                ic_edit.className = "fa fa-edit";
+                btn_edit.appendChild(ic_edit);
                 btn_edit.addEventListener('click', function () {
                     currentHuman = member;
                     isEditMode = true;
@@ -399,12 +424,7 @@ async function show() {
                 btn_delete.addEventListener('click', function () {
                     currentHuman = member;
                     if (confirm(`Are you sure to delete ${member.name}?`)) {
-                        const result = remove(member.id);
-                        if (result) {
-                            alert('Deleted successfully.');
-                        } else {
-                            alert('An error occured while deleting member.\nPlease try again later.');
-                        }
+                        remove(member.id);
 
                         currentHuman = null;
                     }
