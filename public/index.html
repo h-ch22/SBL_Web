@@ -45,6 +45,11 @@
       color: #000021;
       background-color: #e6e6ef;
     }
+
+    #banners{
+      height: 40%;
+      max-height: 40%;
+    }
   </style>
 </head>
 
@@ -52,7 +57,10 @@
   <div id="header"></div>
 
   <div id="contents">
-    <button role="button" class="button-18" id="btn_signInOut"></button>
+    <div id="banners">
+
+    </div>
+    <button style="margin-top: 20px;" role="button" class="button-18" id="btn_signInOut"></button>
     <div class="modal">
       <div class="modal_body">
         <h2>Sign In</h2>
@@ -81,6 +89,7 @@
 </body>
 
 <script type="module" src="./helper/UserManagement.js"></script>
+<script type="module" src="./helper/BannersHelper.js"></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

@@ -1,9 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore, doc, updateDoc, addDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getFirestore, doc, updateDoc, addDoc, getDocs, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { MembersType } from "../models/MembersTypeModel.js";
 import { DegreeType } from "../models/DegreeTypeModel.js";
 import { MembersDataModel } from "../models/MembersDataModel.js";
-import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import {
     getAuth,
     onAuthStateChanged
@@ -45,7 +45,6 @@ async function getMembers() {
         const id = doc.id;
 
         var category = MembersType.STUDENT;
-        var deg = DegreeType.BS;
 
         switch (cat) {
             case "Professor":
@@ -66,7 +65,7 @@ async function getMembers() {
 
         members.push(
             new MembersDataModel(
-                id, degree, email, tel, site, category, dept, name, profile, career
+                id, degree, email, tel, site == "" ? null : site, category, dept, name, profile, career
             )
         );
 
@@ -82,80 +81,126 @@ function visitPage(url) {
 
 async function update(
     id, email, tel, website, cat, degree, dept, name, career, profile
-){
-    var profileURL = "";
+) {
 
-    if(profile != null){
-        const storageRef = ref(storage, 'members/img');
-        storageRef.put(profile).then(() => {
-            storageRef.child(profile).getDownloadURL().then((downloadURL) => {
-                profileURL = downloadURL; 
-            })
+    if (profile != null) {
+        const storageRef = ref(storage, `members/img/${id}.png`);
+        await uploadBytes(storageRef, profile).then((snapshot) => {
+            profile = null;
+            getDownloadURL(ref(storage, `members/img/${id}.png`)).then(async (url) => {
+                const docRef = doc(db, "Members", id);
+
+                await updateDoc(docRef, {
+                    "E-Mail": email,
+                    "Tel": tel,
+                    "Website": website,
+                    "cat": cat,
+                    "dept": dept,
+                    "name": name,
+                    "profile": url,
+                    "career": career,
+                    "degree": degree
+                }).then(function () {
+                    return true;
+                }).catch((error) => {
+                    console.log(error);
+                    return false;
+                })
+            }).catch((error) => {
+                console.log(error);
+                return false;
+            });
+        }).catch((error) => {
+            console.log(error);
+            return false;
+        });
+    } else {
+        const docRef = doc(db, "Members", id);
+
+        await updateDoc(docRef, {
+            "E-Mail": email,
+            "Tel": tel,
+            "Website": website,
+            "cat": cat,
+            "dept": dept,
+            "name": name,
+            "career": career,
+            "degree": degree
+        }).then(function () {
+            return true;
+        }).catch((error) => {
+            console.log(error);
+            return false;
         })
     }
-
-    const docRef = doc(db, "Members", id);
-
-    await updateDoc(docRef, profile == null ? {
-        "E-Mail": email,
-        "Tel": tel,
-        "Website": website,
-        "cat": cat,
-        "dept": dept,
-        "name": name,
-        "career": career,
-        "degree": degree
-    } : {
-        "E-Mail": email,
-        "Tel": tel,
-        "Website": website,
-        "cat": cat,
-        "dept": dept,
-        "name": name,
-        "profile": profileURL,
-        "career": career,
-        "degree": degree
-    });
-
-    return true;
 }
 
 async function add(
     email, tel, website, cat, degree, dept, name, career, profile
-){
-    if(profile != null){
-        const storageRef = ref(storage, 'members/img');
-        uploadBytes(storageRef, profile).then((snapshot) => {
-            profile = snapshot.url;
+) {
+
+    const uploadData = {
+        "E-Mail": email,
+        "Tel": tel,
+        "Website": website,
+        "cat": cat,
+        "dept": dept,
+        "name": name,
+        "career": career,
+        "degree": degree,
+        "profile": null
+    };
+
+    const docRef = await addDoc(collection(db, "Members"), uploadData).catch((error) => {
+        console.log(error);
+        return false;
+    });
+
+    if (profile != null) {
+        const storageRef = ref(storage, `members/img/${docRef.id}.png`);
+        await uploadBytes(storageRef, profile).then((snapshot) => {
+            profile = null;
+
+            getDownloadURL(ref(storage, `members/img/${docRef.id}.png`)).then(async (url) => {
+                await updateDoc(doc(db, 'Members', docRef.id), { "profile": url }).then(function () {
+                    return true;
+                }).catch((error) => {
+                    console.log(error);
+                    return false;
+                })
+            }).catch((error) => {
+                console.log(error)
+                return false
+            })
         });
+    } else {
+        return true;
+    }
+}
+
+async function remove(id) {
+    if (currentHuman.profile != null) {
+        const profileRef = ref(storage, `members/img/${id}.png`);
+        await deleteObject(profileRef).then(async () => {
+            await deleteDoc(doc(db, "Members", id)).then(() => {
+                return true;
+            }).catch((error) => {
+                console.log(error);
+                return false;
+            })
+        }).catch((error) => {
+            console.log(error);
+            return false;
+        })
+    } else {
+        await deleteDoc(doc(db, "Members", id)).then(() => {
+            return true;
+        }).catch((error) => {
+            console.log(error);
+            return false;
+        })
     }
 
-    const uploadData = profile == null ? {
-        "E-Mail": email,
-        "Tel": tel,
-        "Website": website,
-        "cat": cat,
-        "dept": dept,
-        "name": name,
-        "career": career,
-        "degree": degree
-    } : {
-        "E-Mail": email,
-        "Tel": tel,
-        "Website": website,
-        "cat": cat,
-        "dept": dept,
-        "name": name,
-        "profile": profile,
-        "career": career,
-        "degree": degree
-    }
-
-    const docRef = doc(db, "Members");
-
-    await addDoc(docRef, uploadData);
-
-    return true;
 }
 
 async function checkAdminPermission() {
@@ -163,6 +208,8 @@ async function checkAdminPermission() {
     const pre_header_btn = document.querySelector("#header_title #btn_add");
     const modal = document.querySelector('.modal');
     const btn_add_old = document.getElementById("btn_add");
+    const btn_confirm = document.getElementById("btn_confirm");
+    const btn_file = document.getElementById("btn_selectFile");
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -170,7 +217,7 @@ async function checkAdminPermission() {
                 pre_header_btn.remove();
             }
 
-            if(btn_add_old){
+            if (btn_add_old) {
                 btn_add_old.remove();
             }
 
@@ -181,10 +228,30 @@ async function checkAdminPermission() {
             btn_add.id = "btn_add";
             btn_add.className = "addBtn";
 
-            btn_add.addEventListener('click', function(){
+            btn_add.addEventListener('click', function () {
                 modal.style.display = "flex";
                 isEditMode = false;
+            });
+
+            btn_file.addEventListener('change', function (evt) {
+                file = evt.target.files[0];
+                console.log(file);
             })
+
+            btn_confirm.addEventListener('click', function () {
+                if (isEditMode) {
+                    update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                    isEditMode = false;
+                    currentHuman = null;
+                    alert('Modified successfully.');
+                    modal.style.display = "none";
+                } else {
+                    add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                    alert('Uploaded successfully.');
+                    modal.style.display = "none";
+                }
+            });
+
             div_header.appendChild(btn_add);
         } else {
             if (pre_header_btn) {
@@ -199,7 +266,7 @@ async function show() {
     const pre_members_ul = document.querySelector("#div_members ul");
     const modal = document.querySelector('.modal');
     const btn_close = document.getElementById("btn_close");
-    const btn_confirm = document.getElementById("btn_confirm");
+    div_members.innerHTML = "";
 
     const field_email = document.getElementById("field_email");
     const field_tel = document.getElementById("field_tel");
@@ -209,7 +276,6 @@ async function show() {
     const field_dept = document.getElementById("field_dept");
     const field_name = document.getElementById("field_name");
     const field_career = document.getElementById("field_career");
-    const btn_file = document.getElementById("btn_selectFile");
 
     if (pre_members_ul) {
         pre_members_ul.remove();
@@ -222,18 +288,39 @@ async function show() {
             const li = document.createElement("li");
             li.id = "li_member";
 
-            const degree = document.createElement("p");
+            const txt_degree = document.createElement("p");
             const img = document.createElement("img");
             const txt_name = document.createElement("h1");
             const txt_email = document.createElement("h4");
             const txt_dept = document.createElement("h4");
             const txt_tel = document.createElement("h4");
+            const txt_career = document.createElement("p");
+            const btn_showCareer = document.createElement("button");
+            btn_showCareer.innerText = "Show Career";
+            btn_showCareer.className = "button-toggle";
+            txt_career.style.display = 'none';
 
-            degree.id = "txt_degree";
-            degree.innerText = member.degree;
+            if(member.career == "" || member.career == null){
+                btn_showCareer.style.display = 'none';
+                txt_career.style.display = 'none';
+            }
+
+            btn_showCareer.addEventListener('click',function(){
+                if(txt_career.style.display == "none") {
+                    txt_career.style.display = 'block';
+                    btn_showCareer.innerText = "Hide Carrer";
+                } else{
+                    txt_career.style.display = 'none';
+                    btn_showCareer.innerText = "Show Carrer";
+                }
+            });
+
+            txt_degree.id = "txt_degree";
+            txt_degree.innerText = member.degree;
 
             img.src = member.profile;
             img.id = "img_profile";
+            img.style.display = member.profile == null ? "none" : "flex";
 
             txt_name.innerText = member.name;
             txt_name.id = "txt_name";
@@ -247,19 +334,24 @@ async function show() {
             txt_tel.innerText = member.tel;
             txt_tel.id = "txt_tel";
 
+            txt_career.innerText = member.career;
+            txt_career.id = "txt_career"
+
             li.appendChild(img);
             li.appendChild(txt_name);
-            // li.appendChild(degree);
             li.appendChild(txt_email);
             li.appendChild(txt_dept);
             li.appendChild(txt_tel);
+            li.appendChild(txt_degree);
+            li.appendChild(txt_career);
+            li.appendChild(btn_showCareer);
 
             if (auth.currentUser != null) {
                 const btn_edit = document.createElement("button");
                 btn_edit.innerHTML = "&#128393";
                 btn_edit.id = "btn_edit";
                 btn_edit.innerHTML = "&#128393";
-                btn_edit.addEventListener('click', function(){
+                btn_edit.addEventListener('click', function () {
                     currentHuman = member;
                     isEditMode = true;
                     modal.style.display = "flex";
@@ -267,45 +359,59 @@ async function show() {
                     field_email.value = member.email;
                     field_tel.value = member.tel;
                     field_website.value = member.site;
-                    
-                    switch(member.cat){
+
+                    switch (member.cat) {
                         case MembersType.PROFESSOR:
                             dropdown_cat.value = "Professor";
                             break;
-    
+
                         case MembersType.STUDENT:
                             dropdown_cat.value = "Student";
                             break;
-    
+
                         case MembersType.ALUMNI:
                             dropdown_cat.value = "Alumni";
                             break;
                     }
-    
-                    switch(member.deg){
-                        case DegreeType.BS:
+
+                    switch (member.degree) {
+                        case "BS":
                             dropdown_degree.value = "BS";
                             break;
-    
-                        case DegreeType.MS:
+
+                        case "MS":
                             dropdown_degree.value = "MS";
                             break;
-    
-                        case DegreeType.PhD:
+
+                        case "Ph.D":
                             dropdown_degree.value = "Ph.D";
                             break;
                     }
-    
+
                     field_dept.value = member.dept;
                     field_name.value = member.name;
                     field_career.value = member.career == null ? "" : member.career;
                 });
 
-                btn_file.addEventListener('change', function(evt){
-                    file = evt.target.files[0];
-                })
+                const btn_delete = document.createElement("button");
+                btn_delete.id = "btn_delete";
+                btn_delete.innerHTML = "&#x2715";
+                btn_delete.addEventListener('click', function () {
+                    currentHuman = member;
+                    if (confirm(`Are you sure to delete ${member.name}?`)) {
+                        const result = remove(member.id);
+                        if (result) {
+                            alert('Deleted successfully.');
+                        } else {
+                            alert('An error occured while deleting member.\nPlease try again later.');
+                        }
+
+                        currentHuman = null;
+                    }
+                });
 
                 li.appendChild(btn_edit);
+                li.appendChild(btn_delete);
             }
 
             if (member.site != null) {
@@ -317,22 +423,8 @@ async function show() {
                 li.appendChild(btn_web);
             }
 
-            btn_close.addEventListener('click', function(){
+            btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
-            });
-
-            btn_confirm.addEventListener('click', function(){
-                if(isEditMode){
-                    update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                    isEditMode = false;
-                    currentHuman = null;
-                    alert('Modified successfully.');
-                    modal.style.display = none;
-                } else{
-                    add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                    alert('Uploaded successfully.');
-                    modal.style.display = none;
-                }
             });
 
             ul.appendChild(li);

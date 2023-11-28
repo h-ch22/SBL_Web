@@ -141,7 +141,7 @@ async function get(type){
             div_content.appendChild(btn_edit);
 
             const btn_delete = document.createElement("button");
-            btn_delete.innerHTML = "&#128465";
+            btn_delete.innerHTML = "&#x2715";
             btn_delete.id = "btn_delete";
             btn_delete.addEventListener('click', function(){
                 currentPaper = paper;

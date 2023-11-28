@@ -29,9 +29,9 @@
   <meta name="theme-color" content="#ffffff">
 
   <script type="module" src="./packages.js"></script>
+  <script type="module" src="./helper/GalleryHelper.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
-
 
   <style>
     @font-face {
@@ -39,15 +39,6 @@
       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
       font-weight: normal;
       font-style: normal;
-    }
-
-    @media only screen and (max-width: 1202px) {
-      #img_profile {
-        float: none !important;
-        clear: both !important;
-        width: 15em;
-        margin-right: 2em;
-      }
     }
 
     body {
@@ -59,6 +50,87 @@
     #contents {
       padding: 1em;
     }
+
+    #header_title {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .modal {
+      position: absolute;
+      display: none;
+      justify-content: center;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal_body {
+      position: absolute;
+      top: 50%;
+
+
+      width: 400px;
+      height: 500px;
+
+      padding-top: 30px;
+      padding-bottom: 30px;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      text-align: center;
+
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+      transform: translateY(-50%);
+    }
+
+    label {
+      display: flex;
+      cursor: pointer;
+      font-weight: 500;
+      overflow: hidden;
+      margin-bottom: 0.375em;
+    }
+
+    #galleryContents {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 20px;
+    }
+
+    .post-container {
+      border: 1px solid #ddd;
+      background-color: white;
+      padding: 10px;
+      border-radius: 20px;
+      overflow: hidden;
+      height: auto;
+    }
+
+    .post-container img {
+      width: 15em;
+      height: auto;
+      border-bottom: 1px solid #ddd;
+      border-radius: 20px;
+    }
+
+    .post-container h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .post-container p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
   </style>
 
 </head>
@@ -67,12 +139,60 @@
   <div id="headerContainer"></div>
 
   <div id="contents">
-    <h1>Gallery</h1>
+    <div id="header_title">
+      <h1>Gallery</h1>
 
+    </div>
     <hr style="margin-bottom: 10px;">
 
-    <div id="div_members">
+    <div class="modal">
+      <div class="modal_body">
 
+        <div style="display: flex; justify-content: space-between;">
+          <h2>Add new post</h2>
+
+          <button class="addBtn" type="button" id="btn_close">
+            &#x2715
+          </button>
+        </div>
+
+        <div class="signIn_container">
+          <form>
+
+            <div class="row">
+              <div class="input-group input-group-icon">
+                <input id="field_title" placeholder="Title" />
+                <div class="input-icon"><i class="fa fa-file-text"></i></div>
+
+              </div>
+
+              <textarea id="field_contents" placeholder="Contents" cols="40" rows="5"></textarea>
+
+              <label for="btn_selectFile">Image</label>
+              <input type="file" accept="image/*" id="btn_selectFile">
+
+              <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+                id="btn_confirm">Confirm</button>
+
+              <div id="progressView" style="display: none;">
+                <div class="outer_progress">
+                  <div class="inner_progress">
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="div_gallery">
+      <div id="galleryContents">
+
+      </div>
     </div>
 
   </div>
