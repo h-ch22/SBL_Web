@@ -55,29 +55,28 @@ async function getTopNews(){
     const news_div = document.getElementById("div_news");
 
     news.forEach((item) => {
-        const newsItemDiv = document.createElement("div");
-        newsItemDiv.style.display = "inline-block";
-        newsItemDiv.style.width = "20%"; // Adjust width as needed
+        const postContainer = document.createElement("div");
+        postContainer.className = "post-container";
 
-        newsItemDiv.style.marginRight = "20px"; // Adjust margin as needed
-        newsItemDiv.id = "div_newsItem"
+        const image = document.createElement("img");
+        image.src = item.url;
 
-        const newsTitle = document.createElement("h3");
-        newsTitle.textContent = item.title;
+        if(item.url == null){
+            image.style.display = "none";
+        }
 
-        const newsDate = document.createElement("p");
-        newsDate.textContent = new Date(item.date).toLocaleDateString();
+        postContainer.appendChild(image);
 
-        const newsImage = document.createElement("img");
-        newsImage.src = item.url;
-        newsImage.style.maxWidth = "100%"; // Adjust as needed
-        newsImage.style.height = "auto"; // Maintain aspect ratio
+        const title = document.createElement("h3");
+        title.innerText = item.title;
+        postContainer.appendChild(title);
 
-        newsItemDiv.appendChild(newsImage);
-        newsItemDiv.appendChild(newsTitle);
-        newsItemDiv.appendChild(newsDate);
+        const date = document.createElement("p");
+        date.innerText = item.date;
+        
+        postContainer.appendChild(date);
 
-        news_div.appendChild(newsItemDiv);
+        news_div.appendChild(postContainer);
     });
 }
 
