@@ -278,10 +278,16 @@ async function checkAdminPermission() {
                 modal.style.display = "flex";
                 const txt_title = document.getElementById("txt_title");
                 txt_title.innerText = 'Add new photo';
+                const field_title = document.getElementById("field_title");
+                const field_contents = document.getElementById("field_contents");
+                field_title.value = "";
+                field_contents.value = "";
             });
 
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
+                isEditMode = false;
+                currentPost = null;
             })
 
             btn_confirm.addEventListener('click', function(){

@@ -238,6 +238,15 @@ async function checkAdminPermission() {
     const btn_confirm = document.getElementById("btn_confirm");
     const btn_file = document.getElementById("btn_selectFile");
 
+    const field_email = document.getElementById("field_email");
+    const field_tel = document.getElementById("field_tel");
+    const field_website = document.getElementById("field_website");
+    const dropdown_cat = document.getElementById("dropdown_cat");
+    const dropdown_degree = document.getElementById("dropdown_degree");
+    const field_dept = document.getElementById("field_dept");
+    const field_name = document.getElementById("field_name");
+    const field_career = document.getElementById("field_career");
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
             if (pre_header_btn) {
@@ -260,6 +269,15 @@ async function checkAdminPermission() {
                 isEditMode = false;
                 const txt_title = document.getElementById("txt_title");
                 txt_title.innerText = 'Add new member';
+
+                field_email.value = "";
+                field_tel.value = "";
+                field_website.value = "";
+                dropdown_cat.value = "Student";
+                dropdown_degree.value = "BS";
+                field_dept.value = "";
+                field_name.value = "";
+                field_career.value = "";
             });
 
             btn_file.addEventListener('change', function (evt) {
@@ -268,14 +286,14 @@ async function checkAdminPermission() {
             })
 
             btn_confirm.addEventListener('click', function () {
-                if(field_email.value == "" || field_name.value == "" || field_dept.value == ""){
+                if (field_email.value == "" || field_name.value == "" || field_dept.value == "") {
                     alert('Please write down all required fields.')
-                } else{
+                } else {
                     if (isEditMode) {
                         update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
                         isEditMode = false;
                         currentHuman = null;
-                        
+
                         modal.style.display = "none";
                     } else {
                         add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
@@ -335,16 +353,16 @@ async function show() {
             btn_showCareer.style.marginRight = "10px";
             txt_career.style.display = 'none';
 
-            if(member.career == "" || member.career == null){
+            if (member.career == "" || member.career == null) {
                 btn_showCareer.style.display = 'none';
                 txt_career.style.display = 'none';
             }
 
-            btn_showCareer.addEventListener('click',function(){
-                if(txt_career.style.display == "none") {
+            btn_showCareer.addEventListener('click', function () {
+                if (txt_career.style.display == "none") {
                     txt_career.style.display = 'block';
                     btn_showCareer.innerText = "Hide Carrer";
-                } else{
+                } else {
                     txt_career.style.display = 'none';
                     btn_showCareer.innerText = "Show Carrer";
                 }
@@ -377,10 +395,10 @@ async function show() {
             li.appendChild(txt_email);
             li.appendChild(txt_dept);
 
-            if(member.tel != "" && member.tel != null){
+            if (member.tel != "" && member.tel != null) {
                 li.appendChild(txt_tel);
             }
-            
+
             li.appendChild(txt_degree);
             li.appendChild(txt_career);
             li.appendChild(btn_showCareer);
@@ -462,6 +480,8 @@ async function show() {
 
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
+                isEditMode = false;
+                currentHuman = null;
             });
 
             ul.appendChild(li);

@@ -275,10 +275,22 @@ async function checkAdminPermission() {
                 modal.style.display = "flex";
                 const txt_title = document.getElementById("txt_title");
                 txt_title.innerText = 'Add new publication';
+
+                const field_year = document.getElementById("field_year");
+                const field_contents = document.getElementById("field_contents");
+                const field_url = document.getElementById("field_url");
+                const dropdown_type = document.getElementById("dropdown_type");
+
+                field_year.value = "";
+                field_contents.value = "";
+                field_url.value = "";
+                dropdown_type.value = "0";
             });
 
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
+                isEditMode = false;
+                currentPaper = null;
             })
 
             btn_confirm.addEventListener('click', function(){

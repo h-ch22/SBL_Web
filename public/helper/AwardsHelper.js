@@ -257,7 +257,8 @@ async function checkAdminPermission() {
     const pre_header_btn = document.querySelector("#header_title button");
     const btn_close = document.getElementById("btn_close");
     const btn_confirm = document.getElementById("btn_confirm");
-
+    const field_title = document.getElementById("field_title");
+    const field_contents = document.getElementById("field_contents");
     const modal = document.querySelector('.modal');
 
     onAuthStateChanged(auth, (user) => {
@@ -277,10 +278,15 @@ async function checkAdminPermission() {
                 modal.style.display = "flex";
                 const txt_title = document.getElementById("txt_title");
                 txt_title.innerText = 'Add new award';
+
+                field_title.value = "";
+                field_contents.value = "";
             });
 
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
+                isEditMode = false;
+                currentPost = null;
             })
 
             btn_confirm.addEventListener('click', function(){
