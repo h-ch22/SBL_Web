@@ -7,13 +7,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "***REMOVED***",
-    authDomain: "***REMOVED***",
-    projectId: "***REMOVED***",
-    storageBucket: "***REMOVED***.appspot.com",
-    messagingSenderId: "***REMOVED***",
-    appId: "1:***REMOVED***:web:cbf519c500cd2cc154ad89",
-    measurementId: "***REMOVED***"
+    apiKey: "AIzaSyB3AXoX_7mHy4uHWxLbqDY3GBuMBamtPLQ",
+    authDomain: "sbl-web.firebaseapp.com",
+    projectId: "sbl-web",
+    storageBucket: "sbl-web.appspot.com",
+    messagingSenderId: "364712268844",
+    appId: "1:364712268844:web:cbf519c500cd2cc154ad89",
+    measurementId: "G-H69PSCFRZS"
 };
 
 const app = initializeApp(firebaseConfig);

@@ -10,13 +10,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "***REMOVED***",
-    authDomain: "***REMOVED***",
-    projectId: "***REMOVED***",
-    storageBucket: "***REMOVED***.appspot.com",
-    messagingSenderId: "***REMOVED***",
-    appId: "1:***REMOVED***:web:cbf519c500cd2cc154ad89",
-    measurementId: "***REMOVED***"
+    apiKey: "AIzaSyB3AXoX_7mHy4uHWxLbqDY3GBuMBamtPLQ",
+    authDomain: "sbl-web.firebaseapp.com",
+    projectId: "sbl-web",
+    storageBucket: "sbl-web.appspot.com",
+    messagingSenderId: "364712268844",
+    appId: "1:364712268844:web:cbf519c500cd2cc154ad89",
+    measurementId: "G-H69PSCFRZS"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -286,7 +286,7 @@ async function checkAdminPermission() {
             })
 
             btn_confirm.addEventListener('click', function () {
-                if (field_email.value == "" || field_name.value == "" || field_dept.value == "") {
+                if (field_name.value == "" || field_dept.value == "") {
                     alert('Please write down all required fields.')
                 } else {
                     if (isEditMode) {
@@ -392,7 +392,10 @@ async function show() {
 
             li.appendChild(img);
             li.appendChild(txt_name);
-            li.appendChild(txt_email);
+            if(member.email != "" && member.email != null){
+                li.appendChild(txt_email);
+            }
+
             li.appendChild(txt_dept);
 
             if (member.tel != "" && member.tel != null) {
