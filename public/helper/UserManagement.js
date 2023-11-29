@@ -19,6 +19,11 @@ function getSignInStatus() {
     const btn_signInOut = document.getElementById("btn_signInOut");
     const btn_signIn = document.getElementById("btn_signIn");
     const modal = document.querySelector('.modal');
+    const btn_close = document.getElementById("btn_close");
+
+    btn_close.addEventListener('click', function () {
+        modal.style.display = "none";
+    })
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -35,6 +40,7 @@ function getSignInStatus() {
                     alert(`Unable to sign out. error code: ${error.message} (${error.code})`);
                 });
             });
+            
         } else {
             btn_signInOut.innerText = "SIGN IN";
 

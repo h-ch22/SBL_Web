@@ -140,7 +140,8 @@ async function get(type){
                 field_contents.value = currentPaper.title;
                 field_url.value = currentPaper.url;
                 dropdown_type.value = type;
-
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Modify';
             });
 
             div_content.appendChild(btn_edit);
@@ -272,6 +273,8 @@ async function checkAdminPermission() {
 
             btn_add.addEventListener('click', function () {
                 modal.style.display = "flex";
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Add new publication';
             });
 
             btn_close.addEventListener('click', function () {

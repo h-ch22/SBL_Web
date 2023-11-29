@@ -225,6 +225,8 @@ async function show(){
                 currentPost = data;
                 isEditMode = true;
 
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Modify';
                 field_title.value = currentPost.title;
                 field_contents.value = currentPost.contents;
                 modal.style.display = "flex";
@@ -272,6 +274,8 @@ async function checkAdminPermission() {
 
             btn_add.addEventListener('click', function () {
                 modal.style.display = "flex";
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Add new news';
             });
 
             btn_close.addEventListener('click', function () {

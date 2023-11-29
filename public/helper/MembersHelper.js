@@ -258,6 +258,8 @@ async function checkAdminPermission() {
             btn_add.addEventListener('click', function () {
                 modal.style.display = "flex";
                 isEditMode = false;
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Add new member';
             });
 
             btn_file.addEventListener('change', function (evt) {
@@ -383,6 +385,8 @@ async function show() {
                     currentHuman = member;
                     isEditMode = true;
                     modal.style.display = "flex";
+                    const txt_title = document.getElementById("txt_title");
+                    txt_title.innerText = 'Modify';
 
                     field_email.value = member.email;
                     field_tel.value = member.tel;

@@ -51,7 +51,7 @@
       max-height: 40%;
     }
 
-    #div_news_title{
+    #div_news_title {
       display: flex;
       justify-content: space-between;
     }
@@ -63,11 +63,10 @@
       border-radius: 20px;
       overflow: hidden;
       width: 300px;
-
       height: auto;
     }
 
-    #div_news{
+    #div_news {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
@@ -101,6 +100,27 @@
       color: #666;
     }
 
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99;
+    }
+
+    .modal_body {
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .modal-open {
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -121,7 +141,13 @@
     <button style="margin-top: 20px;" role="button" class="button-18" id="btn_signInOut"></button>
     <div class="modal">
       <div class="modal_body">
-        <h2>Sign In</h2>
+        <div style="display: flex; justify-content: space-between;">
+          <h2>Sign In</h2>
+
+          <button class="addBtn" type="button" id="btn_close">
+            &#x2715
+          </button>
+        </div>
         <p style="margin-top: 10px;">Please enter the provided e-mail and password to sign in.</p>
 
         <div class="signIn_container">

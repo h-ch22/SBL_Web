@@ -228,6 +228,9 @@ async function show(){
                 field_title.value = currentPost.title;
                 field_contents.value = currentPost.contents;
                 modal.style.display = "flex";
+
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Modify';
             })
             postContainer.appendChild(btn_edit);
 
@@ -272,6 +275,8 @@ async function checkAdminPermission() {
 
             btn_add.addEventListener('click', function () {
                 modal.style.display = "flex";
+                const txt_title = document.getElementById("txt_title");
+                txt_title.innerText = 'Add new award';
             });
 
             btn_close.addEventListener('click', function () {
