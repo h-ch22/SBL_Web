@@ -268,16 +268,21 @@ async function checkAdminPermission() {
             })
 
             btn_confirm.addEventListener('click', function () {
-                if (isEditMode) {
-                    update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                    isEditMode = false;
-                    currentHuman = null;
-                    
-                    modal.style.display = "none";
-                } else {
-                    add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
-                    modal.style.display = "none";
+                if(field_email.value == "" || field_name.value == "" || field_dept.value == ""){
+                    alert('Please write down all required fields.')
+                } else{
+                    if (isEditMode) {
+                        update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                        isEditMode = false;
+                        currentHuman = null;
+                        
+                        modal.style.display = "none";
+                    } else {
+                        add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                        modal.style.display = "none";
+                    }
                 }
+
             });
 
             div_header.appendChild(btn_add);
@@ -324,6 +329,7 @@ async function show() {
             const txt_tel = document.createElement("h4");
             const txt_career = document.createElement("p");
             const btn_showCareer = document.createElement("button");
+
             btn_showCareer.innerText = "Show Career";
             btn_showCareer.className = "button-toggle";
             btn_showCareer.style.marginRight = "10px";
@@ -370,7 +376,11 @@ async function show() {
             li.appendChild(txt_name);
             li.appendChild(txt_email);
             li.appendChild(txt_dept);
-            li.appendChild(txt_tel);
+
+            if(member.tel != "" && member.tel != null){
+                li.appendChild(txt_tel);
+            }
+            
             li.appendChild(txt_degree);
             li.appendChild(txt_career);
             li.appendChild(btn_showCareer);

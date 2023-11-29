@@ -22,7 +22,6 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
   <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/css/font-awesome.css">
 
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
@@ -32,12 +31,20 @@
   <script type="module" src="./helper/MembersHelper.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
-
+  <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
 
   <style>
     @font-face {
       font-family: 'NanumSquareNeo-Variable';
       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'FontAwesome';
+      src: url('../fonts/fontawesome-webfont.eot?v=6.5.0');
+      src: url('../fonts/fontawesome-webfont.eot?#iefix&v=6.5.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
       font-weight: normal;
       font-style: normal;
     }
@@ -121,6 +128,27 @@
     #txt_site {
       font-weight: normal;
       color: #595959;
+    }
+
+    #txt_email::before {
+      font-family: 'FontAwesome';
+      content: "\f003";
+      padding-right: 3px;
+      vertical-align: middle;
+    }
+
+    #txt_dept::before{
+      font-family: 'FontAwesome';
+      content: "\f02d";
+      padding-right: 3px;
+      vertical-align: middle;
+    }
+
+    #txt_tel::before{
+      font-family: 'FontAwesome';
+      content: "\f095";
+      padding-right: 3px;
+      vertical-align: middle;
     }
 
     *,
@@ -288,19 +316,19 @@
 
             <div class="row">
               <div class="input-group input-group-icon">
-                <input id="field_email" placeholder="E-Mail" />
+                <input id="field_email" placeholder="E-Mail (Required)" />
                 <div class="input-icon"><i class="fa fa-envelope"></i></div>
 
               </div>
 
               <div class="input-group input-group-icon">
-                <input id="field_tel" type="tel" placeholder="Tel" />
+                <input id="field_tel" type="tel" placeholder="Tel (Optional)" />
                 <div class="input-icon"><i class="fa fa-phone"></i></div>
               </div>
 
               <div class="input-group input-group-icon">
-                <input id="field_website" type="url" placeholder="WebSite" />
-                <div class="input-icon"><i class="fa fa-search"></i></div>
+                <input id="field_website" type="url" placeholder="WebSite (Optional)" />
+                <div class="input-icon"><i class="fa fa-earth-asia"></i></div>
               </div>
 
               <div class="input-group input-group-icon">
@@ -320,18 +348,18 @@
               </div>
 
               <div class="input-group input-group-icon">
-                <input id="field_dept" type="text" placeholder="Department" />
-                <div class="input-icon"><i class="fa fa-bookmark"></i></div>
+                <input id="field_dept" type="text" placeholder="Department (Required)" />
+                <div class="input-icon"><i class="fa-brands fa-google-scholar"></i></div>
               </div>
 
               <div class="input-group input-group-icon">
-                <input id="field_name" type="text" placeholder="Name" />
+                <input id="field_name" type="text" placeholder="Name (Required)" />
                 <div class="input-icon"><i class="fa fa-user"></i></div>
               </div>
 
-              <textarea id="field_career" cols="40" rows="5" placeholder="Career"></textarea>
+              <textarea id="field_career" cols="40" rows="5" placeholder="Career (Optional)"></textarea>
 
-              <label for="btn_selectFile">Profile Image</label>
+              <label for="btn_selectFile">Profile Image (Optional)</label>
               <input type="file" accept="image/*" id="btn_selectFile">
 
               <button style="margin-top: 10px;" role="button" type="button" class="button-18"
