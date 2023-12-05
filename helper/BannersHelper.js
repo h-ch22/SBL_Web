@@ -69,6 +69,10 @@ async function getTopNews(){
 
         const title = document.createElement("h3");
         title.innerText = item.title;
+        title.id = "txt_newsTitle";
+        title.addEventListener('click', function(){
+            location.href = `./details.html?${item.id}?news`;
+        })
         postContainer.appendChild(title);
 
         const date = document.createElement("p");

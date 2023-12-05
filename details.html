@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SBL - Smart Biophotonics Lab.</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+    <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="module" src="./packages.js"></script>
+    <script type="module" src="./helper/DetailsHelper.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
+
+    <style>
+        @font-face {
+            font-family: 'NanumSquareNeo-Variable';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @media only screen and (max-width: 1202px) {
+            #img_contents {
+                width: 350px;
+            }
+        }
+
+        body {
+            font-family: 'NanumSquareNeo-Variable';
+            color: #000021;
+            background-color: #e6e6ef;
+        }
+
+        #contents {
+            padding: 1em;
+        }
+
+        #header_title {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal {
+            position: fixed;
+            display: none;
+            justify-content: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal_body {
+            position: relative;
+            top: 50%;
+            width: 400px;
+            height: 500px;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 20px;
+            padding-right: 20px;
+            text-align: center;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+            transform: translateY(-50%);
+
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        label {
+            display: flex;
+            cursor: pointer;
+            font-weight: 500;
+            overflow: hidden;
+            margin-bottom: 0.375em;
+        }
+
+        #btn_edit {
+            background-color: transparent;
+            border: 0;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        #btn_delete {
+            background-color: transparent;
+            border: 0;
+            font-size: 20px;
+            color: rgb(255, 115, 115);
+        }
+
+
+        #txt_contents {
+            font-size: 1em;
+        }
+
+        #txt_date {
+            color: gray;
+        }
+
+        #btn_edit:hover {
+            background-color: #000021;
+            color: white;
+            transition: background 0.5s;
+        }
+
+        #btn_delete:hover {
+            background-color: #000021;
+            color: white;
+            transition: background 0.5s;
+        }
+
+        #img_contents {
+            width: 60%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="headerContainer"></div>
+
+    <div id="contents">
+        <div id="header_title">
+            <h2 id="txt_title"></h2>
+            <p id="txt_date"></p>
+        </div>
+        <hr style="margin-bottom: 10px;">
+
+        <div class="modal">
+            <div class="modal_body">
+
+                <div style="display: flex; justify-content: space-between;">
+                    <h2 id="txt_title">Modify</h2>
+
+                    <button class="addBtn" type="button" id="btn_close">
+                        &#x2715
+                    </button>
+                </div>
+
+                <div class="signIn_container">
+                    <form>
+
+                        <div class="row">
+                            <div class="input-group input-group-icon">
+                                <input id="field_title" placeholder="Title" />
+                                <div class="input-icon"><i class="fa fa-file-text"></i></div>
+
+                            </div>
+
+                            <textarea id="field_contents" placeholder="Contents" cols="40" rows="5"></textarea>
+
+                            <label for="btn_selectFile">Image</label>
+                            <input type="file" accept="image/*" id="btn_selectFile">
+
+                            <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+                                id="btn_confirm">Confirm</button>
+
+                            <div id="progressView" style="display: none;">
+                                <div class="outer_progress">
+                                    <div class="inner_progress">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="div_contents">
+            <div id="detailsContents">
+                <img id="img_contents">
+                <p id="txt_contents"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="footer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const headerContainer = document.getElementById('headerContainer');
+
+            function loadHeader() {
+                if (window.innerWidth <= 1202) {
+                    fetch('header_mobile.html')
+                        .then(response => response.text())
+                        .then(data => {
+                            headerContainer.innerHTML = data;
+                        });
+                } else {
+                    fetch('header.html')
+                        .then(response => response.text())
+                        .then(data => {
+                            headerContainer.innerHTML = data;
+                        });
+                }
+
+                fetch('./footer.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        footer.innerHTML = data;
+                    })
+            }
+
+            loadHeader();
+
+            window.addEventListener('resize', loadHeader);
+        });
+    </script>
+
+</body>
+
+</html>

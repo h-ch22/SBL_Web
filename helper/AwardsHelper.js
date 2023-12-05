@@ -30,12 +30,12 @@ var currentPost = null;
 
 async function upload(title, contents){
     let today = new Date();
-
+    const month = today.getMonth() + 1;
     const data = {
         "title": title,
         "contents": contents,
         "image": null,
-        "date": `${today.getFullYear()}.${("00" + ((today.getMonth() + 1).toString())).slice(-2)}.${("00" + ((today.getDay()).toString())).slice(-2)} ${("00" + ((today.getHours()).toString())).slice(-2)}:${("00" + ((today.getMinutes()).toString())).slice(-2)}`
+        "date": `${today.getFullYear()}.${("00" + (month.toString())).slice(-2)}.${("00" + ((today.getDate()).toString())).slice(-2)} ${("00" + ((today.getHours()).toString())).slice(-2)}:${("00" + ((today.getMinutes()).toString())).slice(-2)}`
     };
 
     const docRef = await addDoc(collection(db, "Awards"), data).catch((error) => {
@@ -207,7 +207,11 @@ async function show(){
         postContainer.appendChild(image);
 
         const title = document.createElement("h3");
+        title.id = "txt_title";
         title.innerText = data.title;
+        title.addEventListener('click', function(){
+            location.href = `./details.html?${data.id}?awards`;
+        })
         postContainer.appendChild(title);
 
         const date = document.createElement("p");

@@ -141,6 +141,14 @@ async function getIntroduction() {
             div_text.appendChild(intro_img);
         }
 
+        if(email == null || email == ""){
+            btn_email.style.display = "none";
+        }
+
+        if(tel == null || tel == ""){
+            btn_tel.style.display = "none";
+        }
+
         const p = document.createElement("p");
         p.id = "txt_introduction";
         p.innerText = contents;
