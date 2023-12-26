@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Awards - SBL</title>
+  <title>Research - SBL</title>
 
   <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
@@ -28,7 +28,7 @@
   <meta name="theme-color" content="#ffffff">
 
   <script type="module" src="./packages.js"></script>
-  <script type="module" src="./helper/AwardsHelper.js"></script>
+  <script type="module" src="./helper/ResearchHelper.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
   <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
@@ -41,19 +41,110 @@
       font-style: normal;
     }
 
+    @font-face {
+      font-family: 'FontAwesome';
+      src: url('../fonts/fontawesome-webfont.eot?v=6.5.0');
+      src: url('../fonts/fontawesome-webfont.eot?#iefix&v=6.5.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     body {
       font-family: 'NanumSquareNeo-Variable';
-      color: #000021;
-      background-color: #e6e6ef;
     }
 
     #contents {
       padding: 1em;
     }
 
-    #header_title {
+    #btn_edit {
+      margin-right: 5px;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    *,
+    *:after,
+    *:before {
+      box-sizing: border-box;
+    }
+
+    body {
+      color: #000021;
+      background-color: #e6e6ef;
+    }
+
+    .radioForm {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+
+    label {
+      display: flex;
+      cursor: pointer;
+      font-weight: 500;
+      overflow: hidden;
+      margin-bottom: 0.375em;
+    }
+
+    label .radioBtn {
+      position: absolute;
+      left: -9999px;
+    }
+
+    label .radioBtn:checked+#txt_radio {
+      background-color: #d6d6e5;
+    }
+
+    label .radioBtn:checked+#txt_radio:before {
+      box-shadow: inset 0 0 0 0.4375em #00005c;
+    }
+
+    label #txt_radio {
+      display: flex;
+      align-items: center;
+      padding: 0.375em 0.75em 0.375em 0.375em;
+      border-radius: 99em;
+      transition: 0.25s ease;
+    }
+
+    label #txt_radio:hover {
+      background-color: #d6d6e5;
+    }
+
+    label #txt_radio:before {
+      display: flex;
+      flex-shrink: 0;
+      content: "";
+      background-color: #fff;
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 50%;
+      margin-right: 0.375em;
+      transition: 0.25s ease;
+      box-shadow: inset 0 0 0 0.125em #00005c;
+    }
+
+    .radioButtonContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     .modal {
@@ -63,7 +154,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 99;
       width: 100%;
       height: 100%;
 
@@ -74,7 +164,7 @@
       position: relative;
       top: 50%;
       width: 400px;
-      height: 500px;
+      height: auto;
       padding-top: 30px;
       padding-bottom: 30px;
       padding-left: 20px;
@@ -84,53 +174,15 @@
       border-radius: 10px;
       box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
       transform: translateY(-50%);
-
     }
 
     .modal-open {
       overflow: hidden;
     }
-    
-    label {
+
+    #header_title {
       display: flex;
-      cursor: pointer;
-      font-weight: 500;
-      overflow: hidden;
-      margin-bottom: 0.375em;
-    }
-
-    #galleryContents {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 20px;
-    }
-
-    .post-container {
-      border: 1px solid #ddd;
-      background-color: white;
-      padding: 10px;
-      border-radius: 20px;
-      overflow: hidden;
-      height: auto;
-    }
-
-    .post-container img {
-      width: 15em;
-      height: auto;
-      border-bottom: 1px solid #ddd;
-      border-radius: 20px;
-    }
-
-    .post-container h3 {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    .post-container p {
-      margin: 0;
-      font-size: 14px;
-      color: #666;
+      justify-content: space-between;
     }
 
     #btn_edit {
@@ -148,10 +200,55 @@
       margin-right: 20px;
     }
 
-    #txt_title:hover{
-        cursor: pointer;
-        text-decoration: underline;
+    #btn_edit:hover {
+      background-color: #000021;
+      color: white;
+      transition: background 0.5s;
     }
+
+    #btn_delete:hover {
+      background-color: #000021;
+      color: white;
+      transition: background 0.5s;
+    }
+
+    .file_zone{
+        background-color: rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: calc(100% - 400px);
+        transition: 0.1s all ease-out;
+    }
+
+    .file_zone.on{
+        background-color: rgba(97, 131, 209, 0.9);
+    }
+
+    .file_preview_area{
+        width: 100%;
+        min-height: 400px;
+        background-color: rgba(0, 0, 0, 0.58);
+        overflow: hidden;
+    }
+
+    .file_preview_area .imageList{
+        display: grid;
+        overflow: scroll;
+        gap: 10px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 400px;
+    }
+
+    .file_preview_area .imageList>img{
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+    
   </style>
 
 </head>
@@ -160,17 +257,11 @@
   <div id="headerContainer"></div>
 
   <div id="contents">
-    <div id="header_title">
-      <h1>Awards</h1>
-
-    </div>
-    <hr style="margin-bottom: 10px;">
-
     <div class="modal">
       <div class="modal_body">
 
         <div style="display: flex; justify-content: space-between;">
-          <h2 id="txt_title">Add new award</h2>
+          <h2 id="txt_title">Add</h2>
 
           <button class="addBtn" type="button" id="btn_close">
             &#x2715
@@ -178,42 +269,34 @@
         </div>
 
         <div class="signIn_container">
-          <form>
-
-            <div class="row">
-              <div class="input-group input-group-icon">
-                <input id="field_title" placeholder="Title" />
-                <div class="input-icon"><i class="fa fa-file-text"></i></div>
-
-              </div>
-
-              <textarea id="field_contents" placeholder="Contents" cols="40" rows="5"></textarea>
-
-              <label for="btn_selectFile">Image</label>
-              <input type="file" accept="image/*" id="btn_selectFile">
-
-              <button style="margin-top: 10px;" role="button" type="button" class="button-18"
-                id="btn_confirm">Confirm</button>
-
-              <div id="progressView" style="display: none;">
-                <div class="outer_progress">
-                  <div class="inner_progress">
-
-                  </div>
-                </div>
-              </div>
-
+            <div class="file_zone">
+                Drag image here.
             </div>
-          </form>
+
+            <div class="file_preview_area">
+                <h3>Loaded Images</h1>
+
+                <div class="imageList">
+
+                </div>
+            </div>
+
+            <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+            id="btn_confirm">Confirm</button>
         </div>
 
       </div>
     </div>
 
-    <div id="div_gallery">
-      <div id="galleryContents">
+    <div id="header_title">
+      <h1>Research</h1>
 
-      </div>
+    </div>
+
+    <hr style="margin-bottom: 10px;">
+
+    <div id="div_research">
+
     </div>
 
   </div>
