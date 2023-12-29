@@ -147,7 +147,7 @@
       padding: 20px;
     }
 
-    .modal {
+    .modal, .modal_projects {
       position: fixed;
       display: none;
       justify-content: center;
@@ -158,6 +158,22 @@
       height: 100%;
 
       background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal_body_projects{
+        position: relative;
+        top: 50%;
+        width: 400px;
+        height: 650px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+        transform: translateY(-50%);
     }
 
     .modal_body {
@@ -210,6 +226,41 @@
       background-color: #000021;
       color: white;
       transition: background 0.5s;
+    }
+
+    #div_content{
+      line-height: 2em;
+      width: 100%;
+      background-color: white;
+      border-radius: 20px;
+      padding: 10px;
+      margin-top: 10px;
+      animation: fadein 0.5s;
+    }
+
+    #projectTitle{
+      color: #000021;
+    }
+
+    #txt_period::before{
+      font-family: 'FontAwesome';
+      content: "\f133";
+      padding-right: 3px;
+      vertical-align: middle;
+    }
+
+    #txt_agency::before{
+      font-family: 'FontAwesome';
+      content: "\f1ad";
+      padding-right: 3px;
+      vertical-align: middle;
+    }
+
+    #txt_budget::before{
+      font-family: 'FontAwesome';
+      content: "\f0d6";
+      padding-right: 3px;
+      vertical-align: middle;
     }
 
     .file_zone{
@@ -287,6 +338,73 @@
 
       </div>
     </div>
+
+    <div class="modal_projects">
+      <div class="modal_body_projects">
+
+          <div style="display: flex; justify-content: space-between;">
+              <h2 id="txt_title">Add new project</h2>
+
+              <button class="addBtn" type="button" id="btn_close_projects">
+                  &#x2715
+              </button>
+          </div>
+
+          <div class="signIn_container">
+              <form>
+
+                  <div class="row">
+                      <div class="input-group input-group-icon">
+                          <input id="field_date_begin" type="date" placeholder="Date (Begin)" />
+                          <div class="input-icon"><i class="fa fa-calendar"></i></div>
+
+                      </div>
+
+                      <div class="input-group input-group-icon">
+                        <input id="field_date_end" type="date" placeholder="Date (End)" />
+                        <div class="input-icon"><i class="fa fa-calendar"></i></div>
+
+                    </div>
+
+                      <div class="input-group input-group-icon">
+                          <input id="field_contents" placeholder="Contents" />
+                          <div class="input-icon"><i class="fa fa-note-sticky"></i></div>
+                      </div>
+
+                      <div class="input-group input-group-icon">
+                        <input id="field_agency" placeholder="Agency" />
+                        <div class="input-icon"><i class="fa fa-building"></i></div>
+                    </div>
+
+                      <div class="input-group input-group-icon">
+                          <input id="field_budget" type="number" placeholder="Budget" />
+                          <div class="input-icon"><i class="fa fa-money"></i></div>
+                      </div>
+
+                      <div class="input-group input-group-icon">
+                          <select id="dropdown_money_unit">
+                              <option value="0">KRW</option>
+                              <option value="1">USD</option>
+                          </select>
+                      </div>
+
+                      <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+                          id="btn_confirm_projects">Confirm</button>
+
+                      <div id="progressView" style="display: none;">
+                          <div class="outer_progress">
+                              <div class="inner_progress">
+
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+              </form>
+          </div>
+
+      </div>
+  </div>
 
     <div id="header_title">
       <h1 id="txt_title">Research</h1>
