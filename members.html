@@ -49,7 +49,7 @@
       font-style: normal;
     }
 
-    @media only screen and (max-width: 1202px) {
+    @media only screen and (max-width: 1400px) {
       #img_profile {
         float: none !important;
         clear: both !important;
@@ -105,15 +105,15 @@
     }
 
     #txt_degree {
+      background-clip: padding-box;
       background-color: orange;
       color: white;
       border-radius: 1em;
-      padding-left: 0.5em;
-      padding-right: 0.5em;
+      padding-left: 1em;
+      padding-right: 1em;
       display: inline-block;
       margin-right: 5px;
-      width: 5em;
-      height: 4em;
+      width: auto;
       text-align: center;
     }
 
@@ -334,12 +334,14 @@
                 <select id="dropdown_cat">
                   <option value="Student">Student</option>
                   <option value="Alumni">Alumni</option>
+                  <option value="Researcher">Researcher</option>
                   <option value="Professor">Professor</option>
                 </select>
               </div>
 
               <div class="input-group input-group-icon">
                 <select id="dropdown_degree">
+                  <option value="Undergraduate">Undergraduate</option>
                   <option value="BS">BS</option>
                   <option value="MS">MS</option>
                   <option value="Ph.D">Ph.D</option>
@@ -381,6 +383,10 @@
         <label>
           <input class="radioBtn" type="radio" id="btn_professor" name="radio" checked />
           <span id="txt_radio">PROESSOR</span>
+        </label>
+        <label>
+          <input class="radioBtn" type="radio" id="btn_researcher" name="radio" />
+          <span id="txt_radio">RESEARCHER</span>
         </label>
         <label>
           <input class="radioBtn" type="radio" id="btn_students" name="radio" />

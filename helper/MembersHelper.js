@@ -51,6 +51,10 @@ async function getMembers() {
                 category = MembersType.PROFESSOR;
                 break;
 
+            case "Researcher":
+                category = MembersType.RESEARCHER;
+                break;
+
             case "Student":
                 category = MembersType.STUDENT;
                 break;
@@ -274,7 +278,7 @@ async function checkAdminPermission() {
                 field_tel.value = "";
                 field_website.value = "";
                 dropdown_cat.value = "Student";
-                dropdown_degree.value = "BS";
+                dropdown_degree.value = "Undergraduate";
                 field_dept.value = "";
                 field_name.value = "";
                 field_career.value = "";
@@ -428,6 +432,10 @@ async function show() {
                             dropdown_cat.value = "Professor";
                             break;
 
+                        case MembersType.RESEARCHER:
+                            dropdown_cat.value = "Researcher";
+                            break;
+
                         case MembersType.STUDENT:
                             dropdown_cat.value = "Student";
                             break;
@@ -438,6 +446,10 @@ async function show() {
                     }
 
                     switch (member.degree) {
+                        case "Undergraduate":
+                            dropdown_degree.value = "Undergraduate";
+                            break;
+
                         case "BS":
                             dropdown_degree.value = "BS";
                             break;
@@ -502,6 +514,10 @@ document.addEventListener('DOMContentLoaded', () => {
             switch (btn.id) {
                 case "btn_professor":
                     selectedType = MembersType.PROFESSOR;
+                    break;
+
+                case "btn_researcher":
+                    selectedType = MembersType.RESEARCHER;
                     break;
 
                 case "btn_students":
