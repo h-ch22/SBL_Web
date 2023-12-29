@@ -31,6 +31,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+var current = "Research";
 
 function displayImages(transferedFiles){
     const imageFileList = [];
@@ -140,5 +141,24 @@ async function checkAdminPermission() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    var radioButtons = document.getElementsByName("radio");
+    const txt_title = document.getElementById("txt_selectedType");
+
+    radioButtons.forEach((btn) => {
+        btn.addEventListener('click', function(){
+            switch(btn.id){
+                case "btn_research":
+                    txt_title.innerHTML = "Research";
+                    current = "Research";
+                    break;
+
+                case "btn_projects":
+                    txt_title.innerHTML = "Projects";
+                    current = "Projects";
+                    break;
+            }
+        })
+    })
+    
     checkAdminPermission();
 })
