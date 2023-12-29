@@ -113,22 +113,61 @@ async function getProjects(){
         div_content.appendChild(txt_agency);
         div_content.appendChild(txt_budget);
 
+        if(auth.currentUser != null){
+            const btn_edit = document.createElement("button");
+            btn_edit.id = "btn_edit";
+            const ic_edit = document.createElement("i");
+            ic_edit.className = "fa fa-edit";
+            btn_edit.appendChild(ic_edit);
+
+            btn_edit.addEventListener('click', function(){
+                const modal_projects = document.querySelector('.modal_projects');
+
+                const field_date_begin = document.getElementById('field_date_begin');
+                const field_date_end = document.getElementById("field_date_end");
+                const field_contents = document.getElementById("field_contents");
+                const field_agency = document.getElementById("field_agency")
+                const field_budget = document.getElementById("field_budget");
+                const dropdown_unit = document.getElementById("dropdown_money_unit");
+
+                currentProject = project;
+                isEditMode = true;
+                modal_projects.style.display = "flex";
+
+                const txt_title = document.getElementById("txt_title_projects");
+                txt_title.innerText = 'Modify';
+
+                field_date_begin.value = project.beginDate;
+                field_date_end.value = project.endDate;
+                field_contents.value = project.contents;
+                field_agency.value = project.agency;
+                field_budget.value = project.budget;
+                dropdown_unit.value = project.budgetUnit == "KRW" ? "0" : "1";
+            })
+
+            const btn_delete = document.createElement("button");
+            btn_delete.id = "btn_delete";
+            btn_delete.innerHTML = "&#x2715";
+            btn_delete.addEventListener('click', function () {
+                if (confirm(`Are you sure to delete ${project.contents}?`)) {
+                    deleteProject(project.id);
+                }
+            });
+
+            div_content.appendChild(btn_edit);
+            div_content.appendChild(btn_delete);
+        }
+
         researchContents.appendChild(div_content);
     })
 }
 
+function convertUnitToString(unit){
+    return unit == "0" ? "KRW" : "USD";
+}
+
 async function uploadProject(beginDate, endDate, contents, agency, budget, budgetUnit){
-    var unit = "KRW";
-
-    switch(budgetUnit){
-        case "0":
-            unit = "KRW";
-            break;
-
-        case "1":
-            unit = "USD";
-            break;
-    }
+    var unit = convertUnitToString(budgetUnit);
 
     const data = {
         "beginDate": beginDate,
@@ -145,6 +184,43 @@ async function uploadProject(beginDate, endDate, contents, agency, budget, budge
         console.log(error);
         alert('An error occured while upload process.\nPlease try again later, or contact to Administrator.');
     });
+}
+
+async function modifyProject(id, beginDate, endDate, contents, agency, budget, budgetUnit){
+    var unit = convertUnitToString(budgetUnit);
+
+    const data = {
+        "beginDate": beginDate,
+        "endDate": endDate,
+        "contents": contents,
+        "agency": agency,
+        "budget": budget,
+        "budgetUnit": unit
+    }
+
+    await updateDoc(doc(db, "Projects", id), data).then(function(){
+        alert('Modified successfully');
+        return true;
+    }).catch((error) => {
+        console.log(error);
+
+        alert("An error occured while modify process.\nPlease try again later, or contact to Administrator");
+
+        return false;
+    })
+}
+
+async function deleteProject(id){
+    await deleteDoc(doc(db, "Projects", id)).then(() => {
+        alert('Deleted successfully')
+
+        return true;
+    }).catch((error) => {
+        console.log(error);
+        alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
+
+        return false;
+    })
 }
 
 async function checkAdminPermission() {
@@ -199,9 +275,25 @@ async function checkAdminPermission() {
                         displayImages(transferedFiles);
                     })
                 } else if(current == "Projects"){
+                    const field_date_begin = document.getElementById('field_date_begin');
+                    const field_date_end = document.getElementById("field_date_end");
+                    const field_contents = document.getElementById("field_contents");
+                    const field_agency = document.getElementById("field_agency")
+                    const field_budget = document.getElementById("field_budget");
+                    const dropdown_unit = document.getElementById("dropdown_money_unit");
+
+                    isEditMode = false;
+                    currentProject = null;
                     modal_projects.style.display = "flex";
+                    const txt_title = document.getElementById("txt_title_projects");
+                    txt_title.innerText = 'Add new project';
+
                     document.getElementById('field_date_begin').value = new Date().toISOString().substring(0, 10);
                     document.getElementById('field_date_end').value = new Date().toISOString().substring(0, 10);
+                    field_contents.value = "";
+                    field_agency.value = "";
+                    field_budget.value = "";
+                    dropdown_unit.value = "0";
                 }
 
             });
@@ -213,6 +305,8 @@ async function checkAdminPermission() {
             })
 
             btn_close_projects.addEventListener('click', function(){
+                isEditMode = false;
+                currentProject = null;
                 modal_projects.style.display = "none";
             })
 
@@ -248,7 +342,13 @@ async function checkAdminPermission() {
                     alert('Please write down all required fields.');
                 } else{
                     if(isEditMode){
-
+                        var result = modifyProject(currentProject.id, field_date_begin.value, field_date_end.value, field_contents.value, field_agency.value, field_budget.value, dropdown_unit.value);
+                        
+                        if(result){
+                            currentProject = null;
+                            isEditMode = false;
+                            modal_projects.style.display = "none";
+                        }
                     } else{
                         uploadProject(field_date_begin.value, field_date_end.value, field_contents.value, field_agency.value, field_budget.value, dropdown_unit.value);
                     }
@@ -274,6 +374,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 case "btn_research":
                     txt_title.innerHTML = "Research";
                     current = "Research";
+
+                    const oldContents = document.getElementById("researchContents");
+                    const div_research = document.getElementById("div_research");
+                
+                    if(oldContents){
+                        oldContents.remove();
+                    }
                     break;
 
                 case "btn_projects":
