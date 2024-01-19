@@ -3,6 +3,8 @@ import {
     doc,
     updateDoc,
     addDoc,
+    setDoc,
+    getDoc,
     getDocs,
     collection,
     query,
@@ -10,6 +12,8 @@ import {
     orderBy,
     deleteDoc
 } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 
 import {
     getAuth,
@@ -32,35 +36,46 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
 var current = "Research";
 var projects = [];
 var currentProject = "";
 var isEditMode = false;
 
-function displayImages(transferedFiles){
-    const imageFileList = [];
-    const fileNum = transferedFiles.length;
+const editor = document.getElementById('editor');
+const btnBold = document.getElementById('btn-bold');
+const btnItalic = document.getElementById('btn-italic');
+const btnUnderline = document.getElementById('btn-underline');
+const btnStrike = document.getElementById('btn-strike');
+const btnOrderedList = document.getElementById('btn-ordered-list');
+const btnUnorderedList = document.getElementById('btn-unordered-list');
+const btnImage = document.getElementById('btn-image');
+const imageSelector = document.getElementById('img-selector');
 
-    for(let i = 0; i < fileNum; i++){
-        if(transferedFiles[i].type.match('image.*') == false){
-            return;
-        }
+async function getResearch(){
+    const docRef = doc(db, "Research", "contents");
+    const docSnap = await getDoc(docRef);
 
-        imageFileList.push(transferedFiles[i]);
+    if(docSnap.exists()){
+        const researchArea = document.getElementById('researchContents')
+        researchArea.innerHTML = docSnap.get("contents");
     }
+}
 
-    const imagePreviewArea = document.querySelector('.imageList');
+async function deleteResearch(){
+    await updateDoc(doc(db, "Research", "contents"), {
+        "contents": ""
+    }).then(() => {
+        alert('Deleted successfully')
 
-    for(let file of imageFileList){
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.addEventListener('load', (event) => {
-            const image = new Image();
-            image.src = event.target.result;
+        return true;
+    }).catch((error) => {
+        console.log(error);
+        alert("An error occured while delete process.\nPlease try again later, or contact to Administrator");
 
-            imagePreviewArea.insertBefore(image, imagePreviewArea.firstChild);
-        })
-    }
+        return false;
+    })
 }
 
 async function getProjects(){
@@ -166,6 +181,19 @@ function convertUnitToString(unit){
     return unit == "0" ? "KRW" : "USD";
 }
 
+async function uploadResearch(contents){
+    const data = {
+        "contents": contents
+    }
+
+    await setDoc(doc(db, "Research", "contents"), data).then(() => {
+        alert('Uploaded successfully.');
+    }).catch((error) => {
+        console.log(error);
+        alert('An error occured while upload process.\nPlease try again later, or contact to Administrator.');
+    }) 
+}
+
 async function uploadProject(beginDate, endDate, contents, agency, budget, budgetUnit){
     var unit = convertUnitToString(budgetUnit);
 
@@ -223,6 +251,52 @@ async function deleteProject(id){
     })
 }
 
+function setStyle(style){
+    document.execCommand(style);
+    focusEditor();
+}
+
+function focusEditor(){
+    editor.focus({preventScroll: true});
+}
+
+function checkStyle() {
+    if (isStyle('bold')) {
+        btnBold.classList.add('active');
+    } else {
+        btnBold.classList.remove('active');
+    }
+    if (isStyle('italic')) {
+        btnItalic.classList.add('active');
+    } else {
+        btnItalic.classList.remove('active');
+    }
+    if (isStyle('underline')) {
+        btnUnderline.classList.add('active');
+    } else {
+        btnUnderline.classList.remove('active');
+    }
+    if (isStyle('strikeThrough')) {
+        btnStrike.classList.add('active');
+    } else {
+        btnStrike.classList.remove('active');
+    }
+    if (isStyle('insertOrderedList')) {
+        btnOrderedList.classList.add('active');
+    } else {
+        btnOrderedList.classList.remove('active');
+    }
+    if (isStyle('insertUnorderedList')) {
+        btnUnorderedList.classList.add('active');
+    } else {
+        btnUnorderedList.classList.remove('active');
+    }
+}
+
+function isStyle(style) {
+    return document.queryCommandState(style);
+}
+
 async function checkAdminPermission() {
     const div_header = document.querySelector("#header_title");
     const pre_header_btn = document.querySelector("#header_title button");
@@ -238,8 +312,17 @@ async function checkAdminPermission() {
 
     const progressView = document.getElementById("progressView");
 
+    const header_modifyArea = document.getElementById("header_modifyArea");
+    const btn_modify_Research = document.getElementById("btn_modifyResearch");
+    const btn_deleteResearch = document.getElementById("btn_deleteResearch");
+    const researchArea = document.getElementById('researchContents')
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            if(current == "Research"){
+                header_modifyArea.style.display = "flex";
+            }
+
             if (pre_header_btn) {
                 pre_header_btn.remove();
             }
@@ -250,30 +333,149 @@ async function checkAdminPermission() {
             btn_add.id = "btn_add";
             btn_add.className = "addBtn";
 
+            btn_confirm.addEventListener('click', function(){
+                if(editor.value == ""){
+                    alert("Please write down contents.")
+                } else{
+                    uploadResearch(editor.innerHTML);
+                }
+            })
+
+            btn_modify_Research.addEventListener('click', function(){
+                modal.style.display = "flex";
+
+                btnBold.addEventListener('click', function () {
+                    setStyle('bold');
+                });
+            
+                btnItalic.addEventListener('click', function () {
+                    setStyle('italic');
+                });
+            
+                btnUnderline.addEventListener('click', function () {
+                    setStyle('underline');
+                });
+            
+                btnStrike.addEventListener('click', function () {
+                    setStyle('strikeThrough')
+                });
+            
+                btnOrderedList.addEventListener('click', function () {
+                    setStyle('insertOrderedList');
+                });
+            
+                btnUnorderedList.addEventListener('click', function () {
+                    setStyle('insertUnorderedList');
+                });
+
+                btnImage.addEventListener('click', function(){
+                    imageSelector.click();
+                })
+
+                imageSelector.addEventListener('change', async function (e) {
+                    const files = e.target.files;
+                    
+                    if(files.length > 0){
+                        try {
+                            const imageURL = await uploadImageToStorage(files[0]);
+                            // Insert the image URL into the editor content
+                            editor.focus({ preventScroll: true });
+                            document.execCommand('insertHTML', false, `<img src="${imageURL}">`);
+                        } catch (error) {
+                            // Handle error, if any
+                            console.error('Error:', error);
+                        }
+                    }
+                });
+
+                editor.addEventListener('keydown', function () {
+                    checkStyle();
+                });
+            
+                editor.addEventListener('mousedown', function () {
+                    checkStyle();
+                });
+
+                editor.innerHTML = researchArea.innerHTML;
+            })
+
+            btn_deleteResearch.addEventListener('click', function(){
+                if(confirm("Are you sure to delete project?")){
+                    deleteResearch();
+                }
+            })
+
             btn_add.addEventListener('click', function () {
                 if(current == "Research"){
+                    editor.innerHTML = "";
                     modal.style.display = "flex";
+
+                    btnBold.addEventListener('click', function () {
+                        setStyle('bold');
+                    });
                 
-                    const fileZone = document.querySelector('.file_zone');
-                    const className = "on";
-    
-                    fileZone.addEventListener('dragover', (event) => {
-                        event.preventDefault();
-                        fileZone.classList.add(className);
+                    btnItalic.addEventListener('click', function () {
+                        setStyle('italic');
+                    });
+                
+                    btnUnderline.addEventListener('click', function () {
+                        setStyle('underline');
+                    });
+                
+                    btnStrike.addEventListener('click', function () {
+                        setStyle('strikeThrough')
+                    });
+                
+                    btnOrderedList.addEventListener('click', function () {
+                        setStyle('insertOrderedList');
+                    });
+                
+                    btnUnorderedList.addEventListener('click', function () {
+                        setStyle('insertUnorderedList');
+                    });
+
+                    btnImage.addEventListener('click', function(){
+                        imageSelector.click();
                     })
-    
-                    fileZone.addEventListener("dragleave", (event) => {
-                        event.preventDefault();
-                        fileZone.classList.remove(className);
-                    })
-    
-                    fileZone.addEventListener('drop', (event) => {
-                        event.preventDefault();
-                        fileZone.classList.remove(className);
-    
-                        const transferedFiles = event.dataTransfer.files;
-                        displayImages(transferedFiles);
-                    })
+
+                    imageSelector.addEventListener('change', async function (e) {
+                        const files = e.target.files;
+                        
+                        if(files.length > 0){
+                            try {
+                                const file = files[0];
+
+                                const storageRef = ref(storage, 'research/' + file.name);
+                                await uploadBytes(storageRef, file).then((snapshot) => {
+                                    getDownloadURL(ref(storage, `research/${file.name}`)).then(async (url) => {
+                                        editor.focus({ preventScroll: true });
+                                        document.execCommand('insertHTML', false, `<img src="${url}" alt="Uploaded Image">`);
+                                    }).catch((error) => {
+                                        console.log(error);
+                                        alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                            
+                                        return "";
+                                    })
+                                }).catch((error) => {
+                                    console.log(error);
+                                    alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                                });
+                            } catch (error) {
+                                // Handle error, if any
+                                console.error('Error:', error);
+                                alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                            }
+                        }
+                    });
+
+                    editor.addEventListener('keydown', function () {
+                        checkStyle();
+                    });
+                
+                    editor.addEventListener('mousedown', function () {
+                        checkStyle();
+                    });
+                
                 } else if(current == "Projects"){
                     const field_date_begin = document.getElementById('field_date_begin');
                     const field_date_end = document.getElementById("field_date_end");
@@ -288,8 +490,8 @@ async function checkAdminPermission() {
                     const txt_title = document.getElementById("txt_title_projects");
                     txt_title.innerText = 'Add new project';
 
-                    document.getElementById('field_date_begin').value = new Date().toISOString().substring(0, 10);
-                    document.getElementById('field_date_end').value = new Date().toISOString().substring(0, 10);
+                    field_date_begin.value = new Date().toISOString().substring(0, 10);
+                    field_date_end.value = new Date().toISOString().substring(0, 10);
                     field_contents.value = "";
                     field_agency.value = "";
                     field_budget.value = "";
@@ -301,7 +503,6 @@ async function checkAdminPermission() {
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
                 isEditMode = false;
-                currentPaper = null;
             })
 
             btn_close_projects.addEventListener('click', function(){
@@ -309,26 +510,6 @@ async function checkAdminPermission() {
                 currentProject = null;
                 modal_projects.style.display = "none";
             })
-
-            btn_confirm.addEventListener('click', function(){
-                const field_year = document.getElementById("field_year");
-                const field_contents = document.getElementById("field_contents");
-                const field_url = document.getElementById("field_url");
-                const dropdown_type = document.getElementById("dropdown_type");
-
-                if(field_year.value == "" || field_contents.value == ""){
-                    alert('Please write down all fields.');
-                } else{
-                    progressView.style.display = "flex";
-
-                    if(isEditMode){
-                        modify(currentPaper.id, field_year.value, field_contents.value, field_url.value, dropdown_type.value);
-                    } else{
-                        upload(field_year.value, field_contents.value, field_url.value, dropdown_type.value);
-                    }
-                    progressView.style.display = "none";
-                }
-            });
 
             btn_confirm_projects.addEventListener('click', function(){
                 const field_date_begin = document.getElementById('field_date_begin');
@@ -367,6 +548,8 @@ async function checkAdminPermission() {
 document.addEventListener('DOMContentLoaded', () => {
     var radioButtons = document.getElementsByName("radio");
     const txt_title = document.getElementById("txt_selectedType");
+    const header_modifyArea = document.getElementById("header_modifyArea");
+    const researchArea = document.getElementById('researchContents')
 
     radioButtons.forEach((btn) => {
         btn.addEventListener('click', function(){
@@ -374,16 +557,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 case "btn_research":
                     txt_title.innerHTML = "Research";
                     current = "Research";
-
-                    const oldContents = document.getElementById("researchContents");
-                    const div_research = document.getElementById("div_research");
                 
-                    if(oldContents){
-                        oldContents.remove();
+                    getResearch();
+
+                    if(auth.currentUser !== null && researchArea.innerHTML != undefined){
+                        header_modifyArea.style.display = "flex";
                     }
+
                     break;
 
                 case "btn_projects":
+                    header_modifyArea.style.display = "none";
                     txt_title.innerHTML = "Projects";
                     current = "Projects";
                     getProjects();
@@ -391,6 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
     })
-    
+
     checkAdminPermission();
+    getResearch();
 })
