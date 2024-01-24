@@ -312,6 +312,7 @@ async function checkAdminPermission() {
     const btn_modify_Research = document.getElementById("btn_modifyResearch");
     const btn_deleteResearch = document.getElementById("btn_deleteResearch");
     const researchArea = document.getElementById('researchContents')
+    const modal_projects = document.querySelector('.modal_projects');
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -468,11 +469,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const researchArea = document.getElementById('researchContents')
     const div_header = document.querySelector("#header_title");
     const modal_projects = document.querySelector('.modal_projects');
-
+    let btn_add = null;
+    
     radioButtons.forEach((btn) => {
         btn.addEventListener('click', function(){
             switch(btn.id){
                 case "btn_research":
+                    if (btn_add) {
+                        btn_add.remove();
+                        btn_add = null;
+                    }
+
                     txt_title.innerHTML = "Research";
                     current = "Research";
                 
@@ -491,16 +498,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     getProjects();
 
                     if(auth.currentUser !== null){
-                        const btn_add = document.createElement("button");
-                        btn_add.role = "button";
-                        btn_add.innerHTML = "&#x2B";
-                        btn_add.id = "btn_add";
-                        btn_add.className = "addBtn";
-
-                        div_header.appendChild(btn_add);
-
+                        if(btn_add == null){
+                            btn_add = document.createElement("button");
+                            btn_add.role = "button";
+                            btn_add.innerHTML = "&#x2B";
+                            btn_add.id = "btn_add";
+                            btn_add.className = "addBtn";
+    
+                            div_header.appendChild(btn_add);
+                        }
+                        
                         btn_add.addEventListener('click', function () {
-                
                             const field_date_begin = document.getElementById('field_date_begin');
                             const field_date_end = document.getElementById("field_date_end");
                             const field_contents = document.getElementById("field_contents");
