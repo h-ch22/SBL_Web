@@ -20,18 +20,21 @@
   <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
   <script type="module" src="./packages.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <script type="module" src="./helper/ContactHelper.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
   <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zuxn369jvo"></script>
 
-  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
-  
+
   <style>
     @font-face {
       font-family: 'NanumSquareNeo-Variable';
@@ -56,16 +59,6 @@
       }
     }
 
-    #txt_introduction {
-      line-height: 3em;
-      font-size: 1em;
-      animation: fadein 2s;
-    }
-
-    #img_introduction {
-      width: 70%;
-    }
-
     .modal {
       position: fixed;
       display: none;
@@ -73,9 +66,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 99;
       width: 100%;
       height: 100%;
+      z-index: 1000;
 
       background-color: rgba(0, 0, 0, 0.4);
     }
@@ -84,12 +77,11 @@
       position: relative;
       top: 50%;
       width: 400px;
-      height: 600px;
+      height: 750px;
       padding-top: 30px;
       padding-bottom: 30px;
       padding-left: 20px;
       padding-right: 20px;
-      text-align: center;
       background-color: rgb(255, 255, 255);
       border-radius: 10px;
       box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -114,6 +106,37 @@
       overflow: hidden;
       margin-bottom: 0.375em;
     }
+
+    #editor {
+      border: 1px solid #D6D6D6;
+      border-radius: 4px;
+      padding: 16px 24px;
+      height: 350px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    #img-selector {
+      display: none;
+    }
+
+    #editor img {
+      max-width: 100%;
+    }
+
+    .editorBtn.active {
+      background-color: #0A66C2;
+      color: #FFF
+    }
+
+    #introductionContents img{
+      max-width: 400px;
+    }
+    
+    #introductionContents{
+      max-width: 100%;
+      line-height: 2em;
+    }
   </style>
 </head>
 
@@ -136,40 +159,60 @@
         </div>
 
         <div class="signIn_container">
-          <form>
-
-            <div class="row">
-
-              <textarea id="field_contents" placeholder="Contents" cols="40" rows="5"></textarea>
-
-              <div class="input-group input-group-icon">
-                <input id="field_email" type="email" placeholder="E-Mail" />
-                <div class="input-icon"><i class="fa fa-envelope"></i></div>
-
-              </div>
-
-              <div class="input-group input-group-icon">
-                <input id="field_tel" type="tel" placeholder="Tel" />
-                <div class="input-icon"><i class="fa fa-phone"></i></div>
-
-              </div>
-
-              <label for="btn_selectFile">Image</label>
-              <input type="file" accept="image/*" id="btn_selectFile">
-
-              <button style="margin-top: 10px;" role="button" type="button" class="button-18"
-                id="btn_confirm">Confirm</button>
-
-              <div id="progressView" style="display: none;">
-                <div class="outer_progress">
-                  <div class="inner_progress">
-
-                  </div>
-                </div>
-              </div>
+          <div class="row">
+            <div class="editor-menu">
+              <button class="editorBtn" id="btn-bold">
+                <b>B</b>
+              </button>
+              <button class="editorBtn" id="btn-italic">
+                <i>I</i>
+              </button>
+              <button class="editorBtn" id="btn-underline">
+                <u>U</u>
+              </button>
+              <button class="editorBtn" id="btn-strike">
+                <s>S</s>
+              </button>
+              <button class="editorBtn" id="btn-ordered-list">
+                OL
+              </button>
+              <button class="editorBtn" id="btn-unordered-list">
+                UL
+              </button>
+              <button class="editorBtn" id="btn-image">
+                IMG
+              </button>
+            </div>
+            <div id="editor" contenteditable="true">
 
             </div>
-          </form>
+
+            <input id="img-selector" type="file" accept="image/*" />
+
+            <div class="input-group input-group-icon">
+              <input id="field_email" type="email" placeholder="E-Mail" />
+              <div class="input-icon"><i class="fa fa-envelope"></i></div>
+
+            </div>
+
+            <div class="input-group input-group-icon">
+              <input id="field_tel" type="tel" placeholder="Tel" />
+              <div class="input-icon"><i class="fa fa-phone"></i></div>
+
+            </div>
+
+            <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+              id="btn_confirm">Confirm</button>
+
+            <div id="progressView" style="display: none;">
+              <div class="outer_progress">
+                <div class="inner_progress">
+
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -178,14 +221,14 @@
     <h2 style="animation: fadein 1s; margin-top: 10px; margin-bottom: 10px;">Welcome to SBL</h2>
 
     <div id="div_btns" style="display: inline-block;">
-      <button class="button-18" id="btn_phone" role="button"
-        style="margin-top: 10px; margin-bottom: 10px;"></button>
-      <button class="button-18" id="btn_email" role="button"
-        style="margin-top: 10px; margin-bottom: 10px;"></button>
+      <button class="button-18" id="btn_phone" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
+      <button class="button-18" id="btn_email" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
     </div>
 
     <div id="div_text">
+      <div id="introductionContents">
 
+      </div>
     </div>
 
     <div id="map" style="width: 100%; height: 400px;">
@@ -231,7 +274,6 @@
 
 </script>
 
-<script type="module" src="./helper/ContactHelper.js"></script>
 <script>
   var mapOptions = {
     center: new naver.maps.LatLng(35.8465932, 127.1325564),

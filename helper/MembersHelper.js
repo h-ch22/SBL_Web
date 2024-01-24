@@ -297,7 +297,7 @@ async function checkAdminPermission() {
                         update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
                         isEditMode = false;
                         currentHuman = null;
-
+                        
                         modal.style.display = "none";
                     } else {
                         add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);

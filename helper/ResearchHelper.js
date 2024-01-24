@@ -298,7 +298,6 @@ function isStyle(style) {
 }
 
 async function checkAdminPermission() {
-    const div_header = document.querySelector("#header_title");
     const pre_header_btn = document.querySelector("#header_title button");
 
     const btn_close = document.getElementById("btn_close");
@@ -308,9 +307,6 @@ async function checkAdminPermission() {
     const btn_confirm_projects = document.getElementById("btn_confirm_projects");
 
     const modal = document.querySelector('.modal');
-    const modal_projects = document.querySelector('.modal_projects');
-
-    const progressView = document.getElementById("progressView");
 
     const header_modifyArea = document.getElementById("header_modifyArea");
     const btn_modify_Research = document.getElementById("btn_modifyResearch");
@@ -326,12 +322,6 @@ async function checkAdminPermission() {
             if (pre_header_btn) {
                 pre_header_btn.remove();
             }
-
-            const btn_add = document.createElement("button");
-            btn_add.role = "button";
-            btn_add.innerHTML = "&#x2B";
-            btn_add.id = "btn_add";
-            btn_add.className = "addBtn";
 
             btn_confirm.addEventListener('click', function(){
                 if(editor.value == ""){
@@ -377,12 +367,34 @@ async function checkAdminPermission() {
                     
                     if(files.length > 0){
                         try {
-                            const imageURL = await uploadImageToStorage(files[0]);
-                            // Insert the image URL into the editor content
-                            editor.focus({ preventScroll: true });
-                            document.execCommand('insertHTML', false, `<img src="${imageURL}">`);
+                            const files = e.target.files;
+                        
+                            if(files.length > 0){
+                                try {
+                                    const file = files[0];
+    
+                                    const storageRef = ref(storage, 'research/' + file.name);
+                                    await uploadBytes(storageRef, file).then((snapshot) => {
+                                        getDownloadURL(ref(storage, `research/${file.name}`)).then(async (url) => {
+                                            editor.focus({ preventScroll: true });
+                                            document.execCommand('insertHTML', false, `<img src="${url}" alt="">`);
+                                        }).catch((error) => {
+                                            console.log(error);
+                                            alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                                
+                                            return "";
+                                        })
+                                    }).catch((error) => {
+                                        console.log(error);
+                                        alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                                    });
+                                } catch (error) {
+                                    // Handle error, if any
+                                    console.error('Error:', error);
+                                    alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
+                                }
+                            }
                         } catch (error) {
-                            // Handle error, if any
                             console.error('Error:', error);
                         }
                     }
@@ -404,101 +416,6 @@ async function checkAdminPermission() {
                     deleteResearch();
                 }
             })
-
-            btn_add.addEventListener('click', function () {
-                if(current == "Research"){
-                    editor.innerHTML = "";
-                    modal.style.display = "flex";
-
-                    btnBold.addEventListener('click', function () {
-                        setStyle('bold');
-                    });
-                
-                    btnItalic.addEventListener('click', function () {
-                        setStyle('italic');
-                    });
-                
-                    btnUnderline.addEventListener('click', function () {
-                        setStyle('underline');
-                    });
-                
-                    btnStrike.addEventListener('click', function () {
-                        setStyle('strikeThrough')
-                    });
-                
-                    btnOrderedList.addEventListener('click', function () {
-                        setStyle('insertOrderedList');
-                    });
-                
-                    btnUnorderedList.addEventListener('click', function () {
-                        setStyle('insertUnorderedList');
-                    });
-
-                    btnImage.addEventListener('click', function(){
-                        imageSelector.click();
-                    })
-
-                    imageSelector.addEventListener('change', async function (e) {
-                        const files = e.target.files;
-                        
-                        if(files.length > 0){
-                            try {
-                                const file = files[0];
-
-                                const storageRef = ref(storage, 'research/' + file.name);
-                                await uploadBytes(storageRef, file).then((snapshot) => {
-                                    getDownloadURL(ref(storage, `research/${file.name}`)).then(async (url) => {
-                                        editor.focus({ preventScroll: true });
-                                        document.execCommand('insertHTML', false, `<img src="${url}" alt="Uploaded Image">`);
-                                    }).catch((error) => {
-                                        console.log(error);
-                                        alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
-                            
-                                        return "";
-                                    })
-                                }).catch((error) => {
-                                    console.log(error);
-                                    alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
-                                });
-                            } catch (error) {
-                                // Handle error, if any
-                                console.error('Error:', error);
-                                alert("An error occured while image upload process.\nPlease try again later, or contact to Administrator");
-                            }
-                        }
-                    });
-
-                    editor.addEventListener('keydown', function () {
-                        checkStyle();
-                    });
-                
-                    editor.addEventListener('mousedown', function () {
-                        checkStyle();
-                    });
-                
-                } else if(current == "Projects"){
-                    const field_date_begin = document.getElementById('field_date_begin');
-                    const field_date_end = document.getElementById("field_date_end");
-                    const field_contents = document.getElementById("field_contents");
-                    const field_agency = document.getElementById("field_agency")
-                    const field_budget = document.getElementById("field_budget");
-                    const dropdown_unit = document.getElementById("dropdown_money_unit");
-
-                    isEditMode = false;
-                    currentProject = null;
-                    modal_projects.style.display = "flex";
-                    const txt_title = document.getElementById("txt_title_projects");
-                    txt_title.innerText = 'Add new project';
-
-                    field_date_begin.value = new Date().toISOString().substring(0, 10);
-                    field_date_end.value = new Date().toISOString().substring(0, 10);
-                    field_contents.value = "";
-                    field_agency.value = "";
-                    field_budget.value = "";
-                    dropdown_unit.value = "0";
-                }
-
-            });
 
             btn_close.addEventListener('click', function () {
                 modal.style.display = "none";
@@ -536,7 +453,6 @@ async function checkAdminPermission() {
                 }
             })
 
-            div_header.appendChild(btn_add);
         } else {
             if (pre_header_btn) {
                 pre_header_btn.remove();
@@ -550,6 +466,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const txt_title = document.getElementById("txt_selectedType");
     const header_modifyArea = document.getElementById("header_modifyArea");
     const researchArea = document.getElementById('researchContents')
+    const div_header = document.querySelector("#header_title");
+    const modal_projects = document.querySelector('.modal_projects');
 
     radioButtons.forEach((btn) => {
         btn.addEventListener('click', function(){
@@ -571,11 +489,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     txt_title.innerHTML = "Projects";
                     current = "Projects";
                     getProjects();
+
+                    if(auth.currentUser !== null){
+                        const btn_add = document.createElement("button");
+                        btn_add.role = "button";
+                        btn_add.innerHTML = "&#x2B";
+                        btn_add.id = "btn_add";
+                        btn_add.className = "addBtn";
+
+                        div_header.appendChild(btn_add);
+
+                        btn_add.addEventListener('click', function () {
+                
+                            const field_date_begin = document.getElementById('field_date_begin');
+                            const field_date_end = document.getElementById("field_date_end");
+                            const field_contents = document.getElementById("field_contents");
+                            const field_agency = document.getElementById("field_agency")
+                            const field_budget = document.getElementById("field_budget");
+                            const dropdown_unit = document.getElementById("dropdown_money_unit");
+            
+                            isEditMode = false;
+                            currentProject = null;
+                            modal_projects.style.display = "flex";
+                            const txt_title = document.getElementById("txt_title_projects");
+                            txt_title.innerText = 'Add new project';
+            
+                            field_date_begin.value = new Date().toISOString().substring(0, 10);
+                            field_date_end.value = new Date().toISOString().substring(0, 10);
+                            field_contents.value = "";
+                            field_agency.value = "";
+                            field_budget.value = "";
+                            dropdown_unit.value = "0";
+                        });
+                    }
                     break;
             }
         })
     })
 
-    checkAdminPermission();
     getResearch();
+    checkAdminPermission();
 })
