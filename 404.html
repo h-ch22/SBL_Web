@@ -3,32 +3,125 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Page Not Found</title>
+    <title>Page Not Found - SBL</title>
+    <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+    <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px 16px; border-radius: 3px; }
-      #message h3 { color: #888; font-weight: normal; font-size: 16px; margin: 16px 0 12px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 500; color: rgba(0,0,0,0.6); margin: 15px 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
+    <style>
+      @font-face {
+          font-family: 'NanumSquareNeo-Variable';
+          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+          font-weight: normal;
+          font-style: normal;
+      }
+
+      body {
+        font-family: "NanumSquareNeo-Variable";
+        color: #000021;
+        background-color: #e6e6ef;
+        align-items: center;
+        align-self: center;
+      }
+
+      #ic_error{
+        max-width: 50px;
+        margin-right: 10px;
+      }
+
+      #message{
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      h1, h2{
+        line-height: 2em;
+      }
+
+      #txt_oops{
+        font-size: 10em;
+        font-weight: 900;
+      }
+
+      #btns{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      #btn_refresh{
+        vertical-align: center;
+      }
+
+      #title{
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     </style>
   </head>
   <body>
+    <div id="header"></div>
+
     <div id="message">
-      <img src="./res/ic_error.png" width="10%">
-      <h1>Page Not Found : 404</h1>
-      <p>The specified file was not found on this website. Please check the URL for mistakes and try again.</p>
-      <h2>Why am I seeing this?</h3>
-      <p>The webpage you are looking for may have been removed or temporarily disabled.<br> Please try again later, or contact your administrator.
-      </p>
+      <h1 id="txt_oops">Oops!</h1>
+
+      <div id="title">
+        <img id="ic_error" src="./res/ic_error.png">
+        <h1>Page Not Found : 404</h1>
+      </div>
+      <p>The page you are looking for might have been removed<br>had its name changed or is temporarily unavailable.</p>
+
+      <div id="btns">
+        <a style="margin-right: 10px;" href="./index.html">
+          <button role="button" class="button-18">Go to main page</button>
+        </a>
+
+        <button onClick="window.location.reload();" id="btn_refresh" role="button" class="button-toggle">
+          <i class="fa fa-refresh" aria-hidden="true" style="margin-right: 5px;"></i>
+          Refresh
+        </button>
+      </div>
+
+ 
     </div>
+
+    <div id="footer"></div>
+
   </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const headerContainer = document.getElementById('header');
+  
+      function loadHeader() {
+        if (window.innerWidth <= 1400) {
+          fetch('./header_mobile.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        } else {
+          fetch('./header.html')
+            .then(response => response.text())
+            .then(data => {
+              headerContainer.innerHTML = data;
+            });
+        }
+  
+        fetch('./footer.html')
+          .then(response => response.text())
+          .then(data => {
+            footer.innerHTML = data;
+          })
+  
+      }
+  
+      loadHeader();
+  
+      window.addEventListener('resize', loadHeader);
+    });
+  
+  </script>
 </html>
