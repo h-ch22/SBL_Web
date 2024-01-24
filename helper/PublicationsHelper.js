@@ -61,7 +61,6 @@ async function get(type){
             break;
     }
 
-    console.log(value);
 
     const publicationsRef = collection(db, "Publications");
     const q = query(publicationsRef, where("type", "==", value), orderBy("year", "desc"));

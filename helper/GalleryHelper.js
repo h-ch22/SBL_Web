@@ -328,7 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn_file = document.getElementById("btn_selectFile");
     btn_file.addEventListener('change', function (evt) {
         file = evt.target.files[0];
-        console.log(file);
     })
 
     checkAdminPermission();

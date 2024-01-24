@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore, doc, updateDoc, addDoc, getDocs, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getFirestore, doc, updateDoc, addDoc, getDocs, collection, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { MembersType } from "../models/MembersTypeModel.js";
 import { DegreeType } from "../models/DegreeTypeModel.js";
 import { MembersDataModel } from "../models/MembersDataModel.js";
@@ -31,7 +31,9 @@ var isEditMode = false;
 var currentHuman = null;
 
 async function getMembers() {
-    const snapshot = await getDocs(collection(db, "Members"));
+    const membersRef = collection(db, "Members");
+    const q = query(membersRef, orderBy("name"));
+    const snapshot = await getDocs(q);
     snapshot.forEach((doc) => {
         const degree = doc.get("degree");
         const email = doc.get('E-Mail');
@@ -73,7 +75,6 @@ async function getMembers() {
             )
         );
 
-        console.log(members);
     })
 
     show();
@@ -286,7 +287,6 @@ async function checkAdminPermission() {
 
             btn_file.addEventListener('change', function (evt) {
                 file = evt.target.files[0];
-                console.log(file);
             })
 
             btn_confirm.addEventListener('click', function () {
