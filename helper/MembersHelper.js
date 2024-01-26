@@ -381,9 +381,11 @@ async function show() {
                 switch(selectedType){
                     case "Student":
                         img.src = '../res/ic_student.png';
+                        break;
 
                     default:
                         img.src = '../res/ic_graduate.png';
+                        break;
                 }
             }
 
