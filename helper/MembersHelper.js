@@ -374,10 +374,20 @@ async function show() {
 
             txt_degree.id = "txt_degree";
             txt_degree.innerText = member.degree;
+            
+            if(member.profile != null){
+                img.src = member.profile;
+            } else{
+                switch(selectedType){
+                    case "Student":
+                        img.src = '../res/ic_student.png';
 
-            img.src = member.profile;
+                    default:
+                        img.src = '../res/ic_graduate.png';
+                }
+            }
+
             img.id = "img_profile";
-            img.style.display = member.profile == null ? "none" : "flex";
 
             txt_name.innerText = member.name;
             txt_name.id = "txt_name";
@@ -396,6 +406,7 @@ async function show() {
 
             li.appendChild(img);
             li.appendChild(txt_name);
+            
             if(member.email != "" && member.email != null){
                 li.appendChild(txt_email);
             }
