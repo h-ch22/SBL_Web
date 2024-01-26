@@ -67,6 +67,28 @@
   background-color: rgb(179, 76, 76);
 }
 
+.closeBtn{
+  border: none;
+  background-color: transparent;
+  color: rgb(255, 115, 115);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.5s ease;
+}
+
+.closeBtn:hover{
+  color: rgb(255, 81, 81);
+}
+
+.closeBtn:active{
+  color: rgb(179, 76, 76);
+}
+
 .button-toggle {
   align-items: center;
   background-color: transparent;
