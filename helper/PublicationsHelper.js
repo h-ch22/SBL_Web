@@ -70,7 +70,7 @@ async function get(type){
     querySnapshot.forEach((doc) => {
         currentData.push(
             new PublicationDataModel(
-                doc.id, doc.get("year"), doc.get("contents"), value, doc.get("link")
+                doc.id, doc.get("year"), doc.get("contents"), doc.get("authors") == null ? "" : doc.get("authors"), doc.get("journal") == null ? "" : doc.get("journal"), value, doc.get("link")
             )
         );
     });
@@ -104,7 +104,7 @@ async function get(type){
         const div_content = document.createElement("div");
         const h4 = document.createElement("h4");
         h4.id = "paperContents";
-        h4.innerText = paper.title;
+        h4.innerText = `${paper.title}${paper.authors != "" ? ` (${paper.authors})` : ""}${paper.journalName != "" ? ` - ${paper.journalName}` : ""}`;
 
         div_content.id = "div_content";
         div_content.appendChild(h4);
@@ -130,13 +130,18 @@ async function get(type){
                 currentPaper = paper;
                 isEditMode = true;
                 modal.style.display = "flex";
+
                 const field_year = document.getElementById("field_year");
-                const field_contents = document.getElementById("field_contents");
+                const field_title = document.getElementById("field_title");
+                const field_authors = document.getElementById("field_authors");
+                const field_journal = document.getElementById("field_journal");
                 const field_url = document.getElementById("field_url");
                 const dropdown_type = document.getElementById("dropdown_type");
 
                 field_year.value = currentPaper.year;
-                field_contents.value = currentPaper.title;
+                field_title.value = currentPaper.title;
+                field_authors.value = currentPaper.authors;
+                field_journal.value = currentPaper.journalName;
                 field_url.value = currentPaper.url;
                 dropdown_type.value = type;
                 const txt_title = document.getElementById("txt_title");
@@ -172,7 +177,7 @@ async function deletePaper(){
     });
 }
 
-async function upload(year, contents, link, type) {
+async function upload(year, contents, authors, journal, link, type) {
     var docId = "Intl_Journals";
 
     switch (type) {
@@ -197,6 +202,8 @@ async function upload(year, contents, link, type) {
         "contents": contents,
         "link": link,
         "year": year,
+        "journal": journal,
+        "authors": authors,
         "type": docId
     };
 
@@ -209,7 +216,7 @@ async function upload(year, contents, link, type) {
 
 }
 
-async function modify(id, year, contents, link, type){
+async function modify(id, year, contents, authors, journal, link, type){
     var docId = "Intl_Journals";
 
     switch (type) {
@@ -234,6 +241,8 @@ async function modify(id, year, contents, link, type){
         "contents": contents,
         "link": link,
         "year": year,
+        "journal": journal,
+        "authors": authors,
         "type": docId
     };
 
@@ -256,7 +265,6 @@ async function checkAdminPermission() {
     const btn_confirm = document.getElementById("btn_confirm");
     
     const modal = document.querySelector('.modal');
-    const progressView = document.getElementById("progressView");
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -276,12 +284,16 @@ async function checkAdminPermission() {
                 txt_title.innerText = 'Add new publication';
 
                 const field_year = document.getElementById("field_year");
-                const field_contents = document.getElementById("field_contents");
+                const field_title = document.getElementById("field_title");
+                const field_authors = document.getElementById("field_authors");
+                const field_journal = document.getElementById("field_journal");
                 const field_url = document.getElementById("field_url");
                 const dropdown_type = document.getElementById("dropdown_type");
 
                 field_year.value = "";
-                field_contents.value = "";
+                field_title.value = "";
+                field_authors.value = "";
+                field_journal.value = "";
                 field_url.value = "";
                 dropdown_type.value = "0";
             });
@@ -294,21 +306,20 @@ async function checkAdminPermission() {
 
             btn_confirm.addEventListener('click', function(){
                 const field_year = document.getElementById("field_year");
-                const field_contents = document.getElementById("field_contents");
+                const field_title = document.getElementById("field_title");
+                const field_authors = document.getElementById("field_authors");
+                const field_journal = document.getElementById("field_journal");
                 const field_url = document.getElementById("field_url");
                 const dropdown_type = document.getElementById("dropdown_type");
 
-                if(field_year.value == "" || field_contents.value == ""){
+                if(field_year.value == "" || field_title.value == "" || field_authors.value == "" || field_journal.value == ""){
                     alert('Please write down all fields.');
                 } else{
-                    progressView.style.display = "flex";
-
                     if(isEditMode){
-                        modify(currentPaper.id, field_year.value, field_contents.value, field_url.value, dropdown_type.value);
+                        modify(currentPaper.id, field_year.value, field_title.value, field_authors.value, field_journal.value, field_url.value, dropdown_type.value);
                     } else{
-                        upload(field_year.value, field_contents.value, field_url.value, dropdown_type.value);
+                        upload(field_year.value, field_title.value, field_authors.value, field_journal.value, field_url.value, dropdown_type.value);
                     }
-                    progressView.style.display = "none";
                 }
             });
 
