@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getFirestore, doc, updateDoc, addDoc, getDocs, collection, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getFirestore, doc, updateDoc, addDoc, getDocs, collection, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { MembersType } from "../models/MembersTypeModel.js";
-import { DegreeType } from "../models/DegreeTypeModel.js";
 import { MembersDataModel } from "../models/MembersDataModel.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import {
@@ -25,6 +24,8 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const members = [];
 
+const field_career = document.getElementById('field_career');
+
 var selectedType = MembersType.PROFESSOR;
 var file = null;
 var isEditMode = false;
@@ -42,6 +43,7 @@ async function getMembers() {
         const cat = doc.get('cat');
         const dept = doc.get('dept');
         const name = doc.get('name');
+        const interests = doc.get('interests');
         const profile = doc.get('profile');
         const career = doc.get('career');
         const id = doc.id;
@@ -71,7 +73,7 @@ async function getMembers() {
 
         members.push(
             new MembersDataModel(
-                id, degree, email, tel, site == "" ? null : site, category, dept, name, profile, career
+                id, degree, email, tel, site == "" ? null : site, category, dept, name, interests, profile, career
             )
         );
 
@@ -85,7 +87,7 @@ function visitPage(url) {
 }
 
 async function update(
-    id, email, tel, website, cat, degree, dept, name, career, profile
+    id, email, tel, website, cat, degree, dept, name, career, interests, profile
 ) {
 
     if (profile != null) {
@@ -102,6 +104,7 @@ async function update(
                     "cat": cat,
                     "dept": dept,
                     "name": name,
+                    "interests": interests,
                     "profile": url,
                     "career": career,
                     "degree": degree
@@ -136,6 +139,7 @@ async function update(
             "cat": cat,
             "dept": dept,
             "name": name,
+            "interests": interests,
             "career": career,
             "degree": degree
         }).then(function () {
@@ -151,7 +155,7 @@ async function update(
 }
 
 async function add(
-    email, tel, website, cat, degree, dept, name, career, profile
+    email, tel, website, cat, degree, dept, name, career, interests, profile
 ) {
 
     const uploadData = {
@@ -163,6 +167,7 @@ async function add(
         "name": name,
         "career": career,
         "degree": degree,
+        "interests": interests,
         "profile": null
     };
 
@@ -250,7 +255,7 @@ async function checkAdminPermission() {
     const dropdown_degree = document.getElementById("dropdown_degree");
     const field_dept = document.getElementById("field_dept");
     const field_name = document.getElementById("field_name");
-    const field_career = document.getElementById("field_career");
+    const field_interests = document.getElementById("field_interests");
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -270,7 +275,6 @@ async function checkAdminPermission() {
             btn_add.className = "addBtn";
 
             btn_add.addEventListener('click', function () {
-                modal.style.display = "flex";
                 isEditMode = false;
                 const txt_title = document.getElementById("txt_title");
                 txt_title.innerText = 'Add new member';
@@ -282,7 +286,10 @@ async function checkAdminPermission() {
                 dropdown_degree.value = "Undergraduate";
                 field_dept.value = "";
                 field_name.value = "";
+                field_interests.value = "";
                 field_career.value = "";
+
+                modal.style.display = "flex";
             });
 
             btn_file.addEventListener('change', function (evt) {
@@ -294,13 +301,13 @@ async function checkAdminPermission() {
                     alert('Please write down all required fields.')
                 } else {
                     if (isEditMode) {
-                        update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                        update(currentHuman.id, field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, field_interests.value, file);
                         isEditMode = false;
                         currentHuman = null;
                         
                         modal.style.display = "none";
                     } else {
-                        add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, file);
+                        add(field_email.value, field_tel.value, field_website.value, dropdown_cat.value, dropdown_degree.value, field_dept.value, field_name.value, field_career.value, field_interests.value, file);
                         modal.style.display = "none";
                     }
                 }
@@ -330,7 +337,7 @@ async function show() {
     const dropdown_degree = document.getElementById("dropdown_degree");
     const field_dept = document.getElementById("field_dept");
     const field_name = document.getElementById("field_name");
-    const field_career = document.getElementById("field_career");
+    const field_interests = document.getElementById("field_interests");
 
     if (pre_members_ul) {
         pre_members_ul.remove();
@@ -350,6 +357,7 @@ async function show() {
             const txt_dept = document.createElement("h4");
             const txt_tel = document.createElement("h4");
             const txt_career = document.createElement("p");
+            const txt_interests = document.createElement("h4");
             const btn_showCareer = document.createElement("button");
 
             btn_showCareer.innerText = "Show Career";
@@ -406,6 +414,9 @@ async function show() {
             txt_career.innerText = member.career;
             txt_career.id = "txt_career"
 
+            txt_interests.innerText = member.interests;
+            txt_interests.id = "txt_interests"
+
             li.appendChild(img);
             li.appendChild(txt_name);
             
@@ -417,6 +428,10 @@ async function show() {
 
             if (member.tel != "" && member.tel != null) {
                 li.appendChild(txt_tel);
+            }
+
+            if(member.interests != "" && member.interests != null){
+                li.appendChild(txt_interests)
             }
 
             li.appendChild(txt_degree);
@@ -479,6 +494,7 @@ async function show() {
                     field_dept.value = member.dept;
                     field_name.value = member.name;
                     field_career.value = member.career == null ? "" : member.career;
+                    field_interests.value = member.interests == null ? "" : member.interests;
                 });
 
                 const btn_delete = document.createElement("button");
@@ -546,5 +562,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 })
+
 checkAdminPermission();
 getMembers();

@@ -121,6 +121,7 @@
 .button-toggle:hover { 
   background-color: #0A66C2;
   color: #ffffff;
+  transition: background 0.5s;
 }
 
 .button-toggle:disabled { 

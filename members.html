@@ -125,7 +125,8 @@
     #txt_email,
     #txt_dept,
     #txt_tel,
-    #txt_site {
+    #txt_site,
+    #txt_interests {
       font-weight: normal;
       color: #595959;
     }
@@ -147,6 +148,13 @@
     #txt_tel::before{
       font-family: 'FontAwesome';
       content: "\f095";
+      padding-right: 3px;
+      vertical-align: middle;
+    }
+
+    #txt_interests::before{
+      font-family: 'FontAwesome';
+      content: "\f005";
       padding-right: 3px;
       vertical-align: middle;
     }
@@ -244,7 +252,7 @@
       position: relative;
       top: 50%;
       width: 400px;
-      height: 900px;
+      height: 1000px;
       padding-top: 30px;
       padding-bottom: 30px;
       padding-left: 20px;
@@ -258,6 +266,11 @@
 
     .modal-open {
       overflow: hidden;
+    }
+
+    .editorBtn.active {
+      background-color: #0A66C2;
+      color: #FFF
     }
 
     #header_title {
@@ -355,8 +368,13 @@
               </div>
 
               <div class="input-group input-group-icon">
-                <input id="field_website" type="url" placeholder="WebSite (Optional)" />
+                <input id="field_website" type="url" placeholder="Website (Optional)" />
                 <div class="input-icon"><i class="fa fa-earth-asia"></i></div>
+              </div>
+
+              <div class="input-group input-group-icon">
+                <input id="field_interests" placeholder="Interests (Optional)" />
+                <div class="input-icon"><i class="fa fa-star"></i></div>
               </div>
 
               <textarea id="field_career" cols="40" rows="5" placeholder="Career (Optional)"></textarea>
