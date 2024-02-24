@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,35 +8,107 @@
 
     <style>
         @font-face {
-          font-family: 'NanumSquareNeo-Variable';
-          src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-          font-weight: normal;
-          font-style: normal;
+            font-family: 'NanumSquareNeo-Variable';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
         }
 
-        span{
+        span {
             line-height: 2em;
         }
 
-        p{
+        p {
             font-size: 0.7em;
         }
 
-        #link_developer{
+        #link_developer {
             color: #a1a19a;
-            
+
+        }
+
+        .fa {
+            padding: 1em;
+            transition: background-color 0.5s ease;
+        }
+
+        .fa:link {
+            color: #a1a19a;
+            text-decoration: none;
+        }
+
+        .fa:visited {
+            color: #a1a19a;
+            text-decoration: none;
+        }
+
+        .fa:hover {
+            background-color: #222;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .fa:active {
+            background-color: #222;
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        h7{
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        h7:before{
+            content: "";
+            display: inline-block;
+            background-image: url("./res/ic_jbnu_gray.png");
+            background-size: 12px auto;
+            width: 12px;
+            height: 19px;
+            margin-right: 10px;
+            vertical-align: middle;
         }
     </style>
 </head>
+
 <body>
     <footer style="background-color: #2a2a2a; padding: 0.5em;">
+        <div style="display: flex;">
+            <h7>
+                <span style="color: #a1a19a;">Jeonbuk National University<span> <a href="https://www.jbnu.ac.kr"
+                    class="fa fa-external-link"></a></span></span>
+            </h7>
+
+            <h7>
+                <span style="color: #a1a19a;">Jeonbuk National University Admission Website<span> <a href="https://enter.jbnu.ac.kr"
+                    class="fa fa-external-link"></a></span></span>
+            </h7>
+
+            <h7>
+                <span style="color: #a1a19a;">Jeonbuk National University Division of Biomedical Engineering<span> <a href="https://biomedical.jbnu.ac.kr"
+                    class="fa fa-external-link"></a></span></span>
+            </h7>
+
+            <h7>
+                <span style="color: #a1a19a;">Contact<span> <a href="./contact.html"
+                    class="fa fa-external-link"></a></span></span>
+            </h7>
+
+        </div>
+
         <nav>
             <p>
-                <span style="color: #828282; font-weight: bold;">tsgo@jbnu.ac.kr</span><br>
-                <span style="color: #828282;">(54896) 전북특별자치도 전주시 덕진구 백제대로 567, 전북대학교 공과대학 1호관 337호 (337, College of Engineering Building 1, Jeonbuk National University, 567, Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk-do, Republic of Korea)</span><br>
-                <span style="color: #a1a19a;">ⓒ 2022-2024. Smart Biophotonics Lab. All Rights Reserved.</span><br>
+            <span style="color: #828282; font-weight: bold;">tsgo@jbnu.ac.kr</span><br>
+            <span style="color: #828282;">(54896) 전북특별자치도 전주시 덕진구 백제대로 567, 전북대학교 공과대학 1호관 337호 (337, College of
+                Engineering Building 1, Jeonbuk National University, 567, Baekje-daero, Deokjin-gu, Jeonju-si,
+                Jeonbuk-do, Republic of Korea)</span><br>
+            <span style="color: #a1a19a;">ⓒ 2022-2024. Smart Biophotonics Lab. All Rights Reserved.</span>
             </p>
         </nav>
     </footer>
 </body>
+
 </html>
