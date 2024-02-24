@@ -33,10 +33,9 @@
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
   <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zuxn369jvo"></script>
-  <script type="text/javascript"
-    src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=zuxn369jvo&submodules=geocoder"></script>
-
-
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=zuxn369jvo&submodules=geocoder"></script>
+  
+  
 
   <style>
     @font-face {
@@ -128,7 +127,7 @@
     }
 
     .editorBtn.active {
-      background-color: #004386;
+      background-color: #0A66C2;
       color: #FFF
     }
 
@@ -146,11 +145,11 @@
       color: white;
       transition: background 0.5s;
     }
-
-    #addressField {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    
+    #addressField{
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
   </style>
 </head>
@@ -215,12 +214,12 @@
               <div class="input-icon"><i class="fa fa-phone"></i></div>
 
             </div>
-
+            
             <div id="addressField">
               <div class="input-group input-group-icon">
                 <input id="field_address" type="text" placeholder="Address (ex: 백제대로 567)" />
                 <div class="input-icon"><i class="fa fa-map-marker"></i></div>
-
+  
               </div>
 
               <button id="btn_searchAddress" class="button-toggle">

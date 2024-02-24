@@ -160,10 +160,15 @@
       overflow: hidden;
     }
 
-    #txt_newsTitle:hover {
-      cursor: pointer;
-      text-decoration: underline;
+    #txt_newsTitle:hover{
+        cursor: pointer;
+        text-decoration: underline;
     }
+
+    #div_familySites{
+      overflow-x: auto;
+    }
+
   </style>
 </head>
 
@@ -181,6 +186,27 @@
     <div id="div_news">
 
     </div>
+
+    <div id="div_familySites" style="margin-top: 20px; margin-bottom: 10px;">
+      <h2>FAMILY SITES</h2>
+
+      <div style="display: flex;">
+        <a href="https://www.jbnu.ac.kr">
+          <img style="max-height: 50px; margin-right: 30px;" src="./res/ic_jbnu_main.png">
+        </a>
+
+        <a href="https://enter.jbnu.ac.kr">
+          <img style="max-height: 50px; margin-right: 30px;" src="./res/ic_jbnu_admissions.png">
+        </a>
+
+        <a href="https://biomedical.jbnu.ac.kr">
+          <img style="max-height: 50px; margin-right: 30px;" src="./res/ic_jbnu_bme.png">
+        </a>
+
+      </div>
+
+    </div>
+
     <button style="margin-top: 20px;" role="button" class="button-18" id="btn_signInOut"></button>
     <div class="modal">
       <div class="modal_body">
