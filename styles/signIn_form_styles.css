@@ -30,15 +30,15 @@ textarea {
 
 input:focus {
   outline: 0;
-  border-color: #bd8200;
+  border-color: #56296f;
 }
 
 input:focus+.input-icon i {
-  color: #f0a500;
+  color: #56296f;
 }
 
 input:focus+.input-icon:after {
-  border-right-color: #f0a500;
+  border-right-color: #56296f;
 }
 
 input:checked+label:after {

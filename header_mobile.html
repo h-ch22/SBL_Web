@@ -186,12 +186,56 @@
             /* Set a maximum height to limit the scrolling height */
         }
 
+        #familyLink{
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+            display: inline-block;
+            position: relative;
+            border-left: 1px solid #c9c8c6;
+            border-right: 1px solid #c9c8c6;
+        }
+
+        #header_top{
+            background-color: #666563;
+            padding: 5px;
+            width: 100%;
+            top: 100%;
+            position: relative;
+            display: flex;
+            border-bottom: 1px solid #c9c8c6;
+            margin-bottom: 20px;
+        }
+
+        .familyLink:link{
+            color: #c9c8c6;
+            text-decoration: none;
+        }
+
+        .familyLink:visited {
+            color: #c9c8c6;
+            text-decoration: none;
+        }
+
+        .familyLink{
+            font-size: 0.8em;
+        }
+
     </style>
 </head>
 
 <body>
     <div>
         <div id="header">
+
+            <div id="header_top">
+                <div id="familyLink">
+                    <a class="familyLink" href="https://www.jbnu.ac.kr">JBNU</a>
+                    <a class="familyLink" style="margin-left: 10px;" href="https://enter.jbnu.ac.kr">Admissions</a>
+                    <a class="familyLink" style="margin-left: 10px;" href="https://biomedical.jbnu.ac.kr">Div. of Biomedical Engineering</a>
+                </div>
+            </div>
+
             <header>
                 <div class="mobile_btn" style="padding: 2em;">
                     <input type="checkbox" id="hamburger" />
@@ -201,12 +245,18 @@
                         <span></span>
                     </label>
                     <div class="sidebar">
-                        <h2 style="text-align: center; position: relative; top: 4em;"><a href="./index.html">
-                                <img src="./res/ic_logo_title.png" style="max-width: 70%; max-height: 10%;">
-                            </a>
-                        </h2>
-                        <hr style="position: relative; top:8em; border: solid 1px black;">
+                        <div style="display: flex; justify-content: center;">
+                            <h2 style="text-align: center; position: relative; top: 4em; max-width: 60%; min-height: 10%;">
+                                <a href="./index.html">
+                                    <img src="./res/ic_logo_title_modern.png" style="max-width: 60%; max-height: 10%;">
+                                </a>
+                            </h2>
+                        </div>
+
+                        
                         <ul id="menuList">
+                            <hr style="border: solid 1px black; margin-top: 20px;">
+
                             <li><a href="./awards.html">AWARDS</a></li>
                             <li><a href="./members.html">MEMBERS</a></li>
                             <li><a href="./news.html">NEWS</a></li>
@@ -225,7 +275,7 @@
 
         <div style="padding-top: 5em; text-align: center;">
             <button type="button" id="btn_home" onclick="location.href='./index.html'">
-                <img src="./res/ic_logo_title.png" width="90%">
+                <img src="./res/ic_logo_title_modern.png" style="max-width: 50%;">
             </button>
         </div>
 
