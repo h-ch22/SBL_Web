@@ -90,69 +90,12 @@
             background-color: #e6e6ef;
         }
 
-        .radioForm {
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column;
-        }
-
         label {
             display: flex;
             cursor: pointer;
             font-weight: 500;
             overflow: hidden;
             margin-bottom: 0.375em;
-        }
-
-        label .radioBtn {
-            position: absolute;
-            left: -9999px;
-        }
-
-        label .radioBtn:checked+#txt_radio {
-            background-color: #d6d6e5;
-        }
-
-        label .radioBtn:checked+#txt_radio:before {
-            box-shadow: inset 0 0 0 0.4375em #56296f;
-        }
-
-        label #txt_radio {
-            display: flex;
-            align-items: center;
-            padding: 0.375em 0.75em 0.375em 0.375em;
-            border-radius: 99em;
-            transition: 0.25s ease;
-        }
-
-        label #txt_radio:hover {
-            background-color: #d6d6e5;
-        }
-
-        label #txt_radio:before {
-            display: flex;
-            flex-shrink: 0;
-            content: "";
-            background-color: #fff;
-            width: 1.5em;
-            height: 1.5em;
-            border-radius: 50%;
-            margin-right: 0.375em;
-            transition: 0.25s ease;
-            box-shadow: inset 0 0 0 0.125em #00005c;
-        }
-
-        .radioButtonContainer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
         }
 
         @keyframes fadein {
