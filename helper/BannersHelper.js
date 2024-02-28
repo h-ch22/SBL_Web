@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { query, getFirestore, doc, updateDoc, addDoc, getDocs, collection, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { query, getFirestore, doc, updateDoc, addDoc, getDocs, collection, orderBy, limit, getDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { BannersDataModel } from "../models/BannersDataModel.js";
 import { NewsDataModel } from "../models/NewsDataModel.js";
@@ -119,5 +119,70 @@ function show(){
     })
 }
 
+async function getContactInfo(){
+    const docRef = doc(db, "Contact", "Introduction");
+    const docSnap = await getDoc(docRef);
+
+    const btn_call = document.getElementById("btn_call");
+    const btn_mail = document.getElementById("btn_mail");
+    const btn_navigate = document.getElementById("btn_navigate");
+
+    const txt_call = document.getElementById("txt_phone");
+    const txt_mail = document.getElementById("txt_mail");
+
+    var latLng = null;
+    var tel = null;
+    var email = null;
+
+    if(docSnap.exists()){
+        tel = docSnap.data()["tel"];
+        email = docSnap.data()["email"];
+        latLng = docSnap.data()["latLng"];
+
+        if(email == null || email == ""){
+            btn_mail.style.display = "none";
+            txt_mail.style.display = "none";
+        }else{
+            txt_mail.innerText += email;
+        }
+
+        if(tel == null || tel == ""){
+            btn_call.style.display = "none";
+            txt_call.style.display = "none";
+        } else{
+            txt_call.innerText += tel;
+        }
+    }
+
+    let isMobile = /Mobi/i.test(window.navigator.userAgent);
+
+    btn_call.addEventListener('click', function(){
+        if(isMobile){
+            if(confirm("Connect the phone to South Korea.\nIf you are outside of South Korea, international telephone charges may be incurred depending on your carrier and plan.\nAre you sure to continue?")){
+                document.location.href=`tel:${tel}`;
+            } else{
+                navigator.clipboard.writeText(tel).then(() => {
+                    btn_call.innerText = "Copied!";
+                });
+            }
+        } else{
+            navigator.clipboard.writeText(tel).then(() => {
+                btn_call.innerText = "Copied!";
+            });
+        }
+    })
+
+    btn_mail.addEventListener('click', function(){
+        document.location.href = `mailto:${email}`
+    })
+
+    btn_navigate.addEventListener('click', function(){
+        const latLng_splited = latLng.split(", ");
+
+        document.location.href = `https://maps.google.com/?q=${latLng_splited[1]},${latLng_splited[0]}`;
+    })
+}
+
+getContactInfo();
 getBanners();
 getTopNews();

@@ -177,6 +177,11 @@
       padding: 10px;
     }
 
+    .contact_items{
+      color: #004386;
+      font-size: 15px;
+    }
+
   </style>
 </head>
 
@@ -201,6 +206,70 @@
 
     <div style="display: flex; justify-content: center; margin-top: 20px;">
       <button class="button-toggle" onClick="location.href='./news.html'">MORE</button>
+
+    </div>
+
+    <div style="margin-top: 20px; display: flex; justify-content: center;" id="div_news_title">
+      <h2 style="color: #004386;">CONTACT</h2>
+
+    </div>
+
+    <div style="margin-top: 10px; display: flex; justify-content: center;">
+      <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
+    </div>
+
+    <div style="display: flex; margin-top: 20px; justify-content: center; flex-direction: column;">
+      <div style="display: flex; justify-content: center; vertical-align: text-top;">
+        <p class="contact_items">
+          <span>
+            <i class="fa fa-phone">
+            </i>
+          </span>
+
+          <span>
+            <p class="contact_items" id="txt_phone" style="margin-left: 5px;"></p>
+          </span>
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: center; vertical-align: text-top;">
+        <p class="contact_items">
+          <span>
+            <i class="fa fa-envelope">
+            </i>
+          </span>
+          
+          <span>
+            <p class="contact_items" id="txt_mail" style="margin-left: 5px;"></p>
+          </span>
+        </p>
+      </div>
+
+      <div style="display: flex; justify-content: center; vertical-align: text-top;">
+        <button role="button" class="button-18" id="btn_call">
+          <span style="margin-right: 10px;">
+            <i class="fa fa-phone"></i>
+          </span>
+
+          Call
+        </button>
+
+        <button style="margin-left: 20px;" role="button" class="button-18" id="btn_mail">
+          <span style="margin-right: 10px;">
+            <i class="fa fa-envelope"></i>
+          </span>
+
+          Mail
+        </button>
+
+        <button style="margin-left: 20px;" role="button" class="button-18" id="btn_navigate">
+          <span style="margin-right: 10px;">
+            <i class="fa fa-directions"></i>
+          </span>
+
+          Navigate
+        </button>
+      </div>
 
     </div>
 
