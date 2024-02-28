@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { query, getFirestore, doc, updateDoc, addDoc, getDocs, collection, orderBy, limit, getDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { query, getFirestore, doc, getDocs, collection, orderBy, limit, getDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { getStorage, ref } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-storage.js";
 import { BannersDataModel } from "../models/BannersDataModel.js";
 import { NewsDataModel } from "../models/NewsDataModel.js";
+import { PublicationDataModel } from "../models/PublicationDataModel.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyB3AXoX_7mHy4uHWxLbqDY3GBuMBamtPLQ",
@@ -183,6 +184,50 @@ async function getContactInfo(){
     })
 }
 
+async function getPublications(){
+    let publications = [];
+    const div_publications = document.getElementById('div_publications');
+    
+    const publicationsRef = collection(db, "Publications");
+    const q = query(publicationsRef, orderBy("year", "desc"), limit(5));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        publications.push(
+            new PublicationDataModel(
+                doc.id, doc.get("year"), doc.get("contents"), doc.get("authors") == null ? "" : doc.get("authors"), doc.get("journal") == null ? "" : doc.get("journal"), "", doc.get("link")
+            )
+        );
+    })
+
+    const publicationsContents = document.createElement("div");
+    publicationsContents.id = "publicationsContents";
+    div_publications.appendChild(publicationsContents);
+
+    publications.forEach((paper) => {
+        const div_content = document.createElement("div");
+        const h6 = document.createElement("h6");
+        h6.id = "paperContents";
+        h6.innerText = `${paper.title}${paper.authors != "" ? ` (${paper.authors})` : ""}${paper.journalName != "" ? ` - ${paper.journalName}` : ""}`;
+
+        div_content.id = "div_content";
+        div_content.appendChild(h6);
+
+        if(paper.url != ""){
+            const newTab = document.createElement("a");
+            const btn_open = document.createElement("i");
+            btn_open.className = "fa fa-external-link"
+            newTab.href = paper.url;
+            newTab.id = "btn_openURL";
+            newTab.appendChild(btn_open);
+            div_content.appendChild(newTab);
+        }
+
+        publicationsContents.appendChild(div_content);
+    });
+}
+
 getContactInfo();
+getPublications();
 getBanners();
 getTopNews();
