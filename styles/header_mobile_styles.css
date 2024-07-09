@@ -1,0 +1,176 @@
+#header {
+    display: inline-block;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    font-family: "Pretendard-Regular";
+}
+
+#contents {
+    padding: 10px;
+}
+
+#btn_home {
+    background-color: rgba(255, 255, 255, 0);
+    border: 0rem;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.mobile_btn {
+    position: absolute;
+    left: 15px;
+}
+
+input[id="hamburger"] {
+    display: none;
+}
+
+input[id="hamburger"]+label {
+    display: block;
+    width: 30px;
+    height: 25px;
+    position: relative;
+    cursor: pointer;
+}
+
+input[id="hamburger"]+label span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    border-radius: 30px;
+    background: #000;
+    transition: all 0.35s;
+}
+
+input[id="hamburger"]+label span:nth-child(1) {
+    top: 0;
+}
+
+input[id="hamburger"]+label span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+input[id="hamburger"]+label span:nth-child(3) {
+    bottom: 0;
+}
+
+input[id="hamburger"]:checked+label {
+    z-index: 99;
+}
+
+input[id="hamburger"]:checked+label span {
+    background: black;
+}
+
+input[id="hamburger"]:checked+label span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+input[id="hamburger"]:checked+label span:nth-child(2) {
+    opacity: 0;
+}
+
+input[id="hamburger"]:checked+label span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+}
+
+div[class="sidebar"] {
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 98;
+    transition: all 0.35s;
+}
+
+input[id="hamburger"]:checked+label+div {
+    left: 0;
+}
+
+#menuList {
+    position: absolute;
+    top: 12em;
+    width: 100%;
+}
+
+.sidebar #menuList li {
+    color: black;
+    position: relative;
+    float: left;
+    width: 100%;
+    list-style-type: none;
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.sidebar a {
+    padding: 0;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar li a {
+    display: block;
+    font-weight: bold;
+    line-height: 40px;
+    margin: 0px;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s;
+}
+
+.sidebar li a:hover,
+.sidebar ul li:hover a {
+
+    text-decoration: none;
+    color: #eee;
+    padding: 0;
+    margin: 0;
+    border: 0px;
+}
+
+.sidebar {
+    overflow-y: auto;
+    max-height: 100vh;
+}

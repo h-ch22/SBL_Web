@@ -1,0 +1,142 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+  font-family: 'Pretendard-Regular';
+  color: #000021;
+  background-color: #e6e6ef;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed;
+  display: none;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal_body {
+  position: relative;
+  top: 50%;
+  width: 400px;
+  height: 850px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  transform: translateY(-50%);
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+#btn_edit {
+  background-color: transparent;
+  border: 0;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+label {
+  display: flex;
+  cursor: pointer;
+  font-weight: 500;
+  overflow: hidden;
+  margin-bottom: 0.375em;
+}
+
+#editor {
+  border: 1px solid #D6D6D6;
+  border-radius: 4px;
+  padding: 16px 24px;
+  height: 350px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+#img-selector {
+  display: none;
+}
+
+#editor img {
+  max-width: 100%;
+}
+
+.editorBtn.active {
+  background-color: #0A66C2;
+  color: #FFF
+}
+
+#introductionContents img {
+  max-width: 400px;
+}
+
+#introductionContents {
+  max-width: 100%;
+  line-height: 2em;
+}
+
+#btn_edit:hover {
+  background-color: #000021;
+  color: white;
+  transition: background 0.5s;
+}
+
+#addressField{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn_symbols {
+    padding: 0.5em;
+    transition: background-color 0.5s ease;
+}
+
+#btn_symbols:link {
+    color: #000000;
+    text-decoration: none;
+}
+
+#btn_symbols:visited {
+    color: #000000;
+    text-decoration: none;
+}
+
+#btn_symbols:hover {
+    background-color: #222;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#btn_symbols:active {
+    background-color: #222;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}

@@ -68,8 +68,8 @@ async function get(){
     div_coarses.appendChild(coarsesContents);
 
     currentData.forEach((coarse) => {
-        if(lastSemester != `${coarse.year} ${coarse.semester}`){
-            lastSemester = `${coarse.year} ${coarse.semester}`;
+        if(lastSemester != `${coarse.semester} ${coarse.year}`){
+            lastSemester = `${coarse.semester} ${coarse.year}`;
             const title_semester = document.createElement("h2");
             title_semester.id = "title_semester";
             title_semester.innerText = lastSemester;

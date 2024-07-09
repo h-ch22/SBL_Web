@@ -2,441 +2,259 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SBL - Smart Biophotonics Lab.</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SBL - Smart Biophotonics Lab.</title>
 
-  <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
-  <link rel="stylesheet" type="text/css" href="./styles/modal_styles.css">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 
-  <script type="module" src="./packages.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+    <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+    <link rel="stylesheet" type="text/css" href="./styles/modal_styles.css">
+    <link rel="stylesheet" type="text/css" href="./styles/index_styles.css">
 
-  <style>
-    @font-face {
-      font-family: 'NanumSquareNeo-Variable';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @media all and (max-width: 640px) {
-      .post-container {
-        border: 1px solid #ddd;
-        background-color: white;
-        padding: 10px;
-        border-radius: 20px;
-        overflow: hidden;
-        height: auto;
-        max-width: 250px;
-      }
-
-      .post-container img {
-        max-width: 120px;
-        height: auto;
-        border-bottom: 1px solid #ddd;
-        border-radius: 10px;
-      }
-
-      .post-container h3 {
-        margin-top: 10px;
-        font-size: 15px;
-      }
-
-      .post-container p {
-        margin: 0;
-        font-size: 12px;
-        color: #666;
-      }
-
-      #div_news {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 0.5fr));
-        grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 10px;
-      }
-    }
-
-    @media all and (min-width: 641px) {
-      .post-container {
-        border: 1px solid #ddd;
-        background-color: white;
-        padding: 10px;
-        border-radius: 20px;
-        overflow: hidden;
-        height: auto;
-      }
-
-      .post-container img {
-        width: 15em;
-        height: auto;
-        border-bottom: 1px solid #ddd;
-        border-radius: 20px;
-      }
-
-      .post-container h3 {
-        margin: 10px 0;
-        font-size: 18px;
-      }
-
-      .post-container p {
-        margin: 0;
-        font-size: 14px;
-        color: #666;
-      }
-
-      #div_news {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 20px;
-      }
-    }
-
-    body {
-      font-family: 'NanumSquareNeo-Variable';
-      color: #000021;
-      background-color: #e6e6ef;
-    }
-
-    #banners {
-      height: 40%;
-      max-height: 40%;
-    }
-
-    #div_news_title {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    #div_newsItem {
-      border: 1px solid #ddd;
-      background-color: white;
-      padding: 10px;
-      border-radius: 20px;
-      overflow: hidden;
-      width: 300px;
-      height: auto;
-    }
-
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 99;
-    }
-
-    .modal_body {
-      max-width: 600px;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-
-    .modal-open {
-      overflow: hidden;
-    }
-
-    #txt_newsTitle:hover{
-        cursor: pointer;
-        text-decoration: underline;
-    }
-
-    #div_familySites{
-      overflow-x: auto;
-    }
-
-    .btn_familySite{
-      border: 1px solid #ddd;
-      background-color: white;
-      border-radius: 20px;
-      overflow: hidden;
-      padding: 10px;
-    }
-
-    .contact_items{
-      color: #004386;
-      font-size: 15px;
-    }
-
-    #paperContents {
-        font-weight: normal !important;
-        color: black !important;
-        margin-bottom: 10px;
-    }
-
-    #publicationsContents {
-        animation: fadein 0.5s;
-    }
-
-    #div_content {
-        justify-content: flex-start;
-        display: flex;
-        vertical-align: middle;
-    }
-
-    #btn_openURL {
-        margin-left: 5px;
-        margin-right: 5px;
-        align-items: center;
-        padding: 1em;
-        transition: background-color 0.5s ease;
-    }
-
-    #btn_openURL:link {
-        color: #000000;
-        text-decoration: none;
-    }
-
-    #btn_openURL:visited {
-        color: #000000;
-        text-decoration: none;
-    }
-
-    #btn_openURL:hover {
-        background-color: #222;
-        color: #fff;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-    #btn_openURL:active {
-        background-color: #222;
-        color: #fff;
-        font-weight: bold;
-        text-decoration: none;
-    }
-
-  </style>
+    <script type="module" src="./packages.js"></script>
+    <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div id="header"></div>
+<div id="header"></div>
 
-  <div id="contents">
+<div id="contents">
     <div id="banners">
 
     </div>
-    <div style="margin-top: 20px; display: flex; justify-content: center;" id="div_news_title">
-      <h2 style="color: #004386;">SBL TODAY</h2>
+
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div class="div_title">
+            <h2 class="txt_title">SBL TODAY</h2>
+        </div>
+
+        <div class="div_wrap_divider">
+            <hr class="divider">
+        </div>
+
+        <div class="div_wrap_category" id="div_news">
+
+        </div>
+
+        <div class="div_wrap_more_button">
+            <button class="toggle_button" onClick="location.href='./news.html'">MORE<span><i style="margin-left: 5px;"
+                                                                                             class="fa-solid fa-arrow-right"></i> </span>
+            </button>
+        </div>
     </div>
 
-    <div style="margin-top: 10px; display: flex; justify-content: center;">
-      <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div class="div_title">
+            <h2 class="txt_title">LATEST PUBLICATIONS</h2>
+        </div>
+
+        <div class="div_wrap_divider">
+            <hr class="divider">
+        </div>
+
+        <div class="div_wrap_category" id="div_publications"></div>
+
+        <div class="div_wrap_more_button">
+            <button class="toggle_button" onClick="location.href='./publication.html'">MORE<span><i
+                    style="margin-left: 5px;" class="fa-solid fa-arrow-right"></i> </span></button>
+        </div>
     </div>
 
-    <div id="div_news" style="margin-top: 20px;">
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+        <div class="div_title">
+            <h2 class="txt_title">CONTACT</h2>
 
-    </div>
+        </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 20px;">
-      <button class="button-toggle" onClick="location.href='./news.html'">MORE</button>
-    </div>
+        <div class="div_wrap_divider">
+            <hr class="divider">
+        </div>
 
-    <div style="margin-top: 20px; display: flex; justify-content: center;" id="div_news_title">
-      <h2 style="color: #004386;">LATEST PUBLICATIONS</h2>
-    </div>
-
-    <div style="margin-top: 10px; display: flex; justify-content: center;">
-      <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
-    </div>
-
-    <div id="div_publications" style="margin-top: 20px;"></div>
-
-    <div style="display: flex; justify-content: center; margin-top: 20px;">
-      <button class="button-toggle" onClick="location.href='./publication.html'">MORE</button>
-    </div>
-
-    <div style="margin-top: 20px; display: flex; justify-content: center;" id="div_news_title">
-      <h2 style="color: #004386;">CONTACT</h2>
-
-    </div>
-
-    <div style="margin-top: 10px; display: flex; justify-content: center;">
-      <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
-    </div>
-
-    <div style="display: flex; margin-top: 20px; justify-content: center; flex-direction: column;">
-      <div style="display: flex; justify-content: center; vertical-align: text-top;">
-        <p class="contact_items">
+        <div style="display: flex; margin-top: 20px; justify-content: center; flex-direction: column;">
+            <div style="display: flex; justify-content: center; vertical-align: text-top;">
+                <p class="contact_items">
           <span>
             <i class="fa fa-phone">
             </i>
           </span>
 
-          <span>
-            <p class="contact_items" id="txt_phone" style="margin-left: 5px;"></p>
+                    <span>
+            <p class="contact_items" id="txt_phone"></p>
           </span>
-        </p>
-      </div>
+                </p>
+            </div>
 
-      <div style="display: flex; justify-content: center; vertical-align: text-top;">
-        <p class="contact_items">
+            <div style="display: flex; justify-content: center; vertical-align: text-top;">
+                <p class="contact_items">
           <span>
             <i class="fa fa-envelope">
             </i>
           </span>
-          
-          <span>
-            <p class="contact_items" id="txt_mail" style="margin-left: 5px;"></p>
-          </span>
-        </p>
-      </div>
 
-      <div style="display: flex; justify-content: center; vertical-align: text-top;">
-        <button role="button" class="button-18" id="btn_call">
+                    <span>
+            <p class="contact_items" id="txt_mail"></p>
+          </span>
+                </p>
+            </div>
+
+            <div style="display: flex; justify-content: center; vertical-align: text-top;">
+                <button role="button" class="outlined_button" id="btn_call">
           <span style="margin-right: 10px;">
             <i class="fa fa-phone"></i>
           </span>
 
-          Call
-        </button>
+                    Call
+                </button>
 
-        <button style="margin-left: 20px;" role="button" class="button-18" id="btn_mail">
+                <button style="margin-left: 20px;" role="button" class="outlined_button" id="btn_mail">
           <span style="margin-right: 10px;">
             <i class="fa fa-envelope"></i>
           </span>
 
-          Mail
-        </button>
+                    Mail
+                </button>
 
-        <button style="margin-left: 20px;" role="button" class="button-18" id="btn_navigate">
+                <button style="margin-left: 20px;" role="button" class="outlined_button" id="btn_navigate">
           <span style="margin-right: 10px;">
             <i class="fa fa-directions"></i>
           </span>
 
-          Directions
-        </button>
-      </div>
+                    Directions
+                </button>
+            </div>
 
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button class="toggle_button" onClick="location.href='./contact.html'">DETAILS</button>
+        </div>
     </div>
 
-    <div style="display: flex; justify-content: center; margin-top: 20px;">
-      <button class="button-toggle" onClick="location.href='./contact.html'">DETAILS</button>
-    </div>
-
-    <div style="margin-top: 20px; display: flex; justify-content: center;" id="div_news_title">
-      <h2 style="color: #004386;">FAMILY SITES</h2>
+    <div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+          <div class="div_wrap_more_button">
+        <h2 class="txt_title">FAMILY SITES</h2>
 
     </div>
 
     <div style="margin-top: 10px; display: flex; justify-content: center;">
-      <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
+        <hr style="border: 0; height: 2px; width: 100px; background: #000; display: flex; justify-content: center;">
     </div>
 
-      <div id="div_familySites" style="display: flex; margin-top: 20px;">
+    <div id="div_familySites">
         <a href="https://www.jbnu.ac.kr">
-          <img class="btn_familySite" style="max-height: 70px; margin-right: 30px;" src="./res/ic_jbnu_main.png">
+            <img class="btn_familySite" src="./res/ic_jbnu_main.png">
         </a>
 
         <a href="https://enter.jbnu.ac.kr">
-          <img class="btn_familySite" style="max-height: 70px; margin-right: 30px;" src="./res/ic_jbnu_admissions.png">
+            <img class="btn_familySite" src="./res/ic_jbnu_admissions.png">
         </a>
 
         <a href="https://biomedical.jbnu.ac.kr">
-          <img class="btn_familySite" style="max-height: 70px; margin-right: 30px;" src="./res/ic_jbnu_bme.png">
+            <img class="btn_familySite" src="./res/ic_jbnu_bme.png">
         </a>
 
-      </div>
+    </div>
+    </div>
 
-    <div style="margin-top: 20px; display: flex; justify-content: center;">
 
-      <button style="margin-top: 20px; " role="button" class="button-18" id="btn_signInOut"></button>
+    <div class="div_wrap_more_button">
+
+        <button style="margin-top: 20px; " role="button" class="plain_button" id="btn_signInOut"></button>
 
     </div>
 
     <div class="modal">
-      <div class="modal_body">
-        <div style="display: flex; justify-content: space-between;">
-          <h2>Sign In</h2>
+        <div class="modal_body">
+            <div style="display: flex; justify-content: space-between;">
+                <h2>Sign In</h2>
 
-          <button class="closeBtn" type="button" id="btn_close">
-            &#x2715
-          </button>
-        </div>
-        <p style="margin-top: 10px;">Please enter the provided e-mail and password to sign in.</p>
-
-        <div class="signIn_container">
-          <form>
-            <div class="row">
-              <div class="input-group input-group-icon"><input id="field_email" type="email"
-                  placeholder="Email Address" />
-                <div class="input-icon"><i class="fa fa-envelope"></i></div>
-              </div>
-              <div class="input-group input-group-icon"><input id="field_password" type="password"
-                  placeholder="Password" />
-                <div class="input-icon"><i class="fa fa-key"></i></div>
-              </div>
+                <button class="closeBtn" type="button" id="btn_close">
+                    &#x2715
+                </button>
             </div>
-          </form>
+            <p style="margin-top: 10px;">Please enter the provided e-mail and password to sign in.</p>
+
+            <div class="signIn_container">
+                <form>
+                    <div class="row">
+                        <div class="input-group input-group-icon"><input id="field_email" type="email"
+                                                                         placeholder="Email Address"/>
+                            <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                        </div>
+                        <div class="input-group input-group-icon"><input id="field_password" type="password"
+                                                                         placeholder="Password"/>
+                            <div class="input-icon"><i class="fa fa-key"></i></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <button role="button" class="plain_button" id="btn_signIn">Sign In</button>
         </div>
-
-        <button role="button" class="button-18" id="btn_signIn">Sign In</button>
-      </div>
     </div>
-  </div>
+</div>
 
-  <div id="footer"></div>
+<div id="footer"></div>
 
 </body>
 
 <script type="module" src="./helper/UserManagement.js"></script>
 <script type="module" src="./helper/BannersHelper.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const headerContainer = document.getElementById('header');
+    AOS.init();
 
-    function loadHeader() {
-      if (window.innerWidth <= 1400) {
-        fetch('./header_mobile.html')
-          .then(response => response.text())
-          .then(data => {
-            headerContainer.innerHTML = data;
-          });
-      } else {
-        fetch('./header.html')
-          .then(response => response.text())
-          .then(data => {
-            headerContainer.innerHTML = data;
-          });
-      }
+    document.addEventListener('DOMContentLoaded', function () {
+        const headerContainer = document.getElementById('header');
 
-      fetch('./footer.html')
-        .then(response => response.text())
-        .then(data => {
-          footer.innerHTML = data;
-        })
+        function loadHeader() {
+            if (window.innerWidth <= 1400) {
+                fetch('./header_mobile.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        headerContainer.innerHTML = data;
+                    });
+            } else {
+                fetch('./header.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        headerContainer.innerHTML = data;
+                    });
+            }
 
-    }
+            fetch('./footer.html')
+                .then(response => response.text())
+                .then(data => {
+                    footer.innerHTML = data;
+                })
 
-    loadHeader();
+        }
 
-    window.addEventListener('resize', loadHeader);
-  });
+        loadHeader();
+
+        window.addEventListener('resize', loadHeader);
+    });
 
 </script>
 

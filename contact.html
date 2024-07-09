@@ -22,6 +22,7 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
   <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/contact_styles.css">
 
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
@@ -34,124 +35,6 @@
   <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zuxn369jvo"></script>
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=zuxn369jvo&submodules=geocoder"></script>
-  
-  
-
-  <style>
-    @font-face {
-      font-family: 'NanumSquareNeo-Variable';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    body {
-      font-family: 'NanumSquareNeo-Variable';
-      color: #000021;
-      background-color: #e6e6ef;
-    }
-
-    @keyframes fadein {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    .modal {
-      position: fixed;
-      display: none;
-      justify-content: center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      z-index: 1000;
-      overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal_body {
-      position: relative;
-      top: 50%;
-      width: 400px;
-      height: 850px;
-      padding-top: 30px;
-      padding-bottom: 30px;
-      padding-left: 20px;
-      padding-right: 20px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 10px;
-      box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-      transform: translateY(-50%);
-    }
-
-    .modal-open {
-      overflow: hidden;
-    }
-
-    #btn_edit {
-      background-color: transparent;
-      border: 0;
-      font-size: 20px;
-      margin-top: 10px;
-    }
-
-    label {
-      display: flex;
-      cursor: pointer;
-      font-weight: 500;
-      overflow: hidden;
-      margin-bottom: 0.375em;
-    }
-
-    #editor {
-      border: 1px solid #D6D6D6;
-      border-radius: 4px;
-      padding: 16px 24px;
-      height: 350px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-
-    #img-selector {
-      display: none;
-    }
-
-    #editor img {
-      max-width: 100%;
-    }
-
-    .editorBtn.active {
-      background-color: #0A66C2;
-      color: #FFF
-    }
-
-    #introductionContents img {
-      max-width: 400px;
-    }
-
-    #introductionContents {
-      max-width: 100%;
-      line-height: 2em;
-    }
-
-    #btn_edit:hover {
-      background-color: #000021;
-      color: white;
-      transition: background 0.5s;
-    }
-    
-    #addressField{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-  </style>
 </head>
 
 <body>
@@ -222,14 +105,14 @@
   
               </div>
 
-              <button id="btn_searchAddress" class="button-toggle">
+              <button id="btn_searchAddress" class="toggle_button">
                 <i id="ic_search" class="fa fa-check"></i>
               </button>
             </div>
 
 
 
-            <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+            <button style="margin-top: 10px;" role="button" type="button" class="plain_button"
               id="btn_confirm">Confirm</button>
 
             <div id="progressView" style="display: none;">
@@ -249,8 +132,8 @@
     <h2 style="animation: fadein 1s; margin-top: 10px; margin-bottom: 10px;">Welcome to SBL</h2>
 
     <div id="div_btns" style="display: inline-block;">
-      <button class="button-18" id="btn_phone" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
-      <button class="button-18" id="btn_email" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
+      <button class="outlined_button" id="btn_phone" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
+      <button class="outlined_button" id="btn_email" role="button" style="margin-top: 10px; margin-bottom: 10px;"></button>
     </div>
 
     <div id="div_text">
@@ -261,6 +144,8 @@
 
     <div id="map" style="width: 100%; height: 400px;">
     </div>
+
+    <p>If you want to use our symbols, you can download it. <span> <a id="btn_symbols" href="./symbols.html" class="fa fa-external-link"></a></span></p>
 
   </div>
 

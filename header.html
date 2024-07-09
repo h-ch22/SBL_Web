@@ -5,114 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" async src="./helper/UserManagement.js"></script>
-
-    <style>
-        @font-face {
-            font-family: 'NanumSquareNeo-Variable';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        #header {
-            display: inline-block;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        body {
-            font-family: "NanumSquareNeo-Variable";
-        }
-
-        #contents {
-            padding: 10px;
-        }
-
-        #btn_home {
-            float: left;
-            background-color: rgba(255, 255, 255, 0);
-            border: 0rem;
-        }
-
-        #btn_home:hover {
-            cursor: pointer;
-        }
-
-        #menuTop #menuList {
-            float: right;
-            list-style-type: none;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        li {
-            float: left;
-            display: inline;
-            padding-left: 3em;
-        }
-
-        .btn_header {
-            padding: 1em;
-            transition: background-color 0.5s ease;
-        }
-
-        .btn_header:link {
-            color: #000000;
-            text-decoration: none;
-        }
-
-        .btn_header:visited {
-            color: #000000;
-            text-decoration: none;
-        }
-
-        .btn_header:hover {
-            background-color: #222;
-            color: #fff;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .btn_header:active {
-            background-color: #222;
-            color: #fff;
-            font-weight: bold;
-            text-decoration: none;
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="./styles/header_styles.css">
 </head>
 
 <body>
-<div>
+    <div>
 
-    <div id="header">
-        <header>
-            <button type="button" id="btn_home" onclick="location.href='./index.html'">
-                <img src="./res/ic_logo_title.png" width="300em">
-            </button>
+        <div id="header">
+            <header>
+                <button type="button" id="btn_home" onclick="location.href='./index.html'">
+                    <img src="./res/ic_logo_title.png" width="300em">
+                </button>
 
-            <nav id="menuTop">
-                <ul id="menuList">
-                    <li><a class="btn_header" href="./awards.html">AWARDS</a></li>
-                    <li><a class="btn_header" href="./members.html">MEMBERS</a></li>
-                    <li><a class="btn_header" href="./news.html">NEWS</a></li>
-                    <li><a class="btn_header" href="./research.html">RESEARCH</a></li>
-                    <li><a class="btn_header" href="./lectures.html">LECTURES</a></li>
-                    <li><a class="btn_header" href="./publication.html">PUBLICATIONS</a></li>
-                    <li><a class="btn_header" href="./gallery.html">GALLERY</a></li>
-                    <li><a class="btn_header" href="./contact.html">CONTACT</a></li>
-                </ul>
-            </nav>
+                <nav id="menuTop">
+                    <ul id="menuList">
+                        <li><a class="btn_header" href="./awards.html">AWARDS</a></li>
+                        <li><a class="btn_header" href="./members.html">MEMBERS</a></li>
+                        <li><a class="btn_header" href="./news.html">NEWS</a></li>
+                        <li><a class="btn_header" href="./research.html">RESEARCH</a></li>
+                        <li><a class="btn_header" href="./lectures.html">LECTURES</a></li>
+                        <li><a class="btn_header" href="./publication.html">PUBLICATIONS</a></li>
+                        <li><a class="btn_header" href="./gallery.html">GALLERY</a></li>
+                        <li><a class="btn_header" href="./contact.html">CONTACT</a></li>
+                    </ul>
+                </nav>
 
-        </header>
+            </header>
+
+        </div>
+
+        <hr>
 
     </div>
-
-    <hr>
-
-</div>
-
 
 </body>
 

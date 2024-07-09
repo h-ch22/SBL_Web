@@ -207,20 +207,26 @@ async function show(){
 
         postContainer.appendChild(image);
 
+        const div_postInfo = document.createElement('div')
+        div_postInfo.className = 'div_postInfo'
+
         const title = document.createElement("h3");
         title.id = "txt_title";
         title.innerText = data.title;
         title.addEventListener('click', function(){
             location.href = `./details.html?${data.id}?news`;
         })
-        postContainer.appendChild(title);
+        div_postInfo.appendChild(title);
 
         const date = document.createElement("p");
         date.innerText = data.date;
         
-        postContainer.appendChild(date);
+        div_postInfo.appendChild(date);
 
         if(auth.currentUser != null){
+            const div_controllers = document.createElement('div');
+            div_controllers.className = "div_controllers";
+
             const btn_edit = document.createElement("button");
             btn_edit.id = "btn_edit";
             const ic_edit = document.createElement("i");
@@ -236,7 +242,8 @@ async function show(){
                 field_contents.value = currentPost.contents;
                 modal.style.display = "flex";
             })
-            postContainer.appendChild(btn_edit);
+
+            div_controllers.appendChild(btn_edit)
 
             const btn_delete = document.createElement("button");
             btn_delete.id = "btn_delete";
@@ -249,8 +256,13 @@ async function show(){
 
                 }
             })
-            postContainer.appendChild(btn_delete);
+
+            div_controllers.appendChild(btn_delete);
+            div_postInfo.appendChild(div_controllers);
+
         }
+
+        postContainer.appendChild(div_postInfo);
 
         galleryContents.appendChild(postContainer);
     })

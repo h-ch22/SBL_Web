@@ -22,6 +22,7 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
   <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/board_styles.css">
 
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
@@ -32,139 +33,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
   <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
-
-  <style>
-    @font-face {
-      font-family: 'NanumSquareNeo-Variable';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    body {
-      font-family: 'NanumSquareNeo-Variable';
-      color: #000021;
-      background-color: #e6e6ef;
-    }
-
-    #contents {
-      padding: 1em;
-    }
-
-    #header_title {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .modal {
-      position: fixed;
-      display: none;
-      justify-content: center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 99;
-      width: 100%;
-      height: 100%;
-
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal_body {
-      position: relative;
-      top: 50%;
-      width: 400px;
-      height: 500px;
-      padding-top: 30px;
-      padding-bottom: 30px;
-      padding-left: 20px;
-      padding-right: 20px;
-      text-align: center;
-      background-color: rgb(255, 255, 255);
-      border-radius: 10px;
-      box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-      transform: translateY(-50%);
-
-    }
-
-    .modal-open {
-      overflow: hidden;
-    }
-
-    label {
-      display: flex;
-      cursor: pointer;
-      font-weight: 500;
-      overflow: hidden;
-      margin-bottom: 0.375em;
-    }
-
-    #galleryContents {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 20px;
-    }
-
-    .post-container {
-      border: 1px solid #ddd;
-      background-color: white;
-      padding: 10px;
-      border-radius: 20px;
-      overflow: hidden;
-      height: auto;
-    }
-
-    .post-container img {
-      width: 15em;
-      height: auto;
-      border-bottom: 1px solid #ddd;
-      border-radius: 20px;
-    }
-
-    .post-container h3 {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
-    .post-container p {
-      margin: 0;
-      font-size: 14px;
-      color: #666;
-    }
-
-    #btn_edit {
-      background-color: transparent;
-      border: 0;
-      font-size: 20px;
-      margin-right: 10px;
-    }
-
-    #btn_delete {
-      background-color: transparent;
-      border: 0;
-      font-size: 20px;
-      color: rgb(255, 115, 115);
-      margin-right: 20px;
-    }
-
-    #txt_title:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    #btn_edit:hover {
-      background-color: #000021;
-      color: white;
-      transition: background 0.5s;
-    }
-
-    #btn_delete:hover {
-      background-color: #000021;
-      color: white;
-      transition: background 0.5s;
-    }
-  </style>
 
 </head>
 
@@ -204,7 +72,7 @@
               <label for="btn_selectFile">Image</label>
               <input type="file" accept="image/*" id="btn_selectFile">
 
-              <button style="margin-top: 10px;" role="button" type="button" class="button-18"
+              <button style="margin-top: 10px;" role="button" type="button" class="plain_button"
                 id="btn_confirm">Confirm</button>
 
               <div id="progressView" style="display: none;">
@@ -222,7 +90,7 @@
       </div>
     </div>
 
-    <div id="div_gallery">
+    <div id="div_gallery" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
       <div id="galleryContents">
 
       </div>

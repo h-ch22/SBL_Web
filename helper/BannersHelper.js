@@ -68,19 +68,23 @@ async function getTopNews(){
 
         postContainer.appendChild(image);
 
+        const div_postInfo = document.createElement('div')
+        div_postInfo.className = 'div_postInfo'
+
         const title = document.createElement("h3");
         title.innerText = item.title;
         title.id = "txt_newsTitle";
         title.addEventListener('click', function(){
             location.href = `./details.html?${item.id}?news`;
         })
-        postContainer.appendChild(title);
+        div_postInfo.appendChild(title);
 
         const date = document.createElement("p");
         date.innerText = item.date;
         
-        postContainer.appendChild(date);
+        div_postInfo.appendChild(date);
 
+        postContainer.appendChild(div_postInfo)
         news_div.appendChild(postContainer);
     });
 }
@@ -106,7 +110,7 @@ function show(){
             bannerDiv.style.alignItems = "center";
             video.style.maxWidth = "100%";
             video.style.maxHeight = "30%";
-            video.style.objectFit = "contain"; // Adjust as needed (cover, fill, contain, etc.)
+            video.style.objectFit = "contain";
 
             bannerDiv.appendChild(video);
             

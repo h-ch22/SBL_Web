@@ -361,7 +361,7 @@ async function show() {
             const btn_showCareer = document.createElement("button");
 
             btn_showCareer.innerText = "Show Career";
-            btn_showCareer.className = "button-toggle";
+            btn_showCareer.className = "toggle_button";
             btn_showCareer.style.marginRight = "10px";
             txt_career.style.display = 'none';
 
@@ -515,7 +515,7 @@ async function show() {
 
             if (member.site != null) {
                 const btn_web = document.createElement("button");
-                btn_web.className = "button-18";
+                btn_web.className = "outlined_button";
                 btn_web.innerText = "Visit Website";
                 btn_web.role = "button";
                 btn_web.onclick = visitPage.bind(null, member.site);

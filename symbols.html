@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Symbols - SBL</title>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="./res/fav/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./res/fav/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./res/fav/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./res/fav/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./res/fav/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./res/fav/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./res/fav/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./res/fav/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./res/fav/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./res/fav/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./res/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./res/fav/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./res/fav/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" type="text/css" href="./styles/button_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/signIn_form_styles.css">
+  <link rel="stylesheet" type="text/css" href="./styles/symbols_styles.css">
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./res/fav/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="module" src="./packages.js"></script>
+  <script type="module" src="./helper/SymbolsHelper.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
+  <script src="https://kit.fontawesome.com/f305e1af94.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zuxn369jvo"></script>
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=zuxn369jvo&submodules=geocoder"></script>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <div id="contents">
+    <h1>Symbols</h1>
+    <hr style="margin-top: 10px; margin-bottom: 10px; background: #c9c8c6; height: 1px; border: 0;">
+
+    <div id="div_btns" style="display: flex; justify-content: end;">
+      <button class="plain_button" id="btn_download_PNG" role="button" style="margin-top: 10px; margin-bottom: 10px;">Download PNG</button>
+      <button class="plain_button" id="btn_download_Ai" role="button" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Download Ai</button>
+    </div>
+
+    <h2>Emblem</h3>
+    <hr style="margin-top: 10px; margin-bottom: 10px; border-top: 1px dashed #c9c8c6;">
+    <p style="font-size: 1em;">전북대학교의 권위와 전통을 상징하는 Emblem에 Smart Biophotonics Lab.을 조화시킨 것으로, 학교의 전통 및/또는 권위를 상징할 필요가 있을 때 사용합니다.</p>
+    
+    <img id="img_preview_emblem" class="img_symbol_preview">
+  
+    <h2>Symbol Mark (Traditional)</h3>
+    <hr style="margin-top: 10px; margin-bottom: 10px; border-top: 1px dashed #c9c8c6;">
+    <p style="font-size: 1em;">전북대학교를 상징하는 기본적이고 핵심이 되는 요소인 Symbol Mark에 Smart Biophotonics Lab.을 조화시킨 것으로, Modern Symbol과 함께 모든 시각전달매체에 광범위하게 적용될 수 있습니다.</p>
+    <img id="img_preview_symbol_traditional" class="img_symbol_preview">
+
+    <div id="div_btns" style="display: flex; justify-content: center;">
+      <button class="plain_button" id="btn_download_Traditional_PNG" role="button" style="margin-top: 10px; margin-bottom: 10px;">Download Traditional PNG</button>
+      <button class="plain_button" id="btn_download_Traditional_Ai" role="button" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Download Traditional Ai</button>
+    </div>
+
+    <hr style="margin-bottom: 10px; background: #c9c8c6; height: 1px; border: 0;">
+
+    <h2>Symbol Mark (Modern)</h3>
+    <hr style="margin-top: 10px; margin-bottom: 10px; border-top: 1px dashed #c9c8c6;">
+    <p style="font-size: 1em;">전북대학교를 상징하는 기본적이고 핵심이 되는 요소인 Symbol Mark에 심플하고 아름다움, 균형과 조화, 지성과 이상을 향한 방향성과 목표를 나타낸 것으로, Traditional Symbol과 함께 모든 시각전달매체에 광범위하게 적용될 수 있습니다.</p>
+    <img id="img_preview_symbol_modern" class="img_symbol_preview">
+
+    <div id="div_btns" style="display: flex; justify-content: center;">
+      <button class="plain_button" id="btn_download_Modern_PNG" role="button" style="margin-top: 10px; margin-bottom: 10px;">Download Modern PNG</button>
+      <button class="plain_button" id="btn_download_Modern_Ai" role="button" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Download Modern Ai</button>
+    </div>
+
+
+  <hr style="margin-bottom: 10px; background: #c9c8c6; height: 1px; border: 0;">
+
+  <h2>Color Palette</h3>
+    <hr style="margin-top: 10px; margin-bottom: 10px; border-top: 1px dashed #c9c8c6;">
+    <p style="font-size: 1em; margin-bottom: 10px;">시각적인 아름다움과 전북대학교의 일관된 이미지를 위하여 아래 컬러 팔레트 중 하나의 컬러를 선택해 사용하는 것을 권장합니다.</p>
+
+    <div style="display: flex;">
+      <p style="font-size: 12px; width: 100px; height: 100px; background-color: #005091; color: white; text-align: center; padding: 40px 0;">#005091<br>JBNU Blue</p>
+      <p style="font-size: 12px; width: 100px; height: 100px; background-color: #b4126a; color: white; text-align: center; padding: 35px 0;">#b4126a<br>JBNU Purple<br>(Traditional)</p>
+      <p style="font-size: 12px; width: 100px; height: 100px; background-color: #56296f; color: white; text-align: center; padding: 35px 0;">#56296f<br>JBNU Purple<br>(Modern)</p>
+      <p style="font-size: 12px; width: 100px; height: 100px; background-color: #0c0203; color: white; text-align: center; padding: 40px 0;">#0c0203<br>Black</p>
+      <p style="font-size: 12px; width: 100px; height: 100px; background-color: #666563; color: white; text-align: center; padding: 40px 0;">#666563<br>Gray</p>
+    </div>
+
+    <hr style="margin-bottom: 10px; margin-top: 10px; background: #c9c8c6; height: 1px; border: 0;">
+
+  <p style="margin-bottom: 10px; margin-top: 10px;">전북대학교, 전북대학교 엠블럼, 전북대학교 전통형 심볼 및 전북대학교 현대형 심볼 디자인 파일의 저작권은 전북대학교에 있습니다.<br>위 심볼마크를 수정하려는 경우 전북대학교에서 제시하는 '전북대학교 UI 가이드라인'을 준수하여야합니다.</p>
+  </div>
+
+  <div id="footer"></div>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const headerContainer = document.getElementById('header');
+
+    function loadHeader() {
+      if (window.innerWidth <= 1400) {
+        fetch('./header_mobile.html')
+          .then(response => response.text())
+          .then(data => {
+            headerContainer.innerHTML = data;
+          });
+      } else {
+        fetch('./header.html')
+          .then(response => response.text())
+          .then(data => {
+            headerContainer.innerHTML = data;
+          });
+      }
+
+      fetch('./footer.html')
+        .then(response => response.text())
+        .then(data => {
+          footer.innerHTML = data;
+        })
+
+    }
+
+    loadHeader();
+
+    window.addEventListener('resize', loadHeader);
+  });
+
+</script>
+
+</html>
