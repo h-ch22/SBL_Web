@@ -45,26 +45,26 @@
       const headerContainer = document.getElementById('header');
   
       function loadHeader() {
-        if (window.innerWidth <= 1400) {
-          fetch('./header_mobile.html')
-            .then(response => response.text())
-            .then(data => {
-              headerContainer.innerHTML = data;
-            });
-        } else {
-          fetch('./header.html')
-            .then(response => response.text())
-            .then(data => {
-              headerContainer.innerHTML = data;
-            });
-        }
-  
+            if (window.innerWidth <= 712) {
+                fetch('./header_mobile.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        headerContainer.innerHTML = data;
+                    });
+            } else {
+                fetch('./header.html')
+                    .then(response => response.text())
+                    .then(data => {
+                        headerContainer.innerHTML = data;
+                    });
+            }
+
         fetch('./footer.html')
           .then(response => response.text())
           .then(data => {
             footer.innerHTML = data;
           })
-  
+
       }
   
       loadHeader();

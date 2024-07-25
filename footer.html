@@ -4,22 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <link rel="stylesheet" type="text/css" href="./styles/footer_styles.css">
+    <style>
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Pretendard-Regular';
+        }
+
+        span {
+            line-height: 2em;
+        }
+
+        p {
+            font-size: 0.7em;
+        }
+
+        #link_developer {
+            color: #a1a19a;
+        }
+
+        #link_developer {
+            color: #a1a19a;
+            text-decoration: none;
+        }
+
+        #link_developer :visited {
+            color: #a1a19a;
+            text-decoration: none;
+        }
+
+        #link_developer :hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <footer style="background-color: #2a2a2a; padding: 0.5em;">
-        <nav>
-            <p>
-                <span style="color: #828282; font-weight: bold;">tsgo@jbnu.ac.kr</span><br>
-                <span style="color: #828282;">337, College of Engineering Building 1, Jeonbuk National University, 567, Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896 Republic of Korea</span><br>
-                <span style="color:#a1a19a;">Powered by <span><a id="link_developer" href="https://www.github.com/h-ch22">Changjin Ha</a></span><br></span>
-                <span style="color: #a1a19a;">ⓒ 2022-2024. Smart Biophotonics Lab. All Rights Reserved.</span>
-            </p>
-        </nav>
+<footer style="background-color: #2a2a2a; padding: 0.5em;">
+    <nav>
+        <p>
+            <span style="color: #828282; font-weight: bold;">tsgo@jbnu.ac.kr</span><br>
+            <span style="color: #828282;">337, College of Engineering Building 1, Jeonbuk National University, 567, Baekje-daero, Deokjin-gu, Jeonju-si, Jeonbuk State 54896 Republic of Korea</span><br>
+            <span style="color:#a1a19a;">Powered by <span><a id="link_developer" href="https://www.github.com/h-ch22">Changjin Ha</a></span><br></span>
+            <span style="color: #a1a19a;">ⓒ 2022-2024. Smart Biophotonics Lab. All Rights Reserved.</span>
+        </p>
+    </nav>
 
-        <div style="margin-top: 20px; display: flex; justify-content: end;">
-            <img src="./res/ic_logo_title_gray.png" style="max-width: 300px;">
-        </div>
-    </footer>
+    <div style="margin-top: 20px; display: flex; justify-content: end;">
+        <img src="./res/ic_logo_title_gray.png" style="max-width: 300px;">
+    </div>
+</footer>
 </body>
 </html>

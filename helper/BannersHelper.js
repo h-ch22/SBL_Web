@@ -39,7 +39,7 @@ async function getBanners(){
 
 async function getTopNews(){
     news = [];
-    const q = query(collection(db, "News"), orderBy("date", "desc"), limit(6));
+    const q = query(collection(db, "News"), orderBy("date", "desc"), limit(4));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
